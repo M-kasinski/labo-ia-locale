@@ -1,0 +1,146 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<BaseHead title={`Rechercher — ${SITE_TITLE}`} description="Rechercher un article sur Labo IA Locale." />
+		<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+	</head>
+	<body>
+		<Header />
+		<main class="search-page" data-pagefind-ignore>
+			<section class="search-hero" aria-labelledby="search-title">
+				<p class="eyebrow">Recherche</p>
+				<h1 id="search-title">Rechercher</h1>
+				<p class="lede">Explore les articles de Labo IA Locale. L’index est généré au build avec Pagefind et tourne entièrement côté client.</p>
+			</section>
+
+			<section class="search-panel card" aria-label="Recherche d’articles">
+				<div id="search" class="pagefind-search" aria-live="polite">
+					<p class="search-status">Chargement de la recherche…</p>
+				</div>
+				<noscript>
+					<p class="search-status">Active JavaScript pour utiliser la recherche.</p>
+				</noscript>
+			</section>
+		</main>
+		<Footer />
+
+		<script is:inline>
+			const searchContainer = document.querySelector('#search');
+
+			function showSearchMessage(message) {
+				if (!searchContainer) return;
+				searchContainer.innerHTML = `<p class="search-status">${message}</p>`;
+			}
+
+			function mountPagefind() {
+				if (!searchContainer || !window.PagefindUI) return;
+
+				new window.PagefindUI({
+					element: '#search',
+					showImages: false,
+					showSubResults: true,
+					processTerm: (term) => term.trim(),
+					translations: {
+						placeholder: 'Rechercher un article…',
+						clear_search: 'Effacer',
+						load_more: 'Afficher plus de résultats',
+						search_label: 'Rechercher sur le site',
+						filters_label: 'Filtres',
+						zero_results: 'Aucun résultat pour [SEARCH_TERM]',
+						many_results: '[COUNT] résultats pour [SEARCH_TERM]',
+						one_result: '1 résultat pour [SEARCH_TERM]',
+						alt_search: 'Aucun résultat pour [SEARCH_TERM]. Résultats pour [DIFFERENT_TERM] à la place',
+						search_suggestion: 'Aucun résultat pour [SEARCH_TERM]. Essayer [DIFFERENT_TERM] ?',
+						searching: 'Recherche de [SEARCH_TERM]…',
+					}
+				});
+			}
+
+			function loadPagefind() {
+				if (!searchContainer) return;
+				const script = document.createElement('script');
+				script.src = '/pagefind/pagefind-ui.js';
+				script.defer = true;
+				script.onload = mountPagefind;
+				script.onerror = () => {
+					showSearchMessage('Recherche indisponible en développement local. Elle sera active après npm run build.');
+				};
+				document.head.appendChild(script);
+			}
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', loadPagefind, { once: true });
+			} else {
+				loadPagefind();
+			}
+		</script>
+	</body>
+</html>
+
+<style>
+	.search-page {
+		width: min(var(--container), calc(100% - 2rem));
+	}
+
+	.search-hero {
+		max-width: 850px;
+		padding: clamp(2rem, 6vw, 5rem) 0 2rem;
+	}
+
+	.search-panel {
+		margin: 1.25rem 0 clamp(2.5rem, 6vw, 4rem);
+		padding: clamp(1rem, 3vw, 1.8rem);
+		background:
+			linear-gradient(135deg, rgba(216, 243, 238, 0.72), transparent 58%),
+			color-mix(in srgb, var(--surface) 90%, transparent);
+	}
+
+	.search-status {
+		margin: 0;
+		color: var(--text-muted);
+	}
+
+	.pagefind-search :global(.pagefind-ui) {
+		--pagefind-ui-scale: 1;
+		--pagefind-ui-primary: var(--accent-dark);
+		--pagefind-ui-text: var(--text);
+		--pagefind-ui-background: var(--surface);
+		--pagefind-ui-border: var(--border-strong);
+		--pagefind-ui-tag: var(--accent-soft);
+		--pagefind-ui-border-width: 1px;
+		--pagefind-ui-border-radius: 1rem;
+		--pagefind-ui-image-border-radius: var(--radius-md);
+		--pagefind-ui-font: var(--font-sans);
+	}
+
+	.pagefind-search :global(.pagefind-ui__search-input) {
+		box-shadow: 0 12px 30px rgba(31, 28, 21, 0.08);
+	}
+
+	.pagefind-search :global(.pagefind-ui__result) {
+		border-top-color: var(--border);
+		padding-block: 1.2rem;
+	}
+
+	.pagefind-search :global(.pagefind-ui__result-link) {
+		color: var(--accent-dark);
+		font-weight: 780;
+	}
+
+	.pagefind-search :global(.pagefind-ui__result-excerpt) {
+		color: var(--text-muted);
+	}
+
+	@media (max-width: 720px) {
+		.search-page {
+			width: min(100% - 1rem, var(--container));
+		}
+	}
+</style>

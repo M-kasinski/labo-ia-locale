@@ -4,12 +4,13 @@ import { SITE_TITLE } from '../consts';
 const today = new Date();
 ---
 
-<footer class="site-footer">
+<footer class="site-footer" data-pagefind-ignore>
 	<div class="footer-inner">
 		<p class="footer-brand">{SITE_TITLE}</p>
-		<nav aria-label="Navigation secondaire">
+		<nav aria-label="Navigation secondaire" data-pagefind-ignore>
 			<a href="/">Accueil</a>
 			<a href="/blog/">Articles</a>
+			<a href="/recherche/">Rechercher</a>
 			<a href="/about/">À propos</a>
 			<a href="/rss.xml">RSS</a>
 		</nav>

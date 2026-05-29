@@ -31,8 +31,10 @@ const ogImage = `/og/blog/${slug}.png`;
 	<body>
 		<Header />
 		<main class="article-shell">
-			<article>
-				<header class="article-header">
+			<article data-pagefind-filter="type:Article" data-pagefind-sort={`date:${pubDate.toISOString()}`}>
+				<span class="sr-only" data-pagefind-meta="date">{pubDate.toISOString().slice(0, 10)}</span>
+				{tags.length > 0 && <span class="sr-only" data-pagefind-meta="tags">{tags.join(', ')}</span>}
+				<header class="article-header" data-pagefind-ignore>
 					<p class="eyebrow">Article</p>
 					<h1>{title}</h1>
 					<p class="article-description">{description}</p>
@@ -60,7 +62,7 @@ const ogImage = `/og/blog/${slug}.png`;
 
 				{heroImage && <Image class="hero-image" width={1120} height={560} src={heroImage} alt="" />}
 
-				<div class="prose article-body">
+				<div class="prose article-body" data-pagefind-body>
 					<slot />
 				</div>
 
