@@ -6,9 +6,11 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-const posts = (await getCollection('blog', ({ data }) => data.draft !== true))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 5);
+const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const radarPosts = allPosts.filter((post) => post.data.tags.includes('radar-ia')).slice(0, 3);
+const posts = allPosts.slice(0, 5);
 
 const featured = posts[0];
 const secondaryPosts = posts.slice(1);
@@ -62,6 +64,29 @@ sources: required</code></pre>
 					</article>
 				</div>
 			</section>
+
+
+			{radarPosts.length > 0 && (
+				<section class="radar" aria-labelledby="radar-title">
+					<div class="section-heading">
+						<p class="eyebrow">Radar IA</p>
+						<h2 id="radar-title">Signaux courts à surveiller</h2>
+						<p>Des brèves sourcées pour capter les annonces, rumeurs crédibles et mouvements de marché avant d'en faire un décryptage complet.</p>
+					</div>
+					<div class="radar-grid">
+						{radarPosts.map((post) => (
+							<article class="radar-card">
+								<a href={`/blog/${post.id}/`}>
+									<span class="radar-badge">Signal faible</span>
+									<span class="radar-date"><FormattedDate date={post.data.pubDate} /></span>
+									<h3>{post.data.title}</h3>
+									<p>{post.data.description}</p>
+								</a>
+							</article>
+						))}
+					</div>
+				</section>
+			)}
 
 			{featured && (
 				<section class="latest" aria-labelledby="latest-title">
@@ -158,6 +183,7 @@ sources: required</code></pre>
 	}
 
 	.pillars,
+	.radar,
 	.latest {
 		margin-top: clamp(2.5rem, 7vw, 5rem);
 	}
@@ -189,6 +215,64 @@ sources: required</code></pre>
 
 	.section-heading {
 		margin-bottom: 1.5rem;
+	}
+
+
+	.section-heading p:not(.eyebrow) {
+		max-width: 760px;
+		margin-top: 0.45rem;
+		color: var(--text-muted);
+	}
+
+	.radar-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.radar-card {
+		border: 1px solid color-mix(in srgb, var(--accent) 52%, var(--border));
+		border-radius: var(--radius-lg);
+		background:
+			linear-gradient(135deg, rgba(242, 192, 120, 0.2), transparent 48%),
+			color-mix(in srgb, var(--surface) 90%, transparent);
+		box-shadow: 0 14px 35px rgba(31, 28, 21, 0.055);
+		padding: 1.15rem;
+	}
+
+	.radar-card a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.radar-badge,
+	.radar-date {
+		display: inline-flex;
+		margin: 0 0.55rem 0.75rem 0;
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		font-weight: 780;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+	}
+
+	.radar-badge {
+		border-radius: 999px;
+		background: #111827;
+		color: #f7e1b8;
+		padding: 0.28rem 0.55rem;
+	}
+
+	.radar-date {
+		color: var(--accent-dark);
+	}
+
+	.radar-card h3 {
+		font-size: clamp(1.25rem, 2vw, 1.75rem);
+	}
+
+	.radar-card p {
+		color: var(--text-muted);
 	}
 
 	.latest-layout {
@@ -260,7 +344,8 @@ sources: required</code></pre>
 			grid-template-columns: 1fr;
 		}
 
-		.pillar-grid {
+		.pillar-grid,
+		.radar-grid {
 			grid-template-columns: 1fr;
 		}
 	}
