@@ -7,15 +7,25 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
 // Le layout accepte les données de la collection blog, sans imposer d'image héro.
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & {
+	slug: string;
+};
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [], author, sources = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], author, sources = [], slug } = Astro.props;
+const ogImage = `/og/blog/${slug}.png`;
 ---
 
 <!doctype html>
 <html lang="fr">
 	<head>
-		<BaseHead title={title} description={description} image={heroImage} />
+		<BaseHead
+			title={title}
+			description={description}
+			image={ogImage}
+			ogType="article"
+			publishedTime={pubDate}
+			author={author}
+		/>
 	</head>
 
 	<body>
