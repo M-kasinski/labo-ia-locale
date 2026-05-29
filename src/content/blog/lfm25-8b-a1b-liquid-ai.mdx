@@ -1,0 +1,184 @@
+---
+title: "LFM2.5-8B-A1B : un MoE local pour agents, pas pour encyclopédies"
+description: "Liquid AI lance LFM2.5-8B-A1B, un MoE 8B/1,5B actifs pensé pour agents locaux : 128k contexte, tool use, moins d’hallucinations."
+pubDate: 2026-05-29
+tags: ["ia-locale", "liquid-ai", "moe", "agents", "apple-silicon", "mcp"]
+author: "Labo IA Locale"
+heroImage: "../../assets/blog/lfm25-benchmarks.png"
+draft: false
+sources:
+  - { label: "Liquid AI — LFM2.5-8B-A1B blog", url: "https://www.liquid.ai/blog/lfm2-5-8b-a1b" }
+  - { label: "Hugging Face — LiquidAI/LFM2.5-8B-A1B", url: "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B" }
+  - { label: "Hugging Face — GGUF", url: "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-GGUF" }
+  - { label: "Hugging Face — MLX 8bit", url: "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-MLX-8bit" }
+  - { label: "Liquid AI docs — complete model library", url: "https://docs.liquid.ai/lfm/models/complete-library" }
+  - { label: "Liquid AI Playground", url: "https://playground.liquid.ai" }
+  - { label: "arXiv 2511.23404", url: "https://arxiv.org/abs/2511.23404" }
+  - { label: "Annonce X — Liquid AI", url: "https://x.com/liquidai/status/2060023455290974474" }
+---
+
+import TweetCard from '../../components/TweetCard.astro';
+
+Liquid AI a annoncé LFM2.5-8B-A1B le 28 mai 2026. Le point intéressant, pour le Labo, n’est pas seulement “un modèle de plus” : c’est un MoE de 8,3 B paramètres dont 1,5 B sont actifs, pensé pour l’inférence locale et les workflows agentiques. En clair : un assistant qui peut appeler des outils sur un laptop, sans envoyer les données à une API distante.
+
+<TweetCard
+  handle="@liquidai"
+  name="Liquid AI"
+  date="28 mai 2026"
+  url="https://x.com/liquidai/status/2060023455290974474"
+  verified
+>
+  Aujourd'hui nous sortons LFM2.5-8B-A1B, un modèle optimisé pour les appareils : téléphones, laptops, PC, robots, et serveurs légers. MoE 8B (1,5B actifs) · contexte 128k · entraîné sur 38T tokens + RL · appels d'outils rapides et fiables, au niveau de modèles jusqu'à 4× plus gros · personnalisable sur un seul GPU · poids ouverts.
+</TweetCard>
+
+## Ce que c’est
+
+LFM2.5-8B-A1B appartient à la famille LFM2.5, bâtie sur l’architecture LFM2 avec pré-entraînement étendu et RL. La fiche Hugging Face indique 8,3 B paramètres au total, avec 1,5 B actifs par génération. Le total safetensors est de 8 467 856 832 paramètres.
+
+L’architecture est hybride : 24 couches, dont 18 couches convolution “double-gated LIV” et 6 couches d’attention GQA. Le modèle utilise un vocabulaire de 128 000 tokens, accepte un contexte de 131 072 tokens, et couvre 9 langues : anglais, arabe, chinois, français, allemand, japonais, coréen, portugais et espagnol.
+
+La partie agentique est explicite. Le format de chat est de type ChatML, le modèle produit une chaîne de pensée explicite avant la réponse finale, et le function calling est décrit comme “pythonic” : une liste Python encadrée par les tokens `<|tool_call_start|>` et `<|tool_call_end|>`. Les paramètres de génération recommandés sont sobres : `temperature: 0.2`, `top_k: 80`, `repetition_penalty: 1.05`.
+
+## Ce qui change vs LFM2-8B-A1B
+
+La différence la plus visible est la fenêtre de contexte : LFM2-8B-A1B était à 32 768 tokens, LFM2.5-8B-A1B passe à 131 072 tokens. Le budget d’entraînement annoncé est aussi massif pour cette classe : 38 000 milliards de tokens, puis RL à grande échelle.
+
+Côté benchmarks, le tableau officiel donne ceci :
+
+| Benchmark | LFM2-8B-A1B | LFM2.5-8B-A1B |
+|---|---:|---:|
+| AA-Omniscience Index | -78,42 | -24,70 |
+| AA-Omniscience Non-Hallucination Rate | 7,46 | 63,47 |
+| IFEval | 79,44 | 91,84 |
+| IFBench | 26,00 | 56,47 |
+| Multi-IF | 58,54 | 79,93 |
+| MATH500 | 74,80 | 88,76 |
+| AIME25 | 20,00 | 42,53 |
+| BFCLv3 | 45,07 | 64,36 |
+| BFCLv4 | 25,52 | 48,50 |
+| τ² Telecom | 13,60 | 88,07 |
+
+![Benchmarks LFM2.5-8B-A1B vs modèles plus gros (AA-Omniscience, IFBench, Multi-IF, BFCLv3/v4, τ²-Telecom)](/images/lfm25/benchmarks.png)
+
+*Benchmarks LFM2.5-8B-A1B vs modèles plus gros. Source : Liquid AI.*
+
+Le point à ne pas tordre : AA-Omniscience ne mesure pas seulement “ce que le modèle sait”. L’index Artificial Analysis récompense les bonnes réponses et pénalise les hallucinations, sur une échelle de -100 à 100. Un index négatif signifie que le modèle hallucine encore plus qu’il ne sait. Le gros gain de LFM2.5 vient surtout de la chute des hallucinations : le non-hallucination rate passe de 7,46 à 63,47. L’accuracy, elle, passe seulement de 7,33 à 8,67. Donc non, ce n’est pas un modèle de savoir encyclopédique. C’est un modèle d’instruction et d’agent, plus fiable dans sa manière de ne pas inventer.
+
+L’image officielle compare LFM2.5-8B-A1B à Granite-4.0-H-Tiny, gpt-oss-20b, Gemma-4-26B-A4B-IT et Qwen3-30B-A3B-Thinking-2507. Sur IFBench, Multi-IF, BFCLv3, BFCLv4 et τ² Telecom, il est devant ou au niveau de modèles souvent bien plus gros. C’est l’argument technique le plus solide : obtenir des performances agentiques comparables à une classe supérieure, avec seulement 1,5 B paramètres actifs.
+
+## Vitesse en local
+
+La promesse locale se vérifie surtout sur la mémoire et le débit en quantization Q4_K_M, avec un contexte d’entrée de 4K dans l’image CPU officielle.
+
+![Débit CPU par appareil (M5 Max, Ryzen AI Max+ 395, Snapdragon) — prefill, décodage, mémoire, en Q4_K_M](/images/lfm25/cpu_inference.png)
+
+*Débit CPU par appareil en Q4_K_M. Source : Liquid AI.*
+
+Sur Apple M5 Max, Liquid AI annonce 3 389 tok/s en prefill, 253 tok/s en décodage, pour 5 892 Mo de mémoire. Sur AMD Ryzen AI Max+ 395 : 2 772 tok/s en prefill, 146 tok/s en décodage, pour environ 5 951 Mo. Sur un Qualcomm Snapdragon Galaxy SM-S948U1, donc un téléphone, le décodage est autour de 30 tok/s, avec environ 5 912 Mo.
+
+Le détail important n’est pas de gagner une course synthétique. C’est que le modèle reste sous 6 Go de RAM en Q4_K_M. Pour un agent local, cela veut dire qu’un assistant capable tient sur un laptop, voire un téléphone, et que les données peuvent rester sur la machine. La cible Apple Silicon M5 est exactement le genre de poste que le lectorat du Labo a en tête : une machine personnelle, silencieuse, déjà là.
+
+![Débit GPU](/images/lfm25/gpu_inference.png)
+
+*Débit GPU. Source : Liquid AI.*
+
+Côté serveur, Liquid AI annonce plus de 1,6 milliard de tokens par jour sur un seul H100. Utile pour situer le modèle, mais ce n’est pas le cœur de l’histoire ici : l’intérêt est de ne pas avoir besoin du serveur.
+
+## Agent local pour de vrai
+
+La démo LocalCowork sert de test de cohérence. Liquid AI présente cet agent desktop open-source comme tournant désormais sur LFM2.5-8B-A1B. Le setup annoncé : un seul laptop, 67 outils répartis sur 13 serveurs MCP, pas de cloud, pas de clé API, et aucune donnée qui sort de la machine. Le dispatch d’outil est annoncé en moins d’une seconde.
+
+La démo Loom est ici : [LocalCowork sur LFM2.5-8B-A1B](https://www.loom.com/share/bc3faf8befb643baae3434cde098e95e).
+
+Ce n’est pas magique : il faut toujours des outils bien décrits, des permissions maîtrisées, et une boucle d’exécution qui ne clique pas n’importe où comme un stagiaire caffeiné. Mais c’est exactement le bon terrain pour un modèle local : lire l’état de la machine, choisir un outil, l’appeler, puis rendre compte.
+
+## Licence : à lire avant usage commercial
+
+Point de vigilance : la fiche Hugging Face indique `license = "other"` et `license_name = "lfm1.0"`. Le fichier `LICENSE` du dépôt en donne le nom complet : **LFM Open License v1.0**, la licence maison open-weight de Liquid AI. Ce n’est ni Apache 2.0, ni MIT. (À noter : le thread d’annonce parle de « LFM2 open-weight license » — c’est bien la même licence maison, désignée `lfm1.0` côté Hugging Face.)
+
+La conséquence pratique est simple : les poids sont ouverts et téléchargeables, mais il faut lire les conditions spécifiques avant un usage commercial. Le lien de licence sur Hugging Face et le fichier `LICENSE` du dépôt sont les documents à consulter. Pas besoin d’en faire un drame ; il faut juste ne pas confondre “open-weight” avec “permissif standard”.
+
+## L’essayer en local
+
+Liquid AI publie plusieurs formats : le modèle natif LFM2.5-8B-A1B, la version Base, GGUF pour llama.cpp, ONNX, et MLX 8bit pour Apple Silicon. Les runtimes annoncés en support jour 0 sont llama.cpp, MLX, vLLM et SGLang. LM Studio est aussi cité.
+
+Pour un essai local simple :
+
+- sur laptop Apple Silicon, commencer par la version MLX 8bit ;
+- pour llama.cpp ou LM Studio, prendre le dépôt GGUF ;
+- pour serveur d’inférence, regarder vLLM ou SGLang ;
+- pour tester sans installation locale, utiliser le [Playground Liquid AI](https://playground.liquid.ai).
+
+Le papier associé est référencé comme [arXiv 2511.23404](https://arxiv.org/abs/2511.23404), et la base est publiée sous le nom LFM2.5-8B-A1B-Base.
+
+## Conclusion
+
+LFM2.5-8B-A1B compte parce qu’il vise un usage concret : un agent local, outillé, privé, assez rapide pour être utilisable sur une machine personnelle. Le modèle ne prétend pas devenir une encyclopédie miniature. Les chiffres disent plutôt autre chose : moins d’hallucinations, meilleur suivi d’instructions, meilleur tool use, et une empreinte mémoire compatible avec le laptop.
+
+Pour le Labo, c’est le signal intéressant : l’IA locale progresse moins par slogans que par modèles qui acceptent les contraintes réelles de nos machines.
+
+{/* FACTS_START
+CLAIM | VALEUR | URL_PRIMAIRE
+Date d’annonce | 28 mai 2026 | https://x.com/liquidai/status/2060023455290974474
+Nom du modèle | LFM2.5-8B-A1B | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Éditeur | Liquid AI | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Famille | LFM2.5, bâtie sur LFM2 avec pré-entraînement étendu + RL | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Paramètres totaux annoncés | 8,3 B | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Paramètres actifs | 1,5 B | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+safetensors.total | 8 467 856 832 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Architecture | 24 couches : 18 convolution double-gated LIV + 6 attention GQA, MoE | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Budget d’entraînement | 38 000 milliards / 38 T tokens + RL à grande échelle | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Contexte LFM2.5-8B-A1B | 131 072 tokens / 128k | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Contexte LFM2-8B-A1B | 32 768 tokens / 32k | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Vocabulaire | 128 000 tokens | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Langues supportées | 9 : anglais, arabe, chinois, français, allemand, japonais, coréen, portugais, espagnol | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Format de chat | ChatML | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Reasoning | chaîne de pensée explicite avant réponse finale | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Function calling | format pythonic entre <|tool_call_start|> et <|tool_call_end|> | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Température recommandée | 0.2 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Top_k recommandé | 80 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Repetition_penalty recommandé | 1.05 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+AA-Omniscience Index LFM2 → LFM2.5 | -78,42 → -24,70 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+AA-Omniscience Non-Hallucination Rate LFM2 → LFM2.5 | 7,46 → 63,47 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+AA-Omniscience accuracy LFM2 → LFM2.5 | 7,33 → 8,67 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+AA-Omniscience échelle | -100 à 100 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+IFEval LFM2 → LFM2.5 | 79,44 → 91,84 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+IFBench LFM2 → LFM2.5 | 26,00 → 56,47 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Multi-IF LFM2 → LFM2.5 | 58,54 → 79,93 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+MATH500 LFM2 → LFM2.5 | 74,80 → 88,76 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+AIME25 LFM2 → LFM2.5 | 20,00 → 42,53 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+BFCLv3 LFM2 → LFM2.5 | 45,07 → 64,36 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+BFCLv4 LFM2 → LFM2.5 | 25,52 → 48,50 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+τ² Telecom LFM2 → LFM2.5 | 13,60 → 88,07 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Comparaison officielle | Granite-4.0-H-Tiny, gpt-oss-20b, Gemma-4-26B-A4B-IT, Qwen3-30B-A3B-Thinking-2507 | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Argument taille active | performances agentiques comparées à des modèles jusqu’à MoE 26-30B avec 1,5 B actifs | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Quantization image CPU | Q4_K_M | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Contexte d’entrée image CPU | 4K | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Apple M5 Max prefill | 3 389 tok/s | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Apple M5 Max décodage | 253 tok/s | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Apple M5 Max mémoire | 5 892 Mo | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+AMD Ryzen AI Max+ 395 prefill | 2 772 tok/s | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+AMD Ryzen AI Max+ 395 décodage | 146 tok/s | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+AMD Ryzen AI Max+ 395 mémoire | environ 5 951 Mo | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Qualcomm Snapdragon Galaxy SM-S948U1 décodage | environ 30 tok/s | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Qualcomm Snapdragon Galaxy SM-S948U1 mémoire | environ 5 912 Mo | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Empreinte mémoire Q4_K_M | sous 6 Go de RAM | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Serveur H100 | plus de 1,6 milliard de tokens par jour sur un seul H100 | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+LocalCowork | agent desktop open-source tournant désormais sur LFM2.5-8B-A1B | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+LocalCowork outils | 67 outils | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+LocalCowork MCP | 13 serveurs MCP | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+LocalCowork cloud/API/données | pas de cloud, pas de clé API, aucune donnée qui sort de la machine | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+LocalCowork dispatch outil | moins d’une seconde | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Démo Loom | https://www.loom.com/share/bc3faf8befb643baae3434cde098e95e | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Licence HF | license = other, license_name = lfm1.0 | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Licence | LFM License, pas Apache 2.0 ni MIT | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+Formats | natif, Base, GGUF, ONNX, MLX 8bit | https://docs.liquid.ai/lfm/models/complete-library
+Runtime llama.cpp | support jour 0 | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Runtime MLX | support jour 0 | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Runtime vLLM | support jour 0 | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Runtime SGLang | support jour 0 | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+LM Studio | cité comme option de runtime | https://www.liquid.ai/blog/lfm2-5-8b-a1b
+Playground | https://playground.liquid.ai | https://playground.liquid.ai
+Papier | arXiv 2511.23404 | https://arxiv.org/abs/2511.23404
+Base | LFM2.5-8B-A1B-Base | https://huggingface.co/LiquidAI/LFM2.5-8B-A1B
+FACTS_END */}

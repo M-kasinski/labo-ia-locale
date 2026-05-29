@@ -1,0 +1,143 @@
+---
+interface Props {
+	handle?: string;
+	name?: string;
+	date?: string;
+	url?: string;
+	verified?: boolean;
+}
+
+const {
+	handle = '@liquidai',
+	name = 'Liquid AI',
+	date = '28 mai 2026',
+	url = 'https://x.com/liquidai/status/2060023455290974474',
+	verified = false,
+} = Astro.props;
+---
+
+<article class="tweet-card" aria-label={`Publication X de ${name}`}>
+	<header class="tweet-card__header">
+		<div class="tweet-card__identity">
+			<div class="tweet-card__name-line">
+				<strong class="tweet-card__name">{name}</strong>
+				{verified && <span class="tweet-card__verified" aria-label="Compte vérifié">✓</span>}
+			</div>
+			<span class="tweet-card__handle">{handle}</span>
+		</div>
+		<span class="tweet-card__mark" aria-hidden="true">X</span>
+	</header>
+
+	<div class="tweet-card__body">
+		<slot />
+	</div>
+
+	<footer class="tweet-card__footer">
+		<time>{date}</time>
+		<a href={url} target="_blank" rel="noopener noreferrer nofollow">Voir sur X ↗</a>
+	</footer>
+</article>
+
+<style>
+	.tweet-card {
+		border: 1px solid color-mix(in srgb, var(--border) 86%, var(--accent) 14%);
+		border-radius: var(--radius-lg);
+		background:
+			linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 22%, transparent), transparent 46%),
+			var(--bg-elevated);
+		box-shadow: 0 16px 38px rgba(31, 28, 21, 0.07);
+		color: var(--text);
+		margin: 1.7rem 0 2.1rem;
+		padding: clamp(1rem, 3vw, 1.35rem);
+	}
+
+	.tweet-card__header,
+	.tweet-card__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.tweet-card__identity {
+		min-width: 0;
+	}
+
+	.tweet-card__name-line {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		line-height: 1.2;
+	}
+
+	.tweet-card__name {
+		font-weight: 780;
+		letter-spacing: -0.01em;
+	}
+
+	.tweet-card__verified {
+		display: inline-grid;
+		place-items: center;
+		width: 1.05rem;
+		height: 1.05rem;
+		border-radius: var(--radius-pill);
+		background: var(--accent);
+		color: var(--bg-elevated);
+		font-size: 0.72rem;
+		font-weight: 800;
+		line-height: 1;
+	}
+
+	.tweet-card__handle,
+	.tweet-card__footer {
+		color: var(--text-muted);
+		font-size: 0.92rem;
+	}
+
+	.tweet-card__mark {
+		flex: 0 0 auto;
+		display: inline-grid;
+		place-items: center;
+		width: 2rem;
+		height: 2rem;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-pill);
+		color: var(--accent-dark);
+		font-size: 0.9rem;
+		font-weight: 780;
+	}
+
+	.tweet-card__body {
+		margin: 1.05rem 0 1.15rem;
+		font-size: clamp(1rem, 2vw, 1.08rem);
+		line-height: 1.65;
+	}
+
+	.tweet-card__body :global(p) {
+		margin: 0;
+	}
+
+	.tweet-card__footer {
+		border-top: 1px solid var(--border);
+		padding-top: 0.9rem;
+	}
+
+	.tweet-card__footer a {
+		color: var(--accent-dark);
+		font-weight: 720;
+		text-decoration-thickness: 0.08em;
+		text-underline-offset: 0.18em;
+	}
+
+	.tweet-card__footer a:hover {
+		color: var(--accent);
+	}
+
+	@media (max-width: 560px) {
+		.tweet-card__footer {
+			align-items: flex-start;
+			flex-direction: column;
+			gap: 0.45rem;
+		}
+	}
+</style>
