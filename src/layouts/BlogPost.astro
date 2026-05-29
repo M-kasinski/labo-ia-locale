@@ -6,81 +6,183 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
+// Le layout accepte les données de la collection blog, sans imposer d'image héro.
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], author, sources = [] } = Astro.props;
 ---
 
-<html lang="en">
+<!doctype html>
+<html lang="fr">
 	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
+		<BaseHead title={title} description={description} image={heroImage} />
 	</head>
 
 	<body>
 		<Header />
-		<main>
+		<main class="article-shell">
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
+				<header class="article-header">
+					<p class="eyebrow">Article</p>
+					<h1>{title}</h1>
+					<p class="article-description">{description}</p>
+					<div class="article-meta" aria-label="Métadonnées de l'article">
+						<span><FormattedDate date={pubDate} /></span>
+						{author && <span>{author}</span>}
+						{
+							updatedDate && (
+								<span>
+									Mis à jour le <FormattedDate date={updatedDate} />
+								</span>
+							)
+						}
 					</div>
+					{
+						tags.length > 0 && (
+							<ul class="tags article-tags" aria-label="Tags">
+								{tags.map((tag) => (
+									<li class="tag">{tag}</li>
+								))}
+							</ul>
+						)
+					}
+				</header>
+
+				{heroImage && <Image class="hero-image" width={1120} height={560} src={heroImage} alt="" />}
+
+				<div class="prose article-body">
 					<slot />
 				</div>
+
+				{
+					sources.length > 0 && (
+						<section class="sources" aria-labelledby="sources-title">
+							<p class="eyebrow">Traçabilité</p>
+							<h2 id="sources-title">Sources</h2>
+							<ol>
+								{sources.map((source) => (
+									<li>
+										<a href={source.url} target="_blank" rel="noreferrer">
+											{source.label}
+										</a>
+									</li>
+								))}
+							</ol>
+						</section>
+					)
+				}
 			</article>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.article-shell {
+		width: min(100%, var(--container));
+		padding-top: clamp(2rem, 5vw, 4rem);
+	}
+
+	article {
+		width: min(var(--reading), calc(100% - 2rem));
+		margin: 0 auto;
+	}
+
+	.article-header {
+		position: relative;
+		margin-bottom: clamp(2rem, 5vw, 3.5rem);
+		padding: clamp(1.4rem, 4vw, 2.2rem);
+		border: 1px solid var(--border);
+		border-radius: calc(var(--radius-lg) + 0.35rem);
+		background:
+			linear-gradient(135deg, rgba(216, 243, 238, 0.66), transparent 52%),
+			color-mix(in srgb, var(--surface) 88%, transparent);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.article-header h1 {
+		font-size: clamp(2.35rem, 6vw, 4.6rem);
+	}
+
+	.article-description {
+		max-width: 680px;
+		margin: 1rem 0 1.25rem;
+		color: var(--text-muted);
+		font-size: clamp(1.05rem, 2vw, 1.24rem);
+		line-height: 1.58;
+	}
+
+	.article-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1rem;
+		color: var(--text-muted);
+		font-size: 0.92rem;
+	}
+
+	.article-meta span:not(:last-child)::after {
+		content: '·';
+		margin-left: 1rem;
+		color: var(--text-soft);
+	}
+
+	.article-tags {
+		margin-top: 1.2rem;
+	}
+
+	.hero-image {
+		display: block;
+		width: 100%;
+		margin: 0 auto 2.25rem;
+		border: 1px solid var(--border);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.article-body {
+		width: 100%;
+	}
+
+	.sources {
+		margin: 3.5rem 0 0;
+		padding: 1.4rem;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: color-mix(in srgb, var(--surface) 86%, transparent);
+	}
+
+	.sources h2 {
+		font-size: clamp(1.6rem, 3vw, 2.1rem);
+	}
+
+	.sources ol {
+		margin: 1rem 0 0;
+		padding-left: 1.25rem;
+	}
+
+	.sources li {
+		padding-left: 0.25rem;
+	}
+
+	.sources a {
+		font-weight: 680;
+	}
+
+	@media (max-width: 720px) {
+		article {
+			width: min(100% - 1rem, var(--reading));
+		}
+
+		.article-header {
+			padding: 1.2rem;
+		}
+
+		.article-meta {
+			flex-direction: column;
+			gap: 0.25rem;
+		}
+
+		.article-meta span::after {
+			display: none;
+		}
+	}
+</style>
