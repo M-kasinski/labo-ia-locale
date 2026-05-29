@@ -1,63 +1,38 @@
-# Astro Starter Kit: Blog
+# Labo IA Locale
 
-```sh
-npm create astro@latest -- --template blog
+Média tech francophone sur l'**IA locale et open-source** : faire tourner des LLM chez soi, self-hosting, quantization, runtimes, GPU grand public & Apple Silicon, modèles open-weight, fine-tuning, RAG local, agents.
+
+🌐 **En ligne :** https://labo-ia-locale.vercel.app
+
+## Stack
+
+- [Astro 5](https://astro.build) — site statique, content collections (Markdown)
+- Déploiement **Vercel** (auto-deploy à chaque push sur `main`)
+- Images Open Graph générées au build (`scripts/generate-og-images.mjs`, via `sharp`)
+
+## Développement
+
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # génère les images OG puis build dans dist/
+npm run preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Structure
 
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```
+src/
+  content/blog/      # articles (Markdown + frontmatter)
+  components/        # Header, Footer, BaseHead, ...
+  layouts/           # BlogPost
+  pages/             # index, blog, about, rss
+  styles/global.css  # design system
+scripts/
+  generate-og-images.mjs   # images OG par article (build-time)
+public/og/           # images OG générées
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Ligne éditoriale
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Vérifié, sourcé, sans bullshit. Chaque article cite ses **sources primaires** (docs officielles, dépôts, Hugging Face) ; les chiffres (tailles, licences, versions, benchmarks) sont recoupés avant publication.
