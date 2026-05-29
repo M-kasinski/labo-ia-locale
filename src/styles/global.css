@@ -54,6 +54,9 @@ html {
 }
 
 body {
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
 	margin: 0;
 	padding: 0;
 	background:
@@ -70,6 +73,7 @@ body {
 }
 
 main {
+	flex: 1 0 auto;
 	width: min(var(--container), calc(100% - 2rem));
 	margin: 0 auto;
 	padding: clamp(2rem, 5vw, 4.5rem) 0;

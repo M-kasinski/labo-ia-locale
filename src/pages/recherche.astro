@@ -17,7 +17,7 @@ import { SITE_TITLE } from '../consts';
 			<section class="search-hero" aria-labelledby="search-title">
 				<p class="eyebrow">Recherche</p>
 				<h1 id="search-title">Rechercher</h1>
-				<p class="lede">Explore les articles de Labo IA Locale. L’index est généré au build avec Pagefind et tourne entièrement côté client.</p>
+				<p class="lede">Trouve un article par mot-clé : modèle, runtime, quantization, matériel, licences… Tape ta recherche ci-dessous.</p>
 			</section>
 
 			<section class="search-panel card" aria-label="Recherche d’articles">
@@ -41,7 +41,7 @@ import { SITE_TITLE } from '../consts';
 
 			function mountPagefind() {
 				if (!searchContainer || !window.PagefindUI) return;
-
+				searchContainer.innerHTML = '';
 				new window.PagefindUI({
 					element: '#search',
 					showImages: false,
