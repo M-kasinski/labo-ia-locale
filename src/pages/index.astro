@@ -1,49 +1,201 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog', ({ data }) => data.draft !== true))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<section class="hero" aria-labelledby="hero-title">
+				<p class="eyebrow">IA open-source, en local, sans fumée</p>
+				<h1 id="hero-title">Labo IA Locale</h1>
+				<p class="hero-subtitle">{SITE_DESCRIPTION}</p>
+				<a class="button" href="/blog/">Lire les articles</a>
+			</section>
+
+			<section class="pitch" aria-labelledby="pitch-title">
+				<h2 id="pitch-title">Ce qu’on teste ici</h2>
+				<p>
+					Des guides concrets pour faire tourner des modèles locaux, choisir une quantization,
+					comprendre les runtimes et self-héberger proprement sur Apple Silicon, GPU grand public
+					ou petit serveur.
+				</p>
+				<p>
+					Le site s’adresse aux devs, bidouilleurs sérieux et équipes qui veulent garder la main
+					sur leur pile IA. Chaque conseil vise le terrain : vérifié, sourcé, sans bullshit.
+				</p>
+			</section>
+
+			<section class="latest" aria-labelledby="latest-title">
+				<div class="section-heading">
+					<p class="eyebrow">À lire maintenant</p>
+					<h2 id="latest-title">Derniers articles</h2>
+				</div>
+				<ul class="post-list">
+					{
+						posts.map((post) => (
+							<li class="post-card">
+								<a href={`/blog/${post.id}/`}>
+									<h3>{post.data.title}</h3>
+								</a>
+								<p class="description">{post.data.description}</p>
+								<p class="date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+							</li>
+						))
+					}
+				</ul>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		width: 960px;
+	}
+
+	.hero {
+		padding: 4.5rem 0 3rem;
+	}
+
+	.eyebrow {
+		margin: 0 0 0.75rem;
+		color: rgb(var(--gray));
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.hero h1 {
+		max-width: 780px;
+		font-size: clamp(3rem, 8vw, 5.4rem);
+		letter-spacing: -0.06em;
+	}
+
+	.hero-subtitle {
+		max-width: 760px;
+		margin: 1rem 0 1.75rem;
+		color: rgb(var(--gray-dark));
+		font-size: clamp(1.15rem, 2vw, 1.45rem);
+		line-height: 1.55;
+	}
+
+	.button {
+		display: inline-flex;
+		align-items: center;
+		border-radius: 999px;
+		padding: 0.72rem 1.1rem;
+		background: var(--accent);
+		box-shadow: 0 10px 24px rgba(var(--gray), 24%);
+		color: white;
+		font-weight: 700;
+		text-decoration: none;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.button:hover {
+		box-shadow: var(--box-shadow);
+		color: white;
+		transform: translateY(-2px);
+	}
+
+	.pitch,
+	.latest {
+		margin-top: 2.5rem;
+	}
+
+	.pitch {
+		max-width: 800px;
+		border-left: 4px solid var(--accent);
+		padding: 1rem 0 1rem 1.5rem;
+	}
+
+	.pitch h2,
+	.section-heading h2 {
+		font-size: clamp(1.9rem, 4vw, 2.6rem);
+	}
+
+	.pitch p:last-child {
+		margin-bottom: 0;
+	}
+
+	.section-heading {
+		margin-bottom: 1.5rem;
+	}
+
+	.post-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.post-card {
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 18px;
+		padding: 1.25rem;
+		background: rgba(255, 255, 255, 0.72);
+		box-shadow: 0 8px 20px rgba(var(--gray), 10%);
+	}
+
+	.post-card a {
+		text-decoration: none;
+	}
+
+	.post-card h3 {
+		margin-bottom: 0.6rem;
+		font-size: 1.25rem;
+	}
+
+	.post-card a:hover h3 {
+		color: var(--accent);
+	}
+
+	.description {
+		margin: 0 0 1rem;
+		color: rgb(var(--gray-dark));
+		font-size: 0.95rem;
+		line-height: 1.55;
+	}
+
+	.date {
+		margin: 0;
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+	}
+
+	@media (max-width: 720px) {
+		.hero {
+			padding-top: 2.5rem;
+		}
+
+		.pitch {
+			padding-left: 1rem;
+		}
+
+		.post-list {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
