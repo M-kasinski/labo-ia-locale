@@ -4,7 +4,7 @@ description: "Guide concret des paramètres de sampling (temperature, top-p, top
 pubDate: 2026-05-29
 tags: ["ia-locale", "inference", "sampling", "ollama"]
 author: "Labo IA Locale"
-draft: true
+draft: false
 sources:
   - { label: "Ollama — Modelfile Reference", url: "https://docs.ollama.com/modelfile" }
   - { label: "Ollama — API generate endpoint", url: "https://docs.ollama.com/api/generate" }
@@ -51,10 +51,14 @@ Chaque paramètre que nous détaillons ci-dessous agit à une étape précise de
 
 ```bash
 # Créatif — température élevée
-ollama run llama3.2 --options '{"temperature": 1.2}'
+ollama run llama3.2
+/set parameter temperature 1.2
+```
 
+```bash
 # Factuel — température basse
-ollama run llama3.2 --options '{"temperature": 0.1}'
+ollama run llama3.2
+/set parameter temperature 0.1
 ```
 
 **Exemple dans un Modelfile** :
@@ -128,8 +132,8 @@ curl http://localhost:11434/api/generate -d '{
 
 | Runtime | Défaut |
 |---------|--------|
-| Ollama | 1.0 (désactivé) |
-| llama.cpp (CLI) | 1.00 |
+| Ollama | 1.1 |
+| llama.cpp (CLI) | 1.1 |
 | llama.cpp (API `/completion`) | 1.1 |
 | Hugging Face transformers | 1.0 |
 
@@ -163,11 +167,12 @@ Le nombre de tokens pris en compte pour la pénalité est contrôlé par `repeat
 - Si tu dépasse cette limite, les tokens les plus anciens sont oubliés (ou tronqués, selon le runtime).
 - Augmenter `num_ctx` consomme plus de mémoire — la taille du cache KV croît linéairement avec le nombre de tokens.
 
-**Valeurs par défaut** : dépend du modèle. Ollama charge la valeur par défaut du modèle (souvent 4096 ou 8192). llama.cpp charge depuis le fichier GGUF (`--ctx-size 0`).
+**Valeurs par défaut** : Ollama documente 2048 par défaut ; beaucoup de modèles surchargent cette valeur. llama.cpp charge depuis le fichier GGUF (`--ctx-size 0`).
 
 ```bash
 # Ollama — augmenter le contexte à 16k tokens
-ollama run llama3.2 --options '{"num_ctx": 16384}'
+ollama run llama3.2
+/set parameter num_ctx 16384
 ```
 
 ### num_predict / max_tokens (nombre max de tokens générés)
@@ -178,7 +183,7 @@ ollama run llama3.2 --options '{"num_ctx": 16384}'
 
 | Runtime | Défaut |
 |---------|--------|
-| Ollama | dépend du modèle |
+| Ollama | -1 (∞) |
 | llama.cpp | -1 (infini) |
 | Hugging Face transformers | non défini (le modèle génère jusqu'au token EOS) |
 
@@ -190,10 +195,10 @@ ollama run llama3.2 --options '{"num_ctx": 16384}'
 | `top_k` | Garde les k tokens les plus probables | 40 | 40 | 50 |
 | `top_p` | Garde les tokens couvrant p% de la masse | 0.9 | 0.95 | 1.0 |
 | `min_p` | Seuil relatif au token le plus probable | 0 | 0.05 | — |
-| `repeat_penalty` | Pénalise les répétitions | 1.0 | 1.00 (API: 1.1) | 1.0 |
-| `repeat_last_n` | Fenêtre de tokens surveillée | 64 (via `presence_penalty`) | 64 | — |
-| `num_ctx` | Taille de la fenêtre de contexte | Modèle | Modèle | Modèle |
-| `num_predict` | Max tokens générés | Modèle | -1 (∞) | — |
+| `repeat_penalty` | Pénalise les répétitions | 1.1 | 1.1 | 1.0 |
+| `repeat_last_n` | Fenêtre de tokens surveillée | 64 | 64 | — |
+| `num_ctx` | Taille de la fenêtre de contexte | 2048 | Modèle | Modèle |
+| `num_predict` | Max tokens générés | -1 (∞) | -1 (∞) | — |
 
 > **Note** : les valeurs par défaut varient selon le runtime, la version, et parfois le modèle lui-même. Les chiffres ci-dessus reflètent les défauts des runtimes en l'absence de configuration dans le fichier du modèle. Vérifie toujours la doc de ta version.
 
