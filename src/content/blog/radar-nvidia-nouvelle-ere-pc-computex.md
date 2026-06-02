@@ -4,7 +4,7 @@ description: "Un teaser NVIDIA avant le Computex relance les rumeurs d’un PC W
 pubDate: 2026-05-30
 tags: ["radar-ia", "nvidia", "computex", "ia-locale", "windows-arm"]
 author: "Labo IA Locale"
-draft: false
+draft: true
 sources:
   - label: "Tweet NVIDIA — A new era of PC"
     url: "https://x.com/NVIDIA/status/2060390710797328574"
