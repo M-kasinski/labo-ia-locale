@@ -3,7 +3,7 @@
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_AUTHOR } from '../consts';
 import { Font } from 'astro:assets';
 
 type OgType = 'website' | 'article';
@@ -14,6 +14,7 @@ interface Props {
 	image?: ImageMetadata | string;
 	ogType?: OgType;
 	publishedTime?: Date;
+	modifiedTime?: Date;
 	author?: string;
 }
 
@@ -25,11 +26,52 @@ const {
 	image = '/og/default.png',
 	ogType = 'website',
 	publishedTime,
+	modifiedTime,
 	author,
 } = Astro.props;
 
 const imagePath = typeof image === 'string' ? image : image.src;
 const ogImageURL = new URL(imagePath, Astro.site);
+
+// Données structurées schema.org
+const siteURL = Astro.site?.href ?? `${canonicalURL.origin}/`;
+const publisher = {
+	'@type': 'Organization',
+	name: SITE_TITLE,
+	url: siteURL,
+	logo: {
+		'@type': 'ImageObject',
+		url: new URL('/og/default.png', Astro.site).href,
+	},
+};
+const authorNode =
+	(author ?? SITE_AUTHOR) === SITE_AUTHOR
+		? { '@type': 'Organization', name: SITE_AUTHOR }
+		: { '@type': 'Person', name: author };
+const jsonLd =
+	ogType === 'article' && publishedTime
+		? {
+				'@context': 'https://schema.org',
+				'@type': 'BlogPosting',
+				headline: title,
+				description,
+				image: ogImageURL.href,
+				datePublished: publishedTime.toISOString(),
+				dateModified: (modifiedTime ?? publishedTime).toISOString(),
+				author: authorNode,
+				publisher,
+				mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.href },
+				inLanguage: 'fr-FR',
+			}
+		: {
+				'@context': 'https://schema.org',
+				'@type': 'WebSite',
+				name: SITE_TITLE,
+				description: SITE_DESCRIPTION,
+				url: siteURL,
+				inLanguage: 'fr-FR',
+				publisher,
+			};
 ---
 
 <!-- Global Metadata -->
@@ -81,3 +123,6 @@ const ogImageURL = new URL(imagePath, Astro.site);
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageURL} />
+
+<!-- Données structurées (JSON-LD) -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
