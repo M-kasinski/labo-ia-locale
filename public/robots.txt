@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://labo-ia-locale.vercel.app/sitemap-index.xml
