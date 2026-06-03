@@ -94,10 +94,3 @@ Les benchmarks NVIDIA donnent une direction, pas une réponse finale. On veut de
 Nemotron-Labs Diffusion est l’une des sorties les plus intéressantes du moment côté inférence. Pas parce qu’elle ajoute un modèle de plus à la pile, mais parce qu’elle attaque le goulot d’étranglement du décodage. Si l’approche tri-mode tient ses promesses hors laboratoire NVIDIA, elle pourrait devenir une brique importante pour les agents locaux rapides.
 
 À court terme, c’est surtout un sujet pour utilisateurs avancés, SGLang, GPU NVIDIA récents et expérimentations. À moyen terme, si les runtimes locaux absorbent proprement le self-speculation diffusion, on pourrait voir apparaître des assistants privés beaucoup plus réactifs. Le genre de progrès qui ne fait pas forcément rêver dans une keynote, mais qui te fait oublier que tu attends une réponse. C’est souvent là que la vraie technologie commence.
-
-## Sources
-
-- [Hugging Face — Towards Speed-of-Light Text Generation with Nemotron-Labs Diffusion](https://huggingface.co/blog/nvidia/nemotron-labs-diffusion)
-- [NVIDIA Research — Nemotron-Labs-Diffusion technical publication](https://research.nvidia.com/publication/2026-05_nemotron-labs-diffusion-tri-mode-language-model-unifying-autoregressive)
-- [Hugging Face — nvidia/Nemotron-Labs-Diffusion-8B](https://huggingface.co/nvidia/Nemotron-Labs-Diffusion-8B)
-- [NVIDIA Developer — Nemotron AI Models](https://developer.nvidia.com/nemotron)

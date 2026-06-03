@@ -69,9 +69,3 @@ Pour un poste de test ou une machine personnelle, **oui, probablement**. Ollama 
 Pour une machine de production locale — RAG interne, agents, endpoint partagé — il faut être plus méthodique. Sauvegarde la configuration, note les versions, teste les modèles critiques, vérifie les embeddings, puis migre. En particulier, si `nomic-embed-text` est dans la boucle, traite le changement de casse comme une vraie modification de comportement.
 
 La lecture éditoriale est simple : Ollama continue de jouer son rôle de couche simple au-dessus du chaos créatif de l’open-weight. La v0.30 ne fait pas disparaître la complexité du local ; elle la rend un peu plus absorbable. Et franchement, dans ce domaine, c’est déjà une forme de progrès civilisationnel.
-
-## Sources
-
-- [GitHub — Ollama v0.30.0 release](https://github.com/ollama/ollama/releases/tag/v0.30.0)
-- [GitHub — Ollama releases](https://github.com/ollama/ollama/releases)
-- [GitHub — ggml-org/llama.cpp releases](https://github.com/ggml-org/llama.cpp/releases)

@@ -104,10 +104,3 @@ Le signal reste très bon : un acteur IDE publie un modèle ouvert, spécialisé
 Mellum2 mérite clairement d’être suivi par ceux qui construisent des agents privés. Pas parce qu’il promet d’écraser tous les benchmarks, mais parce qu’il pousse dans la bonne direction : **modèles spécialisés, open-weight, efficaces, outillés, capables de s’intégrer dans une architecture multi-agent**.
 
 Pour l’instant, je le mettrais dans la catégorie “à benchmarker sérieusement dès qu’un runtime local propre existe”. Sur serveur vLLM, il peut déjà devenir un bon candidat pour des sous-agents rapides. Sur Mac, il faudra attendre les conversions et les mesures. Le futur local aime les poids ouverts ; il aime encore plus les poids ouverts qui répondent vite.
-
-## Sources
-
-- JetBrains AI Blog — Mellum2 Goes Open Source : https://blog.jetbrains.com/ai/2026/06/mellum2-goes-open-source-a-fast-model-for-ai-workflows/
-- arXiv — Mellum2 Technical Report : https://arxiv.org/abs/2605.31268
-- Hugging Face — JetBrains Mellum 2 collection : https://huggingface.co/collections/JetBrains/mellum-2
-- Hugging Face — Mellum2 Instruct model card : https://huggingface.co/JetBrains/Mellum2-12B-A2.5B-Instruct

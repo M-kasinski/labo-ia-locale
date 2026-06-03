@@ -67,13 +67,3 @@ Gemma 4 n’est pas une baguette magique pour faire tourner un modèle frontier 
 Mais la combinaison d’un MoE 26B, de petits modèles edge, de capacités multimodales, de fonctions agentiques et surtout d’une licence Apache 2.0 en fait une release importante pour l’IA locale. Pas parce qu’elle écrase forcément tout le monde aujourd’hui, mais parce qu’elle enlève plusieurs freins pratiques à l’adoption.
 
 À ce stade, le bon réflexe est simple : attendre les conversions sérieuses, tester sur son matériel, et ne pas confondre “open-weight” avec “facile à faire tourner”. Le labo reste ouvert, les ventilateurs aussi.
-
-## Sources
-
-- [Annonce officielle Google DeepMind — Gemma 4][source-google]
-- [Google Cloud — déploiement Gemma 4 sur Vertex AI, Cloud Run et TPUs][source-cloud]
-- [Ars Technica — analyse licence Apache 2.0 et matériel local][source-ars]
-
-[source-google]: https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/
-[source-cloud]: https://cloud.google.com/blog/products/ai-machine-learning/gemma-4-available-on-google-cloud
-[source-ars]: https://arstechnica.com/ai/2026/04/google-announces-gemma-4-open-ai-models-switches-to-apache-2-0-license/

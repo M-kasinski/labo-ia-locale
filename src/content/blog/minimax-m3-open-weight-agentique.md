@@ -69,10 +69,3 @@ La bonne grille d’évaluation est assez claire :
 - sécurité agentique : tendance à exécuter trop vite, halluciner des permissions, ou masquer ses erreurs.
 
 MiniMax M3 est donc une annonce importante, mais pas encore un modèle local validé. Le bon résumé tient en une phrase : **si les poids arrivent et si les performances survivent aux tests indépendants, M3 peut devenir une référence open-weight pour agents longs et multimodaux ; aujourd’hui, c’est une promesse techniquement crédible mais encore sous scellés**.
-
-## Sources
-
-- MiniMax Research — MiniMax M3: Frontier Coding, 1M Context, Native Multimodality: https://www.minimax.io/blog/minimax-m3
-- MiniMax — page modèle MiniMax M3: https://www.minimax.io/models/text/m3
-- TechTimes — MiniMax M3 Open-Weight Coding Model: Frontier Claims, Unverified Benchmarks: https://www.techtimes.com/articles/317532/20260601/minimax-m3-open-weight-coding-model-frontier-claims-unverified-benchmarks.htm
-- MiniMax API Docs — release notes modèles: https://platform.minimax.io/docs/release-notes/models

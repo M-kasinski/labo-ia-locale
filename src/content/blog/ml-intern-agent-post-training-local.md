@@ -114,9 +114,3 @@ Un agent qui lance des jobs GPU avec un token large et une carte bancaire attach
 ml-intern est moins spectaculaire qu’un nouveau modèle MoE, mais peut-être plus structurant. Il montre où vont les agents open-source : vers des workflows métiers profonds, connectés aux outils, aux données et à l’infra. Pour l’IA locale, son intérêt dépendra de la capacité à le brancher proprement sur Ollama, vLLM, LM Studio ou llama.cpp, tout en maîtrisant les appels externes.
 
 À tester donc, mais pas en roue libre. Le bon usage : copilote de post-training sous supervision. Le mauvais usage : stagiaire autonome avec accès prod, tokens larges et optimisme de start-up. On a déjà assez de variables non contrôlées dans le machine learning.
-
-## Sources
-
-- [GitHub — huggingface/ml-intern](https://github.com/huggingface/ml-intern)
-- [MarkTechPost — Hugging Face Releases ml-intern](https://www.marktechpost.com/2026/04/21/hugging-face-releases-ml-intern-an-open-source-ai-agent-that-automates-the-llm-post-training-workflow/)
-- [Hugging Face Docs — smolagents](https://huggingface.co/docs/smolagents/index)

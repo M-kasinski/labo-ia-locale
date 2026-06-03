@@ -85,9 +85,3 @@ Le point de vigilance principal est la tentation de surcharger le modèle. Un 1B
 MiniCPM5-1B est une sortie importante parce qu’elle montre que la catégorie **1B local** devient crédible pour autre chose que des démos de complétion. Le modèle combine long contexte, architecture compatible, formats locaux, licence permissive et signaux indépendants encourageants.
 
 Ce n’est pas un remplaçant de Qwen Coder 30B, DeepSeek ou Llama large. C’est plutôt une brique d’agent local rapide, peu coûteuse, et probablement suffisante pour beaucoup de tâches d’orchestration. Dans une stack auto-hébergée, ce genre de petit modèle peut devenir le processus qui tourne toujours, pendant que les gros modèles ne se réveillent que quand c’est nécessaire.
-
-## Sources
-
-- Hugging Face — openbmb/MiniCPM5-1B : https://huggingface.co/openbmb/MiniCPM5-1B
-- GitHub — OpenBMB/MiniCPM : https://github.com/OpenBMB/MiniCPM
-- Artificial Analysis — MiniCPM5-1B: The leading 1B open weights model : https://artificialanalysis.ai/articles/minicpm5-1b-the-leading-1b-open-weights-model

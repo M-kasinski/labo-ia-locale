@@ -84,9 +84,3 @@ Quelques points à tester avant de basculer :
 5. **Tool calling et multimodal** : plusieurs correctifs sont listés, mais ces chemins restent sensibles.
 
 Bref : vLLM 0.22 est une release de fond. Pas une révolution marketing, plutôt une consolidation très concrète des goulots d’étranglement qui empêchent les gros modèles open-weight de devenir des outils locaux fiables. C’est moins flamboyant qu’un lancement de modèle. C’est probablement plus important pour ceux qui doivent réellement les faire tourner.
-
-## Sources
-
-- GitHub — vLLM release v0.22.0 : https://github.com/vllm-project/vllm/releases/tag/v0.22.0
-- vLLM Docs — MTP / Multi-Token Prediction : https://docs.vllm.ai/en/latest/features/speculative_decoding/mtp/
-- vLLM Docs — Speculative Decoding : https://docs.vllm.ai/en/latest/features/speculative_decoding/

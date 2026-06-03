@@ -69,11 +69,3 @@ Troisième limite : le snapshot d’état d’un moteur LLM n’est pas neutre c
 thaw-vllm n’est pas un nouveau runtime local grand public. C’est une primitive bas niveau pour un problème qui devient central : **brancher des agents sans recalculer le même préfixe en boucle**. Pour la plupart des utilisateurs, vLLM, llama.cpp ou Ollama resteront les outils directs. Pour ceux qui construisent des agents parallèles, du best-of-N, des rollouts RL ou des workflows de code multi-branches, thaw mérite une veille attentive.
 
 Le signal technique est solide : le KV cache devient une unité de travail, de stockage et de scheduling. thaw pousse cette logique jusqu’au fork de session. Si les mesures se confirment hors environnement contrôlé, on pourrait voir émerger une nouvelle couche d’infrastructure pour agents auto-hébergés : non pas seulement “servir un modèle”, mais **gérer des états d’inférence vivants**. C’est moins spectaculaire qu’un nouveau 70B. C’est peut-être plus important.
-
-## Sources
-
-- [GitHub — thaw-ai/thaw](https://github.com/thaw-ai/thaw)
-- [thaw.sh — fork() for AI agents](https://thaw.sh/)
-- [GitHub — vLLM](https://github.com/vllm-project/vllm)
-- [llm-d — KV-Cache Wins You Can See](https://llm-d.ai/blog/kvcache-wins-you-can-see)
-- [LMCache — An Efficient KV Cache Layer for Enterprise-Scale LLM Inference](https://lmcache.ai/tech_report.pdf)

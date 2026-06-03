@@ -69,9 +69,3 @@ Mais l’existence d’un dépôt reproductible est précieuse. On sort des capt
 Le message à retenir est simple : sur Apple mobile, **MLX n’est pas automatiquement le meilleur partout**, **llama.cpp reste utile mais pas toujours optimal**, **LiteRT-LM peut dominer quand le modèle est Gemma**, et **CoreML / ANE mérite une vraie place quand la mémoire compte plus que les tokens/s**.
 
 Pour les développeurs d’apps locales, ce benchmark donne une bonne grille de décision. Choisir un runtime sans mesurer sur l’appareil cible devient de moins en moins défendable. Le local est en train de mûrir ; il demande maintenant de l’ingénierie, pas seulement de l’enthousiasme avec un logo de lama.
-
-## Sources
-
-- [GitHub — john-rocky/apple-silicon-llm-bench](https://github.com/john-rocky/apple-silicon-llm-bench)
-- [Qiita — benchmark iPhone MLX / llama.cpp / LiteRT-LM / CoreML](https://qiita.com/john-rocky/items/800bb43b21f9f6da44c4)
-- [GitHub — Apple MLX](https://github.com/ml-explore/mlx)

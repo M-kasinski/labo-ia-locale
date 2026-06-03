@@ -67,10 +67,3 @@ Cosmos 3 montre que l’IA locale ne va pas rester centrée sur le texte. Les pr
 La sortie de NVIDIA compte parce qu’elle met un gros modèle de physical AI dans l’écosystème Hugging Face et dans des runtimes qui parlent déjà aux développeurs d’inférence. Le chemin est encore coûteux, mais il devient testable. Pour un labo, une équipe robotique ou une entreprise qui veut éviter d’envoyer ses flux vidéo et données d’action vers une API fermée, c’est un jalon.
 
 Le résumé honnête : **Cosmos 3 n’est pas “local-first” au sens grand public, mais il rend la physical AI ouverte et auto-hébergeable plus crédible sur du matériel sérieux**. Et dans ce domaine, la crédibilité technique vaut mieux qu’une démo de robot qui plie une serviette une fois sur vingt, hors champ quand ça rate.
-
-## Sources
-
-- Hugging Face Blog — NVIDIA Cosmos 3 for Physical AI: https://huggingface.co/blog/nvidia/cosmos-3-for-physical-ai
-- NVIDIA Technical Blog — Develop Physical AI Reasoning, World, and Action Models with Cosmos 3: https://developer.nvidia.com/blog/develop-physical-ai-reasoning-world-and-action-models-with-nvidia-cosmos-3/
-- Hugging Face — collection NVIDIA Cosmos 3: https://huggingface.co/collections/nvidia/cosmos3
-- GitHub — NVIDIA Cosmos: https://github.com/nvidia/Cosmos

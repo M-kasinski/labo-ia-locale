@@ -66,9 +66,3 @@ Si tu veux l’évaluer proprement, je commencerais par quatre tests simples :
 4. **Tool-use** : appels d’outils multi-tours, erreurs volontairement injectées, et vérification que le modèle ne “répare” pas les faits au hasard.
 
 Step 3.7 Flash est donc une release solide à surveiller. Pas parce qu’elle va tourner partout, mais parce qu’elle montre à quoi ressemble un gros VLM open-weight pensé dès le départ pour l’inférence locale sérieuse.
-
-## Sources
-
-- [Model card Hugging Face — stepfun-ai/Step-3.7-Flash](https://huggingface.co/stepfun-ai/Step-3.7-Flash)
-- [Dépôt GitHub — stepfun-ai/Step-3.7-Flash](https://github.com/stepfun-ai/Step-3.7-Flash)
-- [Quantizations GGUF — stepfun-ai/Step-3.7-Flash-GGUF](https://huggingface.co/stepfun-ai/Step-3.7-Flash-GGUF)

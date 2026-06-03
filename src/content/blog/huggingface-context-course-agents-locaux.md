@@ -77,9 +77,3 @@ Pour un lecteur de Labo IA Locale, je ne regarderais pas ce cours comme une form
 Le timing est bon. Les modèles locaux deviennent suffisamment capables pour faire du vrai travail, mais les stacks agentiques restent souvent fragiles. Hugging Face met ici des mots et une structure sur ce que beaucoup bricolent déjà : contexte portable, outils standardisés, plugins, sous-agents, hooks, boucle minimale.
 
 Ce n’est pas la partie la plus bruyante de l’IA locale. C’est peut-être justement pour ça qu’elle compte. Un agent local utile ne naît pas d’un modèle plus gros et d’un prompt héroïque. Il naît d’un environnement bien conçu, limité, observable et reproductible.
-
-## Sources
-
-- [Hugging Face Learn — The Context Course](https://huggingface.co/learn/context-course/unit0/introduction)
-- [Dépôt GitHub — huggingface/context-course](https://github.com/huggingface/context-course)
-- [Hugging Face Learn — MCP Course](https://huggingface.co/learn/mcp-course/unit0/introduction)

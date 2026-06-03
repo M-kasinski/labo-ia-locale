@@ -69,13 +69,3 @@ Forge est intéressant parce qu’il attaque le bon étage de la pile. Les agent
 Les chiffres publiés sont prometteurs, mais ils doivent être vérifiés sur des tâches réelles. Le gain de fiabilité dépendra du backend, du modèle, des outils, de la longueur du contexte et du type d’erreurs rencontrées. Un benchmark général ne remplacera pas une évaluation sur ton propre workflow.
 
 Pour un labo local, Forge mérite clairement un test : llama-server ou vLLM derrière, proxy Forge au milieu, client agentique devant, puis mesure avant/après. Si le projet tient ses promesses même partiellement, il peut transformer des petits modèles open-weight de “sympas en démo” à “utilisables en production limitée”. Ce qui, dans le monde des agents locaux, est déjà une promotion assez rare.
-
-## Sources
-
-- [Dépôt GitHub officiel — antoinezambelli/forge][source-github]
-- [Discussion Hacker News — Show HN Forge][source-hn]
-- [DEV Community — analyse des guardrails pour agents LLM][source-dev]
-
-[source-github]: https://github.com/antoinezambelli/forge
-[source-hn]: https://news.ycombinator.com/item?id=48192383
-[source-dev]: https://dev.to/monuminu/llm-agent-guardrails-the-engineering-playbook-for-taking-an-8b-local-model-from-53-to-99-on-18c

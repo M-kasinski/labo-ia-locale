@@ -95,9 +95,3 @@ La licence annoncée côté Stanford est **Apache 2.0**, ce qui facilite l'expé
 OpenJarvis est l'un des signaux les plus intéressants du moment pour les agents locaux, non pas parce qu'il invente une brique magique, mais parce qu'il assemble les bonnes contraintes : local-first, hardware-aware, compatible avec les runtimes existants, mesuré en efficacité, et pensé pour des workflows personnels.
 
 La prudence reste nécessaire. Les promesses d'agents autonomes sont un cimetière de démos brillantes et de tâches réelles ratées. Mais ici, l'angle est solide : rendre l'agent local composable, mesurable et moins dépendant d'une API distante. Pour le Labo IA Locale, c'est exactement le bon terrain de jeu.
-
-## Sources
-
-- Stanford Scaling Intelligence — OpenJarvis : https://scalingintelligence.stanford.edu/blogs/openjarvis/
-- Ollama — OpenJarvis avec Ollama : https://ollama.com/blog/openjarvis
-- GitHub — OpenJarvis : https://github.com/open-jarvis/OpenJarvis

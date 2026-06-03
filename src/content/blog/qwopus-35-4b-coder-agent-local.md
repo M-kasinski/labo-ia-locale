@@ -92,11 +92,3 @@ Qwopus3.5-4B-Coder ne révolutionne pas l'IA locale à lui seul. Mais il signale
 L'avenir local ne sera peut-être pas un seul gros modèle qui fait tout dans un coin du bureau. Ce sera peut-être un **essaim de petits modèles spécialisés**, chacun avec peu de droits, beaucoup de vitesse, et des tâches vérifiables. Moins glamour que “AGI on your laptop”. Beaucoup plus utile.
 
 Et franchement, si un 4B peut déjà écrire un petit jeu, corriger des scripts et aider à piloter des outils sans envoyer chaque prompt dans le cloud, c'est le genre de progrès discret qui finit par compter.
-
-## Sources
-
-- Kyle Hessling — annonce X : https://x.com/kylehessling1/status/2060428614185955643
-- Qwopus3.5-4B-Coder-GGUF — Hugging Face : https://huggingface.co/Jackrong/Qwopus3.5-4B-Coder-GGUF
-- Qwopus3.5-9B-Coder-GGUF — Hugging Face : https://huggingface.co/Jackrong/Qwopus3.5-9B-Coder-GGUF
-- BenchLocal — GitHub : https://github.com/stevibe/BenchLocal
-- Neon Snake demo — Hugging Face Space : https://huggingface.co/spaces/KyleHessling1/neon-snake-qwopus35-4b

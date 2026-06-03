@@ -89,10 +89,3 @@ Pour un RAG local, prends un corpus réel : PDF techniques, Markdown, code, emai
 fastokens dans vLLM n'est pas une annonce sexy, et c'est précisément pour ça qu'elle est intéressante. L'IA locale devient sérieuse quand elle optimise les détails ennuyeux : tokenisation, rendu de templates, scheduling, cache, mémoire, cold start. Le modèle ne suffit plus.
 
 Si tu utilises vLLM pour servir des agents ou du RAG long-contexte, fastokens mérite un test A/B. Pas parce qu'il promet 40 % de gain partout, mais parce qu'il cible un vrai maillon faible des workloads modernes : le texte devient énorme avant même d'arriver au GPU.
-
-## Sources
-
-- vLLM docs — Optimization and Tuning : https://docs.vllm.ai/en/stable/configuration/optimization/
-- Crusoe — fastokens et TTFT : https://www.crusoe.ai/resources/blog/reducing-ttft-by-cpumaxxing-tokenization
-- GitHub — vLLM PR #41741 : https://github.com/vllm-project/vllm/pull/41741
-- GitHub — vLLM v0.21.0 : https://github.com/vllm-project/vllm/releases/tag/v0.21.0

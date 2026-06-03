@@ -86,9 +86,3 @@ La documentation MCP d’Unsloth est une avancée pratique pour les agents locau
 Pour un usage personnel ou self-hosted, c’est probablement la bonne direction. Pas parce qu’Unsloth aurait inventé MCP, mais parce qu’il l’intègre dans un flux que des utilisateurs de modèles locaux peuvent réellement tester, avec Unsloth Studio ou llama.cpp. Le prochain critère ne sera pas “est-ce que ça se connecte ?”, mais “est-ce que ça agit correctement, vite, et sans prendre des initiatives stupides ?”.
 
 Comme souvent avec les agents, la réponse tient moins dans le modèle que dans le harnais. MCP donne une meilleure attache. À nous de ne pas lâcher la laisse.
-
-## Sources
-
-- Unsloth Documentation — How to Use MCP Servers with Local LLMs: https://unsloth.ai/docs/basics/mcp
-- GitHub — unslothai/unsloth: https://github.com/unslothai/unsloth
-- Unsloth Documentation — How to Run Local LLMs with Claude Code: https://unsloth.ai/docs/basics/claude-code

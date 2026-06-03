@@ -55,9 +55,3 @@ Troisième question : l’orchestration. Holo3.1 est un modèle, pas un système
 Holo3.1 est une sortie sérieuse parce qu’elle prend le computer-use par le bon bout : pas seulement le score, mais le déploiement, les formats, les tailles et l’intégration. Pour le Labo, les tests prioritaires seront les variantes quantifiées, surtout en **Q4 GGUF**, sur des workflows simples mais réels : navigation web, manipulation de formulaires, extraction depuis interfaces métier, et tâches mobiles si un harness local fiable existe.
 
 Le résumé honnête : **Holo3.1 ne prouve pas encore que les agents d’ordinateur locaux sont mûrs, mais il rapproche clairement le domaine d’un usage praticable hors cloud**. Et pour une technologie qui voit littéralement ton écran, ce n’est pas un détail. C’est peut-être même le détail principal.
-
-## Sources
-
-- H Company — Holo3.1: Fast & Local Computer Use Agents: https://hcompany.ai/holo3.1
-- Hugging Face Blog — Holo3.1: Fast & Local Computer Use Agents: https://huggingface.co/blog/Hcompany/holo31
-- Hugging Face — Hcompany/Holo-3.1-4B model card: https://huggingface.co/Hcompany/Holo-3.1-4B

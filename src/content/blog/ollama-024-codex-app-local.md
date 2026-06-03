@@ -69,9 +69,3 @@ Troisième limite : la sécurité. Donner à un agent accès à un dépôt, à G
 La question décisive sera la qualité des modèles réellement utilisables dans ce workflow. Si `qwen3.6`, `gemma4:31b` ou `nemotron-3-super` tiennent correctement sur des tâches multi-fichiers, l’intégration peut devenir très pratique pour les développeurs local-first. Si les modèles restent instables, l’intérêt sera surtout expérimental.
 
 Il faudra aussi vérifier les prochaines versions d’Ollama : stabilité de `ollama launch`, compatibilité avec les mises à jour Codex App, comportement sur macOS, Windows et Linux, et éventuelles options de configuration plus fines. Pour l’instant, Ollama 0.24 pose une brique intéressante : une interface de coding agentique connue, branchée sur une pile locale. Ce n’est pas encore le majordome autonome qui réécrit ton monorepo sans supervision. Mais c’est une porte de plus hors du tout-API.
-
-## Sources
-
-- [GitHub — Ollama release v0.24.0](https://github.com/ollama/ollama/releases/tag/v0.24.0)
-- [GitHub — Ollama releases](https://github.com/ollama/ollama/releases)
-- [WebsCraft — Ollama + Codex App overview](https://webscraft.org/blog/ollama-024-codex-app-yak-zapustiti-lokalniy-ai-coding-agent?lang=en)

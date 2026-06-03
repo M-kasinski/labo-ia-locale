@@ -65,9 +65,3 @@ Il est moins pertinent si tu veux seulement discuter avec un modèle local. Dans
 thClaws coche beaucoup de cases que les agents locaux doivent finir par cocher : **local-first**, sessions lisibles, multi-provider, Ollama, MCP, permissions, sandbox, plusieurs interfaces et packaging open-source. Le projet est jeune et il faudra vérifier sur des tâches réelles : qualité du tool calling avec modèles locaux, robustesse des permissions, stabilité du mode serveur, ergonomie des skills et comportement face aux prompt injections.
 
 Mais la direction est bonne. Le futur de l’agent local ne sera probablement pas un modèle isolé qui parle dans une fenêtre. Ce sera un harness contrôlable, extensible, auditable, capable d’alterner entre local et cloud sans abandonner la souveraineté de l’environnement. thClaws n’a pas encore prouvé qu’il sera ce standard. Il montre en revanche à quoi ce standard devrait ressembler.
-
-## Sources
-
-- [GitHub — thClaws repository](https://github.com/thClaws/thClaws)
-- [thClaws — site officiel](https://thclaws.ai/)
-- [GitHub — thClaws installation manual](https://github.com/thClaws/thClaws/blob/main/user-manual-th/ch02-installation.md)

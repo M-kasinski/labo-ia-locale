@@ -69,10 +69,3 @@ La compatibilité MCP est prometteuse, mais elle déplace aussi le problème : u
 `smolagents 1.26` n’est pas une release qui change tout du jour au lendemain. C’est plutôt une confirmation : Hugging Face maintient une bibliothèque agentique légère, compatible avec Ollama, transformers et MCP, qui colle bien à l’esprit local-first.
 
 Pour un labo personnel, un développeur indépendant ou une équipe qui veut expérimenter des agents auto-hébergés, c’est une option sérieuse à tester. Pas parce qu’elle promet l’autonomie totale. Parce qu’elle garde la pile lisible, contrôlable, et suffisamment flexible pour brancher des modèles open-weight. Dans le monde des agents, c’est déjà presque une vertu monastique.
-
-## Sources
-
-- [GitHub — smolagents release v1.26.0](https://github.com/huggingface/smolagents/releases/tag/v1.26.0)
-- [GitHub — huggingface/smolagents](https://github.com/huggingface/smolagents)
-- [Hugging Face Docs — smolagents](https://huggingface.co/docs/smolagents/en/index)
-- [Hugging Face Blog — Introducing smolagents](https://huggingface.co/blog/smolagents)

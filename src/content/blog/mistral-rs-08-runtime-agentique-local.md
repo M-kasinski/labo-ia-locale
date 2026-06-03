@@ -77,9 +77,3 @@ Pour un usage simple — télécharger un modèle, discuter, tester deux prompts
 mistral.rs devient intéressant si tu cherches un runtime local **polyvalent** : multimodal, API, agents, Python local, MCP, web UI et optimisation GPU dans un même binaire. C’est particulièrement pertinent pour monter un assistant de travail local qui ne se contente pas de répondre, mais exécute, inspecte, trace et garde un état.
 
 La branche 0.8 ne doit pas être prise comme une promesse magique. Elle signale plutôt qu’un runtime Rust local peut désormais rivaliser sur des sujets concrets : modèles récents, CUDA/Metal, agents et APIs compatibles. À tester avec des mesures propres, pas avec des captures d’écran enthousiastes. Les captures d’écran sont très douées pour oublier la latence.
-
-## Sources
-
-- GitHub — mistral.rs releases : https://github.com/EricLBuehler/mistral.rs/releases
-- GitHub — mistral.rs repository : https://github.com/EricLBuehler/mistral.rs
-- Documentation mistral.rs : https://ericlbuehler.github.io/mistral.rs/

@@ -107,9 +107,3 @@ Il faut aussi surveiller le rythme de changement. Un projet qui bouge vite est u
 Rapid-MLX est intéressant parce qu’il prend MLX au sérieux comme backend d’agents, pas seulement comme jouet de génération locale. L’API compatible OpenAI, le tool calling multi-format, le cache de prompt et l’intégration avec les outils existants répondent à de vrais irritants.
 
 Je ne considérerais pas encore ses chiffres de performance comme une vérité générale. Je les prendrais comme une invitation à tester. Mais si tu as un Mac Apple Silicon et que tes agents locaux passent aujourd’hui par Ollama ou llama.cpp avec une latence frustrante, Rapid-MLX mérite clairement une place dans ton banc d’essai.
-
-## Sources
-
-- [Dépôt GitHub — raullenchai/Rapid-MLX](https://github.com/raullenchai/Rapid-MLX)
-- [Discussion LlamaIndex — Rapid-MLX provider](https://github.com/run-llama/llama_index/discussions/21123)
-- [Analyse MLX sur Apple Silicon — yage.ai](https://yage.ai/share/mlx-apple-silicon-en-20260331.html)

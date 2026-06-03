@@ -86,9 +86,3 @@ NuExtract3 est prometteur, mais il faut tester avant de lui confier un vrai flux
 NuExtract3 est une release utile parce qu’elle vise un besoin moins glamour mais central : rendre les documents locaux actionnables. Pour beaucoup d’usages, un pipeline IA privé ne commence pas par un LLM bavard, mais par une extraction robuste.
 
 Le modèle ne remplace pas une validation métier, et les benchmarks doivent encore être confirmés indépendamment. Mais comme brique auto-hébergeable pour OCR, Markdown et JSON structuré, NuExtract3 mérite clairement un test dans les stacks RAG et back-office locales.
-
-## Sources
-
-- Hugging Face — numind/NuExtract3 : https://huggingface.co/numind/NuExtract3
-- GitHub — numindai/nuextract : https://github.com/numindai/nuextract
-- Démo Hugging Face Space : https://huggingface.co/spaces/numind/NuExtract-3-4B
