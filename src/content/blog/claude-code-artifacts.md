@@ -6,7 +6,7 @@ category: "veille"
 tags: ["claude", "anthropic", "ia-coding", "artifacts"]
 author: "Labo IA Locale"
 draft: false
-sources: ["https://claude.com/blog/artifacts-in-claude-code"]
+sources: [{ label: "Claude Blog", url: "https://claude.com/blog/artifacts-in-claude-code" }]
 ---
 
 # Claude Code Now Supports Artifacts

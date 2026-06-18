@@ -6,7 +6,7 @@ category: "veille"
 tags: ["openai", "codex", "computer-use", "workflow"]
 author: "Labo IA Locale"
 draft: false
-sources: ["https://developers.openai.com/codex/record-and-replay"]
+sources: [{ label: "OpenAI Developers", url: "https://developers.openai.com/codex/record-and-replay" }]
 ---
 
 # OpenAI Codex : Enseigner par l'exemple avec "Record & Replay"
