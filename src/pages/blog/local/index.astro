@@ -15,7 +15,7 @@ const posts = allPosts.filter((post) => post.data.category === 'local');
 <!doctype html>
 <html lang="fr">
 	<head>
-		<BaseHead title={`IA Locale — ${SITE_TITLE}`} description="Articles sur l'IA locale : modèles open-source, self-hosting, quantization, runtimes et matériel." />
+		<BaseHead title={`IA Locale — ${SITE_TITLE}`} description="Articles sur l'IA locale : modèles open-source, self-hosting, quantization, runtimes et matériel." collectionItems={posts.map((post) => ({ url: `${Astro.site.href}blog/${post.id}/`, title: post.data.title }))} />
 	</head>
 	<body>
 		<Header />

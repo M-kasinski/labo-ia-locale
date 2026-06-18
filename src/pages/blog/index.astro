@@ -14,7 +14,7 @@ const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
 <!doctype html>
 <html lang="fr">
 	<head>
-		<BaseHead title={`Articles — ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<BaseHead title={`Articles — ${SITE_TITLE}`} description={SITE_DESCRIPTION} collectionItems={allPosts.map((post) => ({ url: `${Astro.site.href}blog/${post.id}/`, title: post.data.title }))} />
 	</head>
 	<body>
 		<Header />

@@ -15,7 +15,7 @@ const posts = allPosts.filter((post) => post.data.category === 'veille');
 <!doctype html>
 <html lang="fr">
 	<head>
-		<BaseHead title={`Veille IA — ${SITE_TITLE}`} description="Actualité de l'IA générale : gros modèles, architectures, enjeux industriels et réglementaires." />
+		<BaseHead title={`Veille IA — ${SITE_TITLE}`} description="Actualité de l'IA générale : gros modèles, architectures, enjeux industriels et réglementaires." collectionItems={posts.map((post) => ({ url: `${Astro.site.href}blog/${post.id}/`, title: post.data.title }))} />
 	</head>
 	<body>
 		<Header />

@@ -16,6 +16,8 @@ interface Props {
 	publishedTime?: Date;
 	modifiedTime?: Date;
 	author?: string;
+	// Pour les pages de collection (index blog) — génère un JSON-LD CollectionPage
+	collectionItems?: { url: string; title: string }[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -28,6 +30,7 @@ const {
 	publishedTime,
 	modifiedTime,
 	author,
+	collectionItems,
 } = Astro.props;
 
 const imagePath = typeof image === 'string' ? image : image.src;
@@ -63,15 +66,37 @@ const jsonLd =
 				mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.href },
 				inLanguage: 'fr-FR',
 			}
-		: {
-				'@context': 'https://schema.org',
-				'@type': 'WebSite',
-				name: SITE_TITLE,
-				description: SITE_DESCRIPTION,
-				url: siteURL,
-				inLanguage: 'fr-FR',
-				publisher,
-			};
+		: collectionItems && collectionItems.length > 0
+			? {
+					'@context': 'https://schema.org',
+					'@type': 'CollectionPage',
+					name: title,
+					description,
+					url: canonicalURL.href,
+					inLanguage: 'fr-FR',
+					publisher,
+					isPartOf: {
+						'@type': 'WebSite',
+						name: SITE_TITLE,
+						url: siteURL,
+						publisher,
+					},
+					itemListElement: collectionItems.map((item, i) => ({
+						'@type': 'ListItem',
+						position: i + 1,
+						url: item.url,
+						name: item.title,
+					})),
+				}
+			: {
+					'@context': 'https://schema.org',
+					'@type': 'WebSite',
+					name: SITE_TITLE,
+					description: SITE_DESCRIPTION,
+					url: siteURL,
+					inLanguage: 'fr-FR',
+					publisher,
+				};
 ---
 
 <!-- Global Metadata -->
@@ -101,7 +126,7 @@ const jsonLd =
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={ogType} />
-<meta property="og:site_name" content="Labo IA Locale" />
+<meta property="og:site_name" content={SITE_TITLE} />
 <meta property="og:locale" content="fr_FR" />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
