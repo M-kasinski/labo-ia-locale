@@ -14,6 +14,8 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			// Catégorie de l'article
+			category: z.enum(['local', 'veille', 'radar']).default('local'),
 			// Pipeline éditorial (agents + supervision)
 			tags: z.array(z.string()).default([]),
 			author: z.string().default('Labo IA Locale'),
