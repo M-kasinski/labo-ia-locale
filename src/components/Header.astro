@@ -5,13 +5,15 @@ import HeaderLink from './HeaderLink.astro';
 
 <header class="site-header" data-pagefind-ignore>
 	<nav class="site-nav" aria-label="Navigation principale" data-pagefind-ignore>
-		<a class="brand" href="/" aria-label="Accueil — Labo IA Locale">
+		<a class="brand" href="/" aria-label={`Accueil — ${SITE_TITLE}`}>
 			<span class="brand-mark" aria-hidden="true">IA</span>
 			<span>{SITE_TITLE}</span>
 		</a>
 		<div class="internal-links">
 			<HeaderLink href="/">Accueil</HeaderLink>
 			<HeaderLink href="/blog">Articles</HeaderLink>
+			<a href="/blog/local" class="header-link sub-link">🔧 Locale</a>
+			<a href="/blog/veille" class="header-link sub-link">📡 Veille</a>
 			<HeaderLink href="/recherche">Rechercher</HeaderLink>
 			<HeaderLink href="/about">À propos</HeaderLink>
 		</div>
@@ -75,6 +77,21 @@ import HeaderLink from './HeaderLink.astro';
 		border-radius: var(--radius-pill);
 		background: color-mix(in srgb, #fff 72%, transparent);
 		padding: 0.25rem;
+	}
+
+	.sub-link {
+		color: var(--text-muted);
+		text-decoration: none;
+		font-size: 0.85rem;
+		font-weight: 600;
+		padding: 0.4rem 0.7rem;
+		border-radius: 999px;
+		transition: all 0.15s ease;
+	}
+
+	.sub-link:hover {
+		color: var(--text);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
 	}
 
 	@media (max-width: 640px) {

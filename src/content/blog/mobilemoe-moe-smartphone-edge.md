@@ -2,6 +2,7 @@
 title: "MobileMoE : Meta teste le MoE là où il fait mal, sur smartphone"
 description: "Un papier Meta explore des modèles MoE on-device de 0,3 à 0,9B paramètres actifs, avec profiling smartphone et gains annoncés face aux petits modèles denses."
 pubDate: 2026-06-01
+category: "local"
 tags: ["edge", "moe", "quantization", "mobile", "open-research"]
 author: "Labo IA Locale"
 draft: false

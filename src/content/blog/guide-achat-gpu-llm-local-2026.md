@@ -2,6 +2,7 @@
 title: "Guide d'achat GPU 2026 : quelle carte pour un LLM en local"
 description: "La grille simple pour choisir une carte graphique selon la VRAM, la taille de modèle et les usages agents sans tomber dans le piège du surdimensionnement."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "gpu", "materiel", "vram"]
 author: "Labo IA Locale"
 draft: false

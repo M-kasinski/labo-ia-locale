@@ -2,6 +2,7 @@
 title: "thaw-vllm : le fork() des agents IA s’attaque au vrai coût du branching"
 description: "thaw propose de cloner une session vLLM vivante — poids, KV cache, scheduler et prefix-hash — pour lancer des branches d’agents sans refaire le prefill. Prometteur, mais encore à valider hors benchmarks projet."
 pubDate: 2026-05-31
+category: "local"
 tags: ["vLLM", "agents locaux", "KV cache", "inférence", "self-hosting"]
 author: "Labo IA Locale"
 draft: false

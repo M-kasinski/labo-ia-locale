@@ -2,6 +2,7 @@
 title: "Open WebUI 0.9.6 transforme ses Knowledge Bases en vrai socle RAG auto-hébergé"
 description: "Avec oikb, la synchro incrémentale, les dossiers imbriqués et les outils agentiques de Knowledge, Open WebUI devient plus crédible pour maintenir un RAG local vivant."
 pubDate: 2026-06-08
+category: "local"
 tags: ["Open WebUI", "RAG", "auto-hébergement", "Knowledge Base", "oikb", "MCP"]
 author: "Labo IA Locale"
 draft: false

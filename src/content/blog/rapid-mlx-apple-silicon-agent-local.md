@@ -2,6 +2,7 @@
 title: "Rapid-MLX : le serveur local qui pousse MLX vers les agents Apple Silicon"
 description: "Rapid-MLX expose une API OpenAI-compatible sur Mac, avec tool calling, cache de prompt et claims de performances ambitieux. Prometteur, mais à benchmarker soi-même."
 pubDate: 2026-06-01
+category: "local"
 tags: ["mlx", "apple-silicon", "agents", "inference", "openai-compatible"]
 author: "Labo IA Locale"
 draft: false

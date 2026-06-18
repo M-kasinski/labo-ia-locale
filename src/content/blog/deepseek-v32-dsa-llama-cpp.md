@@ -2,6 +2,7 @@
 title: "DeepSeek V3.2 et DSA : l'attention sparse enfin supportée dans llama.cpp"
 description: "La PR #23346 fusionne le support complet de DeepSeek V3.2 avec DeepSeek Sparse Attention (DSA) et lightning indexer dans llama.cpp. 685B de paramètres MoE, 128K de contexte — et 700 Go de RAM pour le Q8_0."
 pubDate: 2026-05-29
+category: "local"
 tags: [ia-locale, deepseek, moe, attention-sparse, llama-cpp, quantization, nvfp4]
 author: "Labo IA Locale"
 draft: false

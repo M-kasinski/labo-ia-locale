@@ -2,6 +2,7 @@
 title: "llama.cpp ajoute le frame merge Qwen-VL : la vidéo locale sort du bricolage pur"
 description: "La release b9543 de llama.cpp ajoute le support du frame merge pour les modèles Qwen-VL. Ce n’est pas encore un VLM vidéo universel, mais c’est un pas concret vers l’analyse vidéo locale."
 pubDate: 2026-06-07
+category: "local"
 tags: ["llama.cpp", "qwen-vl", "multimodal", "video", "inference-locale"]
 author: "Labo IA Locale"
 draft: false

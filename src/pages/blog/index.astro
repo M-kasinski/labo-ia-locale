@@ -6,7 +6,7 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
+const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
@@ -21,17 +21,28 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 		<main class="blog-index">
 			<header class="page-header">
 				<p class="eyebrow">Archives</p>
-				<h1>Articles</h1>
-				<p class="lede">Guides, comparatifs et notes de terrain sur l’IA locale : modèles, runtimes, quantization, self-hosting et matériel.</p>
+				<h1>Tous les articles</h1>
+				<p class="lede">Guides, comparatifs et actualités sur l'IA locale et l'actualité générale.</p>
 			</header>
+
+			<nav class="category-filters" aria-label="Filtres par catégorie">
+				<a href="/blog/" class="filter-btn active">Tous ({allPosts.length})</a>
+				<a href="/blog/local/" class="filter-btn badge-local">🔧 IA Locale ({allPosts.filter(p => p.data.category === 'local').length})</a>
+				<a href="/blog/veille/" class="filter-btn badge-veille">📡 Veille IA ({allPosts.filter(p => p.data.category === 'veille').length})</a>
+			</nav>
 
 			<section aria-label="Liste des articles">
 				<ul class="post-grid">
 					{
-						posts.map((post) => (
+						allPosts.map((post) => (
 							<li class="post-card">
 								<a class="post-link" href={`/blog/${post.id}/`}>
-									<span class="post-date"><FormattedDate date={post.data.pubDate} /></span>
+									<div class="post-header">
+										<span class="post-date"><FormattedDate date={post.data.pubDate} /></span>
+										<span class={`category-tag tag-${post.data.category}`}>
+											{post.data.category === 'local' ? '🔧 IA Locale' : post.data.category === 'veille' ? '📡 Veille IA' : '📡 Radar'}
+										</span>
+									</div>
 									<h2>{post.data.title}</h2>
 									<p>{post.data.description}</p>
 								</a>
@@ -62,12 +73,58 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 		padding: clamp(2rem, 6vw, 5rem) 0 2rem;
 	}
 
+	.category-filters {
+		display: flex;
+		gap: 0.75rem;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+	}
+
+	.filter-btn {
+		padding: 0.6rem 1.2rem;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		background: var(--surface);
+		color: var(--text);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.9rem;
+		transition: all 0.15s ease;
+	}
+
+	.filter-btn:hover {
+		border-color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+	}
+
+	.filter-btn.active {
+		background: var(--accent);
+		color: #1a1a2e;
+		border-color: var(--accent);
+	}
+
+	.badge-local {
+		border-color: rgba(142, 230, 212, 0.4);
+	}
+
+	.badge-local:hover {
+		background: rgba(142, 230, 212, 0.1);
+	}
+
+	.badge-veille {
+		border-color: rgba(242, 192, 120, 0.4);
+	}
+
+	.badge-veille:hover {
+		background: rgba(242, 192, 120, 0.1);
+	}
+
 	.post-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1rem;
 		list-style: none;
-		margin: 1rem 0 0;
+		margin: 0;
 		padding: 0;
 	}
 
@@ -107,8 +164,51 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 		text-decoration: none;
 	}
 
+	.post-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 0.85rem;
+		flex-wrap: wrap;
+	}
+
+	.post-date {
+		display: inline-flex;
+		color: var(--accent-dark);
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		font-weight: 760;
+	}
+
+	.category-tag {
+		display: inline-block;
+		padding: 0.2rem 0.5rem;
+		border-radius: 999px;
+		font-family: var(--font-mono);
+		font-size: 0.65rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+	}
+
+	.tag-local {
+		background: rgba(142, 230, 212, 0.2);
+		color: #8ee6d4;
+	}
+
+	.tag-veille {
+		background: rgba(242, 192, 120, 0.2);
+		color: #f2c078;
+	}
+
+	.tag-radar {
+		background: rgba(242, 192, 120, 0.2);
+		color: #f2c078;
+	}
+
 	.post-link h2 {
 		font-size: clamp(1.45rem, 3vw, 2.35rem);
+		margin-bottom: 0.5rem;
 	}
 
 	.post-card:first-child h2 {
@@ -121,15 +221,6 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 		color: var(--text-muted);
 		font-size: 1rem;
 		line-height: 1.55;
-	}
-
-	.post-date {
-		display: inline-flex;
-		margin-bottom: 0.85rem;
-		color: var(--accent-dark);
-		font-family: var(--font-mono);
-		font-size: 0.8rem;
-		font-weight: 760;
 	}
 
 	.post-card .tags {

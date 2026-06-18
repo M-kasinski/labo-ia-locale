@@ -2,6 +2,7 @@
 title: "Qwen3.6 et MTP : l'accélération qui rend le local crédible"
 description: "Qwen3.6 arrive avec des têtes MTP exploitables par llama.cpp et vLLM : assez pour accélérer l’inférence locale, mais pas dans tous les cas."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "qwen", "mtp", "vllm", "llama-cpp", "performance"]
 author: "Labo IA Locale"
 draft: false

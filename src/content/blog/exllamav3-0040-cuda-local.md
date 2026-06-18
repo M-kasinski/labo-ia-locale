@@ -2,6 +2,7 @@
 title: "ExLlamaV3 0.0.40 : le runner NVIDIA local rattrape les modèles multimodaux récents"
 description: "La dernière release d’ExLlamaV3 ajoute Gemma4Unified et confirme une trajectoire claire : inference CUDA locale, quantization EXL3, batching et serveur OpenAI-compatible via TabbyAPI."
 pubDate: 2026-06-08
+category: "local"
 tags: ["ExLlamaV3", "CUDA", "quantization", "inference locale", "TabbyAPI", "NVIDIA"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "Nemotron-Labs Diffusion : NVIDIA tente de casser le mur du token-par-token"
 description: "NVIDIA publie Nemotron-Labs Diffusion, une famille open-weight 3B/8B/14B qui combine génération autoregressive, diffusion et self-speculation pour accélérer le décodage local et serveur."
 pubDate: 2026-06-01
+category: "local"
 tags: ["nvidia", "nemotron", "diffusion", "open-weight", "inference", "sglang", "local-ai"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "NVIDIA tease une “nouvelle ère du PC” : signal à suivre pour l’IA locale"
 description: "Un teaser NVIDIA avant le Computex relance les rumeurs d’un PC Windows ARM avec forte capacité IA locale. Rien n’est confirmé, mais le signal est intéressant pour le hardware local."
 pubDate: 2026-05-30
+category: "local"
 tags: ["radar-ia", "nvidia", "computex", "ia-locale", "windows-arm"]
 author: "Labo IA Locale"
 draft: true

@@ -2,6 +2,7 @@
 title: "MisoTTS 8B : une voix open-weight expressive, mais pas encore un assistant vocal complet"
 description: "Miso Labs publie MisoTTS, un modèle TTS 8B à poids ouverts qui conditionne la parole sur le texte et l'audio. Prometteur pour les voix locales, encore limité côté dialogue temps réel."
 pubDate: 2026-06-04
+category: "local"
 tags: ["audio", "tts", "open-weight", "auto-hebergement"]
 author: "Labo IA Locale"
 draft: false

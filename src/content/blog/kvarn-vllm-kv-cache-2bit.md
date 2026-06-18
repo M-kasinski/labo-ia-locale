@@ -2,6 +2,7 @@
 title: "KVarN : le KV cache 2-bit qui veut rendre les longs contextes moins absurdes"
 description: "Huawei publie KVarN, un backend vLLM de quantization KV-cache qui promet 3 à 5 fois plus de capacité de contexte sans calibration. Intéressant pour agents locaux, mais encore très jeune."
 pubDate: 2026-06-07
+category: "local"
 tags: ["vllm", "quantization", "kv-cache", "agents", "inference"]
 author: "Labo IA Locale"
 draft: false

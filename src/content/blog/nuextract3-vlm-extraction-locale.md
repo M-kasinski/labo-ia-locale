@@ -2,6 +2,7 @@
 title: "NuExtract3 : un VLM local pour extraire du JSON depuis des documents"
 description: "NuMind publie NuExtract3, un modèle vision-langage auto-hébergeable pour OCR, Markdown et extraction structurée."
 pubDate: 2026-05-31
+category: "local"
 tags: ["vlm", "rag", "ocr", "auto-hebergement", "documents"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "Headroom : compresser le contexte avant que l’agent local ne s’étouffe"
 description: "Headroom propose une couche locale pour compresser sorties d’outils, logs, fichiers et chunks RAG, avec proxy, SDK et serveur MCP. Prometteur, mais à benchmarker chez soi."
 pubDate: 2026-06-06
+category: "local"
 tags: ["agents", "mcp", "rag", "auto-hébergement"]
 author: "Labo IA Locale"
 draft: false

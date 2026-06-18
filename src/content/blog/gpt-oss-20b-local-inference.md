@@ -2,6 +2,7 @@
 title: "gpt-oss-20b d'OpenAI : un modèle de reasoning qui tient dans 16 Go"
 description: "OpenAI publie gpt-oss-20b sous licence Apache 2.0 — 21B paramètres, 3,6B actifs en MoE, performance proche d'o3-mini, et GGUF prêt pour le matériel grand public."
 pubDate: 2026-06-18
+category: "local"
 tags: ["OpenAI", "gpt-oss", "MoE", "GGUF", "Unsloth", "quantization"]
 author: "Labo IA Locale"
 draft: false

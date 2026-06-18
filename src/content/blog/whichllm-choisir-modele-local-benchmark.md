@@ -2,6 +2,7 @@
 title: "whichllm : choisir un modèle local par benchmark, pas au doigt mouillé"
 description: "Le CLI whichllm détecte ton matériel, estime ce qui tient en mémoire et classe les modèles Hugging Face avec des benchmarks pondérés et récents."
 pubDate: 2026-06-01
+category: "local"
 tags: ["outil", "benchmark", "local-llm", "huggingface", "gpu"]
 author: "Labo IA Locale"
 draft: false

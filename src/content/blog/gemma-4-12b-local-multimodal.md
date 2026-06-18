@@ -2,6 +2,7 @@
 title: "Gemma 4 12B : le modèle local que Google devait sortir"
 description: "Google publie Gemma 4 12B, un modèle dense multimodal sous Apache 2.0, disponible sur Hugging Face, avec audio natif, contexte 256K et une cible très claire : le laptop 16 Go."
 pubDate: 2026-06-04
+category: "local"
 tags: ["gemma-4", "google-deepmind", "open-weight", "apache-2", "multimodal", "local-ai", "hugging-face"]
 author: "Labo IA Locale"
 draft: false

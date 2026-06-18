@@ -2,6 +2,7 @@
 title: "Gemma 4 passe à Apache 2.0 : le vrai signal pour l’IA locale"
 description: "Google publie Gemma 4 en open-weight sous Apache 2.0, avec des modèles edge, un MoE 26B et un dense 31B. Intéressant, mais pas magique côté matériel."
 pubDate: 2026-06-02
+category: "local"
 tags: ["gemma", "open-weight", "local-ai"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "vLLM 0.22.1 : les CPU AMD Zen gagnent un vrai chemin d’inférence quantifiée"
 description: "La patch release vLLM 0.22.1 ajoute zentorch pour les linéaires W8A8 et W4A16 sur CPU AMD Zen, tout en corrigeant DeepSeek-V4 et le serving Ray multi-nœud."
 pubDate: 2026-06-08
+category: "local"
 tags: ["vLLM", "AMD", "CPU", "zentorch", "quantization", "inference locale"]
 author: "Labo IA Locale"
 draft: false

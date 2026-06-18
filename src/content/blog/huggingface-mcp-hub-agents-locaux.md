@@ -2,6 +2,7 @@
 title: "Hugging Face MCP : le Hub devient une boîte à outils pour agents locaux"
 description: "Le serveur MCP de Hugging Face connecte Codex, Cursor, Zed, Claude Desktop ou ChatGPT au Hub. Pratique pour les agents locaux, à condition de garder les permissions sous contrôle."
 pubDate: 2026-06-07
+category: "local"
 tags: ["mcp", "huggingface", "agents", "auto-hebergement", "outils"]
 author: "Labo IA Locale"
 draft: false

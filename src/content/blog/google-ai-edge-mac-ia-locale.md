@@ -2,6 +2,7 @@
 title: "Google AI Edge sur Mac : l’IA locale devient une app grand public"
 description: "Avec AI Edge Gallery, Eloquent et LiteRT-LM, Google ne se contente pas de publier un modèle : il installe un début d’écosystème d’IA locale sur Mac, entre simplicité grand public et workflows agentiques."
 pubDate: 2026-06-05
+category: "local"
 tags: ["google-ai-edge", "macos", "apple-silicon", "ia-locale", "litert-lm", "ollama", "lm-studio"]
 author: "Labo IA Locale"
 draft: false

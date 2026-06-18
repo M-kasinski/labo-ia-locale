@@ -2,6 +2,7 @@
 title: "Open-weight 2026 : les modèles déjà prêts pour le local"
 description: "Une sélection prudente des modèles open-weight récents dont les poids, les quants et les runtimes locaux sont déjà utilisables."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "open-weight", "gemma", "qwen", "modeles"]
 author: "Labo IA Locale"
 draft: false

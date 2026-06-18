@@ -2,6 +2,7 @@
 title: "Forge : les garde-fous qui rendent les agents locaux moins catastrophiques"
 description: "Forge ajoute une couche de fiabilité au tool-calling des LLM auto-hébergés : proxy, validation, retry nudges et evals. Prometteur, mais à tester sur ses propres workflows."
 pubDate: 2026-06-02
+category: "local"
 tags: ["agents", "tool-calling", "self-hosting"]
 author: "Labo IA Locale"
 draft: false

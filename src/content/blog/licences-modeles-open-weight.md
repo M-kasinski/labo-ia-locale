@@ -2,6 +2,7 @@
 title: "Open-weight vs open-source : comprendre les licences des modèles d'IA"
 description: "Télécharger gratuitement un modèle d'IA ne signifie pas que tout est permis. Guide pratique des licences Apache 2.0, Llama Community, Gemma et MRL pour les devs et PME."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "licences", "open-source", "open-weight"]
 author: "Labo IA Locale"
 draft: false

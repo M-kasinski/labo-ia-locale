@@ -2,6 +2,7 @@
 title: "MiniCPM5-1B : le petit modèle qui veut faire tourner des agents locaux"
 description: "OpenBMB publie un modèle open-weight dense de 1B paramètres, long contexte et compatible LlamaForCausalLM, avec de bons signaux indépendants."
 pubDate: 2026-05-31
+category: "local"
 tags: ["open-weight", "agents", "edge", "llama.cpp", "mlx"]
 author: "Labo IA Locale"
 draft: false

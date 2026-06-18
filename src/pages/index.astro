@@ -10,10 +10,12 @@ const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 const radarPosts = allPosts.filter((post) => post.data.tags.includes('radar-ia')).slice(0, 3);
-const posts = allPosts.slice(0, 5);
+const localPosts = allPosts.filter((post) => post.data.category === 'local').slice(0, 5);
+const veillePosts = allPosts.filter((post) => post.data.category === 'veille').slice(0, 5);
 
-const featured = posts[0];
-const secondaryPosts = posts.slice(1);
+const featured = localPosts[0];
+const secondaryLocal = localPosts.slice(1);
+const secondaryVeille = veillePosts.slice(1);
 ---
 
 <!doctype html>
@@ -26,8 +28,8 @@ const secondaryPosts = posts.slice(1);
 		<main class="home">
 			<section class="hero" aria-labelledby="hero-title">
 				<div>
-					<p class="eyebrow">IA open-source, en local, sans fumée</p>
-					<h1 id="hero-title">Comprendre l’IA locale avant d’empiler les GPUs.</h1>
+					<p class="eyebrow">IA locale & veille générale — sans filtre</p>
+					<h1 id="hero-title">Comprendre l'IA : du modèle local au paysage global.</h1>
 					<p class="lede">{SITE_DESCRIPTION}</p>
 					<div class="hero-actions">
 						<a class="button" href="/blog/">Lire les articles</a>
@@ -41,30 +43,33 @@ local-llm
 quantization
 self-hosting
 apple-silicon
-gpu-serving
+foundation-models
+scaling-laws
+agents
 sources: required</code></pre>
 				</aside>
 			</section>
 
 			<section class="pillars" aria-labelledby="pillars-title">
 				<p class="eyebrow">Le terrain</p>
-				<h2 id="pillars-title">Des choix techniques, pas des slogans.</h2>
+				<h2 id="pillars-title">Deux univers, une même exigence.</h2>
 				<div class="pillar-grid">
 					<article class="card pillar">
-						<h3>Modèles & licences</h3>
-						<p>Comprendre ce que l’on peut télécharger, modifier, servir et utiliser sans se raconter d’histoires.</p>
+						<h3>🔧 IA Locale</h3>
+						<p>Faire tourner l'IA chez soi : modèles open-source, self-hosting, quantization, GPU & Apple Silicon. Tests et guides pratiques.</p>
+						<a href="/blog/?category=local" class="pillar-link">Voir les articles →</a>
 					</article>
 					<article class="card pillar">
-						<h3>Runtimes & matériel</h3>
-						<p>Comparer llama.cpp, Ollama, vLLM, MLX, GPU NVIDIA, AMD et mémoire unifiée Apple.</p>
+						<h3>📡 Veille IA</h3>
+						<p>Les gros modèles, architectures et avancées majeures. Décryptages de l'actualité de l'IA générale sans se laisser aveugler par le buzz.</p>
+						<a href="/blog/?category=veille" class="pillar-link">Voir les articles →</a>
 					</article>
 					<article class="card pillar">
-						<h3>Guides sourcés</h3>
+						<h3>📝 Guides sourcés</h3>
 						<p>Chaque article vise une décision concrète, avec sources en bas de page et limites explicites.</p>
 					</article>
 				</div>
 			</section>
-
 
 			{radarPosts.length > 0 && (
 				<section class="radar" aria-labelledby="radar-title">
@@ -88,22 +93,30 @@ sources: required</code></pre>
 				</section>
 			)}
 
-			{featured && (
-				<section class="latest" aria-labelledby="latest-title">
-					<div class="section-heading">
-						<p class="eyebrow">À lire maintenant</p>
-						<h2 id="latest-title">Derniers articles</h2>
-					</div>
-					<div class="latest-layout">
-						<article class="featured-card">
-							<a href={`/blog/${featured.id}/`}>
-								<span><FormattedDate date={featured.data.pubDate} /></span>
-								<h3>{featured.data.title}</h3>
-								<p>{featured.data.description}</p>
-							</a>
-						</article>
+			<section class="latest" aria-labelledby="latest-title">
+				<div class="section-heading">
+					<p class="eyebrow">Derniers articles</p>
+					<h2 id="latest-title">Ce qui vient de sortir</h2>
+				</div>
+
+				{featured && (
+					<article class="featured-card">
+						<a href={`/blog/${featured.id}/`}>
+							<span class="category-badge badge-local">IA Locale</span>
+							<span><FormattedDate date={featured.data.pubDate} /></span>
+							<h3>{featured.data.title}</h3>
+							<p>{featured.data.description}</p>
+						</a>
+					</article>
+				)}
+
+				<div class="two-columns">
+					<div class="column local-column">
+						<h3 class="column-title">
+							<a href="/blog/?category=local">🔧 IA Locale</a>
+						</h3>
 						<ul class="compact-list">
-							{secondaryPosts.map((post) => (
+							{secondaryLocal.map((post) => (
 								<li>
 									<a href={`/blog/${post.id}/`}>
 										<span><FormattedDate date={post.data.pubDate} /></span>
@@ -113,8 +126,24 @@ sources: required</code></pre>
 							))}
 						</ul>
 					</div>
-				</section>
-			)}
+
+					<div class="column veille-column">
+						<h3 class="column-title">
+							<a href="/blog/?category=veille">📡 Veille IA</a>
+						</h3>
+						<ul class="compact-list">
+							{secondaryVeille.map((post) => (
+								<li>
+									<a href={`/blog/${post.id}/`}>
+										<span><FormattedDate date={post.data.pubDate} /></span>
+										<strong>{post.data.title}</strong>
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
@@ -205,18 +234,29 @@ sources: required</code></pre>
 
 	.pillar h3 {
 		font-size: 1.25rem;
+		margin-bottom: 0.75rem;
 	}
 
 	.pillar p {
-		margin-bottom: 0;
+		margin-bottom: 0.75rem;
 		color: var(--text-muted);
 		font-size: 0.98rem;
+	}
+
+	.pillar-link {
+		color: var(--accent);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.95rem;
+	}
+
+	.pillar-link:hover {
+		text-decoration: underline;
 	}
 
 	.section-heading {
 		margin-bottom: 1.5rem;
 	}
-
 
 	.section-heading p:not(.eyebrow) {
 		max-width: 760px;
@@ -275,34 +315,44 @@ sources: required</code></pre>
 		color: var(--text-muted);
 	}
 
-	.latest-layout {
-		display: grid;
-		grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-		gap: 1rem;
-	}
-
-	.featured-card,
-	.compact-list li {
+	.featured-card {
 		border: 1px solid var(--border);
 		border-radius: var(--radius-lg);
-		background: color-mix(in srgb, var(--surface) 88%, transparent);
-	}
-
-	.featured-card {
 		padding: clamp(1.4rem, 4vw, 2rem);
 		background:
 			linear-gradient(135deg, rgba(216, 243, 238, 0.72), transparent 60%),
 			var(--surface);
+		margin-bottom: 2rem;
 	}
 
-	.featured-card a,
-	.compact-list a {
+	.featured-card a {
 		color: inherit;
 		text-decoration: none;
 	}
 
-	.featured-card span,
-	.compact-list span {
+	.category-badge {
+		display: inline-block;
+		padding: 0.25rem 0.6rem;
+		border-radius: 999px;
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		margin-right: 0.5rem;
+	}
+
+	.badge-local {
+		background: rgba(142, 230, 212, 0.2);
+		color: #8ee6d4;
+	}
+
+	.badge-veille {
+		background: rgba(242, 192, 120, 0.2);
+		color: #f2c078;
+	}
+
+	.featured-card span:not(.category-badge) {
 		display: inline-block;
 		margin-bottom: 0.65rem;
 		color: var(--accent-dark);
@@ -313,10 +363,44 @@ sources: required</code></pre>
 
 	.featured-card h3 {
 		font-size: clamp(1.7rem, 4vw, 2.7rem);
+		margin-top: 0.5rem;
 	}
 
 	.featured-card p {
 		color: var(--text-muted);
+		max-width: 800px;
+	}
+
+	.two-columns {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		margin-top: 1.5rem;
+	}
+
+	.column-title {
+		font-size: 1.1rem;
+		margin-bottom: 1rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 2px solid var(--border);
+	}
+
+	.column-title a {
+		color: inherit;
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.column-title a:hover {
+		color: var(--accent);
+	}
+
+	.local-column .column-title {
+		border-bottom-color: #8ee6d4;
+	}
+
+	.veille-column .column-title {
+		border-bottom-color: #f2c078;
 	}
 
 	.compact-list {
@@ -328,8 +412,24 @@ sources: required</code></pre>
 	}
 
 	.compact-list li {
-		margin: 0;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: color-mix(in srgb, var(--surface) 88%, transparent);
 		padding: 1rem;
+	}
+
+	.compact-list a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.compact-list span {
+		display: inline-block;
+		margin-bottom: 0.5rem;
+		color: var(--accent-dark);
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		font-weight: 760;
 	}
 
 	.compact-list strong {
@@ -340,7 +440,7 @@ sources: required</code></pre>
 
 	@media (max-width: 860px) {
 		.hero,
-		.latest-layout {
+		.two-columns {
 			grid-template-columns: 1fr;
 		}
 

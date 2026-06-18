@@ -2,6 +2,7 @@
 title: "Magenta RealTime 2 : Google pousse la génération musicale open-weight sur Apple Silicon"
 description: "Magenta RealTime 2 apporte deux modèles de musique générative temps réel, une pile MLX/C++ et une cible très claire : faire tourner l'audio génératif localement, pas seulement dans un notebook."
 pubDate: 2026-06-04
+category: "local"
 tags: ["audio", "open-weight", "mlx", "apple-silicon"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "Temperature, top-p, top-k : régler les paramètres d'inférence d'un LLM local"
 description: "Guide concret des paramètres de sampling (temperature, top-p, top-k, repeat penalty, min-p) pour contrôler la génération d'un LLM local via Ollama ou llama.cpp."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "inference", "sampling", "ollama"]
 author: "Labo IA Locale"
 draft: false

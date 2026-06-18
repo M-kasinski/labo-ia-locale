@@ -2,6 +2,7 @@
 title: "LM Studio 0.4.14 : le MTP Speculative Decoding arrive en stable"
 description: "LM Studio intègre le Multi-Token Prediction en version stable — un gain de 1,5x à 3x en vitesse de génération, sans ajouter de modèle draft ni surcharger la VRAM."
 pubDate: 2026-06-18
+category: "local"
 tags: ["LM Studio", "MTP", "Speculative Decoding", "llama.cpp", "performances"]
 author: "Labo IA Locale"
 draft: false

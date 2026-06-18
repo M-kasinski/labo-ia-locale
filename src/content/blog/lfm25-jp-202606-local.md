@@ -2,6 +2,7 @@
 title: "LFM2.5-1.2B-JP-202606 : Liquid AI affine le japonais local en format GGUF, MLX et ONNX"
 description: "Liquid AI publie une révision japonaise de son petit modèle LFM2.5. Le signal intéressant n’est pas la taille, mais la disponibilité directe pour llama.cpp, MLX, ONNX et vLLM."
 pubDate: 2026-06-08
+category: "local"
 tags: ["Liquid AI", "LFM2.5", "japonais", "GGUF", "MLX", "edge AI"]
 author: "Labo IA Locale"
 draft: false

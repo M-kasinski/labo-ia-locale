@@ -2,6 +2,7 @@
 title: "Ollama 0.19 : le backend MLX d'Apple double les performances sur Mac"
 description: "Ollama intègre MLX comme backend natif sur Apple Silicon, avec des gains de 1.6x en prefill et 2x en decode. Analyse technique détaillée."
 pubDate: 2026-05-30
+category: "local"
 tags: ["Ollama", "MLX", "Apple Silicon", "Apple", "infrastructure locale"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "Holo3.1 : H Company pousse les agents d’ordinateur vers le local"
 description: "H Company publie Holo3.1, une famille de VLM pour computer-use agents avec tailles de 0.8B à 35B-A3B, function calling et checkpoints quantifiés pour l’inférence locale."
 pubDate: 2026-06-03
+category: "local"
 tags: ["hcompany", "agents", "computer-use", "vlm", "local-ai", "gguf", "qwen"]
 author: "Labo IA Locale"
 draft: false

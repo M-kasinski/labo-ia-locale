@@ -2,6 +2,7 @@
 title: "Monter un agent local autonome : architecture et garde-fous"
 description: "Un guide concret pour assembler chez soi un agent local capable d'observer, décider, utiliser des outils et rester sous contrôle humain."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "agents", "tool-use", "mcp", "self-hosting"]
 author: "Labo IA Locale"
 draft: false

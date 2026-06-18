@@ -8,33 +8,46 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="fr">
 	<head>
-		<BaseHead title={`À propos — ${SITE_TITLE}`} description="Mission éditoriale de Labo IA Locale : IA locale, open-source, self-hosting, quantization, GPU et Apple Silicon, sans bullshit." />
+		<BaseHead title={`À propos — ${SITE_TITLE}`} description="Mission éditoriale de Labo IA : IA locale, self-hosting ET actualité de l'IA générale, sans bullshit." />
 	</head>
 	<body>
 		<Header />
 		<main class="about-page">
 			<section class="about-hero" aria-labelledby="about-title">
 				<p class="eyebrow">Positionnement éditorial</p>
-				<h1 id="about-title">À propos de Labo IA Locale</h1>
+				<h1 id="about-title">À propos de Labo IA</h1>
 				<p class="lede">
-					Un petit média technique pour comprendre, choisir et faire tourner l’IA sur ses propres machines — sans dépendre d’une boîte noire distante quand ce n’est pas nécessaire.
+					Un média technique qui couvre deux univers : l'IA locale (faire tourner les modèles chez soi) et la veille générale sur l'actualité de l'IA — gros modèles, architectures, enjeux industriels. Sans bullshit.
 				</p>
 			</section>
 
-			<section class="about-grid" aria-label="Mission et promesse">
-				<article class="card panel">
-					<p class="eyebrow">Mission</p>
-					<h2>Rendre l’IA locale praticable</h2>
+			<section class="about-grid" aria-label="Nos deux univers">
+				<article class="card panel local-panel">
+					<p class="eyebrow">🔧 IA Locale</p>
+					<h2>Rendre l'IA locale praticable</h2>
 					<p>
-						Le site couvre les modèles open-source et open-weight, le self-hosting, la quantization, les runtimes, les GPU grand public, les serveurs sobres et Apple Silicon.
+						Les modèles open-source et open-weight, le self-hosting, la quantization (GGUF, GPTQ, AWQ, MLX), les runtimes (llama.cpp, Ollama, vLLM, SGLang), les GPU grand public, AMD et Apple Silicon.
 					</p>
 					<p>
-						L’objectif n’est pas de vendre du rêve : c’est d’aider à comprendre ce qui tourne vraiment, ce qui rentre en mémoire, et ce qui vaut la peine d’être maintenu.
+						L'objectif n'est pas de vendre du rêve : c'est d'aider à comprendre ce qui tourne vraiment, ce qui rentre en mémoire, et ce qui vaut la peine d'être maintenu.
 					</p>
 				</article>
 
+				<article class="card panel veille-panel">
+					<p class="eyebrow">📡 Veille IA</p>
+					<h2>Décrypter l'actualité de l'IA générale</h2>
+					<p>
+						Les fondation models, les nouvelles architectures (MoE, multimodaux, agents), les scaling laws, la course aux GPU, les enjeux d'alignement et de sécurité, et les bouleversements industriels.
+					</p>
+					<p>
+						Comprendre ce qui change vraiment sans se laisser aveugler par le buzz — chaque avancée mise en perspective avec des sources et du contexte.
+					</p>
+				</article>
+			</section>
+
+			<section class="promise-section" aria-label="Notre promesse">
 				<article class="card panel dark-panel">
-					<p class="eyebrow">Promesse</p>
+					<p class="eyebrow">Promesse éditoriale</p>
 					<h2>Vérifié, sourcé, sans bullshit</h2>
 					<p>
 						Les articles privilégient les explications traçables, les sources accessibles et les compromis explicites. Quand une limite existe — matériel, licence, compatibilité, performance — elle doit apparaître clairement.
@@ -46,9 +59,10 @@ import { SITE_TITLE } from '../consts';
 				<p class="eyebrow">Pour qui</p>
 				<h2 id="audience-title">Développeurs, bidouilleurs sérieux, équipes qui veulent garder la main</h2>
 				<div class="audience-list">
-					<p>Pour celles et ceux qui veulent héberger un assistant interne, prototyper un RAG local, comparer GGUF/GPTQ/AWQ/MLX ou simplement comprendre les contraintes avant d’acheter du matériel.</p>
-					<p>Le ton reste volontairement sobre : assez concret pour passer à l’action, assez prudent pour ne pas transformer chaque nouveauté en révolution. L’IA locale mérite mieux que les incantations marketing — elle mérite des mesures, des sources et un peu de calme.</p>
+					<p>Pour celles et ceux qui veulent héberger un assistant interne, prototyper un RAG local, comparer GGUF/GPTQ/AWQ/MLX ou simplement comprendre les contraintes avant d'acheter du matériel.</p>
+					<p>Pour celles et ceux qui suivent l'évolution des modèles, architectures et enjeux industriels — et veulent du concret derrière les annonces.</p>
 				</div>
+				<p class="audience-note">Le ton reste volontairement sobre : assez concret pour passer à l'action, assez prudent pour ne pas transformer chaque nouveauté en révolution. L'IA mérite mieux que les incantations marketing — elle mérite des mesures, des sources et un peu de calme.</p>
 			</section>
 		</main>
 		<Footer />
@@ -71,7 +85,7 @@ import { SITE_TITLE } from '../consts';
 
 	.about-grid {
 		display: grid;
-		grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+		grid-template-columns: 1fr 1fr;
 		gap: 1rem;
 		margin: 2rem 0;
 	}
@@ -81,16 +95,40 @@ import { SITE_TITLE } from '../consts';
 	}
 
 	.panel h2 {
-		font-size: clamp(1.7rem, 3vw, 2.45rem);
+		font-size: clamp(1.4rem, 3vw, 2rem);
+		margin-bottom: 1rem;
 	}
 
 	.panel p:last-child {
 		margin-bottom: 0;
 	}
 
+	.local-panel {
+		border: 1px solid rgba(142, 230, 212, 0.3);
+		background: color-mix(in srgb, rgba(142, 230, 212, 0.05), transparent);
+	}
+
+	.local-panel .eyebrow {
+		color: #8ee6d4;
+	}
+
+	.veille-panel {
+		border: 1px solid rgba(242, 192, 120, 0.3);
+		background: color-mix(in srgb, rgba(242, 192, 120, 0.05), transparent);
+	}
+
+	.veille-panel .eyebrow {
+		color: #f2c078;
+	}
+
+	.promise-section {
+		margin: 2rem 0;
+	}
+
 	.dark-panel {
 		background: #111827;
 		color: #d8dee8;
+		padding: clamp(1.25rem, 3vw, 2rem);
 	}
 
 	.dark-panel h2 {
@@ -116,6 +154,12 @@ import { SITE_TITLE } from '../consts';
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1.25rem;
 		max-width: 980px;
+		color: var(--text-muted);
+	}
+
+	.audience-note {
+		margin-top: 1.5rem;
+		max-width: 880px;
 		color: var(--text-muted);
 	}
 

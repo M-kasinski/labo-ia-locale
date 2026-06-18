@@ -2,6 +2,7 @@
 title: "thClaws : un agent local en Rust qui prend MCP au sérieux"
 description: "Le projet open-source thClaws combine GUI, CLI, mode headless, Ollama local, MCP, skills et équipes d’agents dans un seul binaire Rust."
 pubDate: 2026-06-03
+category: "local"
 tags: ["thclaws", "agents", "rust", "mcp", "ollama", "self-hosting", "local-ai"]
 author: "Labo IA Locale"
 draft: false

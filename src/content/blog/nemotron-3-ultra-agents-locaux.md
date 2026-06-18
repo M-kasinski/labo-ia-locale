@@ -2,6 +2,7 @@
 title: "Nemotron 3 Ultra : NVIDIA ouvre un MoE 550B pour agents, mais pas pour petits laptops"
 description: "NVIDIA publie Nemotron 3 Ultra, un modèle open-weight 550B/55B actif pensé pour les agents longue durée. Techniquement solide, local seulement pour des infrastructures très musclées."
 pubDate: 2026-06-05
+category: "local"
 tags: ["open-weight", "agents", "nvidia", "inference"]
 author: "Labo IA Locale"
 draft: false

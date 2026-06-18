@@ -2,6 +2,7 @@
 title: "Qwopus3.5-4B-Coder : un agent de code local pour machines modestes"
 description: "Qwopus3.5-4B-Coder promet du coding agentique en local avec seulement 4B paramètres. Intéressant pour les laptops 16 Go, mais à lire avec sang-froid."
 pubDate: 2026-05-30
+category: "local"
 tags: ["Qwopus", "modèles locaux", "coding", "agents", "GGUF"]
 author: "Labo IA Locale"
 draft: false

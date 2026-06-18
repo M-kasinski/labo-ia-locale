@@ -2,6 +2,7 @@
 title: "Codebase-Memory MCP : quand l’agent local arrête de grepper à l’aveugle"
 description: "Codebase-Memory transforme un dépôt en graphe persistant exposé via MCP, avec une release 0.7.0 qui renforce la résolution sémantique des appels."
 pubDate: 2026-06-05
+category: "local"
 tags: ["mcp", "agents", "code", "auto-hébergement"]
 author: "Labo IA Locale"
 draft: false

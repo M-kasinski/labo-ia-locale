@@ -2,6 +2,7 @@
 title: "OpenEnv : Hugging Face veut standardiser les environnements d’entraînement pour agents locaux"
 description: "OpenEnv passe sous gouvernance multi-acteurs et pousse une interface commune pour entraîner, évaluer et déployer des agents avec des environnements isolés, Docker, HTTP/WebSocket et MCP."
 pubDate: 2026-06-09
+category: "local"
 tags: ["Hugging Face", "OpenEnv", "agents", "MCP", "RL", "open-source"]
 author: "Labo IA Locale"
 draft: false

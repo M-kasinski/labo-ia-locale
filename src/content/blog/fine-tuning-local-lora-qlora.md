@@ -2,6 +2,7 @@
 title: "Fine-tuner un LLM en local : LoRA et QLoRA expliqués"
 description: "Pourquoi et comment fine-tuner un LLM en local avec LoRA et QLoRA, sans exploser la VRAM, avec les outils utiles et des repères concrets."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "fine-tuning", "lora", "qlora"]
 author: "Labo IA Locale"
 draft: false

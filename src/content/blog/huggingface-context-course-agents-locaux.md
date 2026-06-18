@@ -2,6 +2,7 @@
 title: "Hugging Face lance un cours de context engineering : enfin du concret pour les agents locaux"
 description: "Le nouveau Context Course structure skills, MCP, plugins, subagents et hooks. Une bonne base pour sortir les agents locaux du bricolage fragile."
 pubDate: 2026-06-01
+category: "local"
 tags: ["agents", "mcp", "huggingface", "self-hosting", "tool-use"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "Speculators v0.5 : DFlash arrive dans vLLM pour accélérer Gemma 4 sans changer de modèle"
 description: "La bibliothèque Speculators ajoute DFlash, l’entraînement en ligne et un modèle draft Gemma 4 31B : une piste concrète pour réduire la latence des serveurs vLLM auto-hébergés."
 pubDate: 2026-06-06
+category: "local"
 tags: ["vllm", "inference", "speculative-decoding", "gemma"]
 author: "Labo IA Locale"
 draft: false

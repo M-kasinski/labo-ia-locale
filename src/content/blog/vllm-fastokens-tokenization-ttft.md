@@ -2,6 +2,7 @@
 title: "vLLM ajoute fastokens : le goulot d’étranglement était aussi dans le tokenizer"
 description: "vLLM intègre fastokens, un backend Rust BPE qui réduit la latence de tokenisation sur longs prompts. Un détail d'infra qui compte beaucoup pour RAG et agents locaux."
 pubDate: 2026-05-30
+category: "local"
 tags: ["vLLM", "fastokens", "inférence", "latence", "RAG", "agents"]
 author: "Labo IA Locale"
 draft: false

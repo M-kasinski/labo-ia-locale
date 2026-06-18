@@ -2,6 +2,7 @@
 title: "mlxcel : un runtime Rust pour servir MLX sans Python sur Apple Silicon"
 description: "Lablup publie mlxcel, un moteur d’inférence MLX en Rust avec serveur OpenAI-compatible. Intéressant pour Mac locaux, mais les benchmarks doivent être lus avec méthode."
 pubDate: 2026-06-07
+category: "local"
 tags: ["mlx", "apple-silicon", "rust", "inference", "openai-compatible"]
 author: "Labo IA Locale"
 draft: false

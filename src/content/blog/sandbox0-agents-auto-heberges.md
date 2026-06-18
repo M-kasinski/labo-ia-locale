@@ -2,6 +2,7 @@
 title: "Sandbox0 : le bac à sable auto-hébergé qui prend enfin les agents au sérieux"
 description: "Sandbox0 propose une frontière d’exécution pour agents IA : sandboxes persistantes, contrôle réseau, secrets hors runtime et déploiement Kubernetes auto-hébergé. Utile, mais encore à traiter comme une surface beta."
 pubDate: 2026-06-08
+category: "local"
 tags: ["agents", "sandbox", "auto-hébergement", "MCP", "sécurité", "Kubernetes"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "smolagents 1.26 : Hugging Face muscle les agents locaux sans usine à gaz"
 description: "La version 1.26 de smolagents arrive avec une bibliothèque légère, compatible Ollama, transformers et MCP. Une option intéressante pour agents locaux contrôlables."
 pubDate: 2026-05-30
+category: "local"
 tags: ["smolagents", "Hugging Face", "agents locaux", "MCP", "Ollama"]
 author: "Labo IA Locale"
 draft: false

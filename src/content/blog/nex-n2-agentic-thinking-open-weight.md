@@ -2,6 +2,7 @@
 title: "Nex-N2 : l’agent open-weight qui promet le long-horizon, mais pas le laptop magique"
 description: "Nex AGI publie Nex-N2-Pro et Nex-N2-mini, deux modèles MoE open-weight sous Apache 2.0 orientés agents, code et tool-use. Le signal est fort, mais les chiffres restent surtout fournisseur."
 pubDate: 2026-06-09
+category: "local"
 tags: ["Nex-N2", "open-weight", "agents", "SGLang", "Qwen", "tool-use"]
 author: "Labo IA Locale"
 draft: false

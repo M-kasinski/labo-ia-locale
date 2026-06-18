@@ -2,6 +2,7 @@
 title: "Pourquoi faire tourner l'IA chez soi"
 description: "Le manifeste du Labo IA Locale : modèles open-source, self-hosting, et le contrôle total de sa pile IA — sans dépendre du cloud de personne."
 pubDate: 2026-05-29
+category: "local"
 tags: ["manifeste", "ia-locale", "open-source", "self-hosting"]
 author: "Labo IA Locale"
 draft: false

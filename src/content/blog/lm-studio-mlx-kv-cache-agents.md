@@ -2,6 +2,7 @@
 title: "LM Studio accélère les agents sur Mac avec le KV cache checkpointé"
 description: "mlx-engine 1.8.5 ajoute un cache KV persistant et le batching VLM : une mise à jour très concrète pour les workflows agentiques sur Apple Silicon."
 pubDate: 2026-06-06
+category: "local"
 tags: ["mlx", "apple-silicon", "agents", "lm-studio"]
 author: "Labo IA Locale"
 draft: false

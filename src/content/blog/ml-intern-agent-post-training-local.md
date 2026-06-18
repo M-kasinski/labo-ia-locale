@@ -2,6 +2,7 @@
 title: "ml-intern : Hugging Face transforme le post-training en boucle agentique open-source"
 description: "ml-intern automatise une partie du workflow ML — lecture de papers, datasets, scripts, jobs et évaluations — avec support des modèles locaux via endpoints OpenAI-compatible."
 pubDate: 2026-06-01
+category: "local"
 tags: ["hugging-face", "agents", "post-training", "smolagents", "open-source", "local-ai", "fine-tuning"]
 author: "Labo IA Locale"
 draft: false

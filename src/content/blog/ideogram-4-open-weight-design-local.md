@@ -2,6 +2,7 @@
 title: "Ideogram 4.0 : l’image open-weight s’attaque enfin au design lisible"
 description: "Ideogram publie son premier modèle image open-weight : un DiT 9,3B spécialisé dans la typo, les layouts et les prompts JSON structurés. Intéressant pour le local, mais licence non commerciale."
 pubDate: 2026-06-03
+category: "local"
 tags: ["image-generation", "open-weight", "comfyui", "local-ai"]
 author: "Labo IA Locale"
 draft: false

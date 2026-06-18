@@ -2,6 +2,7 @@
 title: "mistral.rs 0.8 : le runtime Rust qui mélange inference locale, multimodal et agents"
 description: "La branche 0.8 de mistral.rs accélère CUDA, stabilise Gemma 4 et pousse un runtime agentique local avec web UI, Python, MCP et APIs OpenAI/Anthropic compatibles."
 pubDate: 2026-06-02
+category: "local"
 tags: ["mistral-rs", "rust", "inference", "agents", "multimodal", "cuda", "metal", "local-ai"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "iPhone et LLM locaux : le benchmark qui remet MLX, LiteRT-LM et CoreML à leur place"
 description: "Un benchmark reproductible compare MLX Swift, llama.cpp, LiteRT-LM et CoreML sur iPhone 17 Pro. Résultat : le meilleur runtime dépend du modèle et de la contrainte mémoire."
 pubDate: 2026-05-30
+category: "local"
 tags: ["Apple Silicon", "MLX", "llama.cpp", "LiteRT-LM", "CoreML", "benchmarks"]
 author: "Labo IA Locale"
 draft: false

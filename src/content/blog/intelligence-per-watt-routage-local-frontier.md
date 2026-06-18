@@ -2,6 +2,7 @@
 title: "Intelligence per Watt : pourquoi le futur est au routage local + frontier"
 description: "Le papier Stanford/Hazy repris par Clément Delangue donne une mesure utile : les modèles locaux couvriraient désormais 71,3% des requêtes chat et raisonnement. Le vrai enjeu n’est pas de tout localiser, mais de router proprement."
 pubDate: 2026-06-08
+category: "local"
 tags: ["ia-locale", "routage", "Hugging Face", "Stanford", "efficacite", "benchmarks"]
 author: "Labo IA Locale"
 draft: false

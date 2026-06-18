@@ -2,6 +2,7 @@
 title: "llama.cpp ajoute le MTP pour Gemma 4 : accélération réelle, réglages piégeux"
 description: "Le support Gemma 4 MTP dans llama.cpp ouvre la voie au speculative decoding avec modèles assistants, mais les premiers retours montrent aussi des régressions et des paramètres à manier prudemment."
 pubDate: 2026-06-10
+category: "local"
 tags: ["llama.cpp", "Gemma 4", "speculative decoding", "MTP", "GGUF", "inference locale"]
 author: "Labo IA Locale"
 draft: false

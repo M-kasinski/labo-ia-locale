@@ -2,6 +2,7 @@
 title: "Odysseus : le workspace IA auto-hébergé qui veut dépasser le simple chat local"
 description: "Odysseus combine chat, agents, MCP, mémoire, recherche et outils personnels dans une interface auto-hébergée. Prometteur pour le local-first, mais à traiter comme une stack jeune et puissante."
 pubDate: 2026-06-05
+category: "local"
 tags: ["auto-hebergement", "agents", "mcp", "local-first"]
 author: "Labo IA Locale"
 draft: false

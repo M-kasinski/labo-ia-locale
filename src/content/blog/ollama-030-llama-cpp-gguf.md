@@ -2,6 +2,7 @@
 title: "Ollama 0.30 : llama.cpp revient au centre du jeu local"
 description: "La version 0.30 d’Ollama améliore la compatibilité GGUF, élargit le support matériel et accélère NVIDIA en s’appuyant plus franchement sur llama.cpp."
 pubDate: 2026-06-03
+category: "local"
 tags: ["ollama", "llama-cpp", "gguf", "inference", "apple-silicon", "nvidia", "local-ai"]
 author: "Labo IA Locale"
 draft: false

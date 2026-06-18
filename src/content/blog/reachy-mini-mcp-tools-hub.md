@@ -2,6 +2,7 @@
 title: "Reachy Mini branche MCP au Hub : des outils distants sans greffer du code au robot"
 description: "Hugging Face ajoute des outils MCP hébergés dans Spaces à l’app conversationnelle de Reachy Mini. Un petit changement qui clarifie beaucoup l’architecture des agents locaux."
 pubDate: 2026-06-07
+category: "local"
 tags: ["mcp", "agents", "auto-hebergement", "robotique"]
 author: "Labo IA Locale"
 draft: false

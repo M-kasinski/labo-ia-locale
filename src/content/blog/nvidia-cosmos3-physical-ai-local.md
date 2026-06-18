@@ -2,6 +2,7 @@
 title: "NVIDIA Cosmos 3 : l’omni-modèle ouvert qui rapproche la physical AI du local"
 description: "NVIDIA publie Cosmos 3 Nano et Super sur Hugging Face : un modèle ouvert pour raisonner, générer et agir sur des scènes physiques, avec support vLLM-Omni et données de post-training."
 pubDate: 2026-06-03
+category: "local"
 tags: ["nvidia", "cosmos", "physical-ai", "vllm", "multimodal", "robotique", "open-weight"]
 author: "Labo IA Locale"
 draft: false

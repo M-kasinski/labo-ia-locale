@@ -2,6 +2,7 @@
 title: "Petits modèles, vrai usage : LLM sur edge et laptops modestes"
 description: "Ce qui marche vraiment quand on veut faire tourner un LLM utile sans gros GPU : petits modèles récents, quantization agressive et matériel edge réaliste."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "edge", "minicpm", "jetson", "quantization"]
 author: "Labo IA Locale"
 draft: false

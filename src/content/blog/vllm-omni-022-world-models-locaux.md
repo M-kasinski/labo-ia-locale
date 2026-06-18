@@ -2,6 +2,7 @@
 title: "vLLM-Omni 0.22 : le serving local sort du simple chatbot"
 description: "La release vLLM-Omni 0.22 aligne le projet sur vLLM 0.22, ajoute le support jour zéro de Cosmos 3 et pousse le serving open-source vers l’omnimodal : texte, image, audio, vidéo et actions."
 pubDate: 2026-06-09
+category: "local"
 tags: ["vLLM", "vLLM-Omni", "multimodal", "world models", "self-hosting", "inference locale"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "Step 3.7 Flash : un VLM MoE open-weight taillé pour l’inférence locale musclée"
 description: "StepFun publie un modèle vision-langage MoE sous Apache 2.0, avec GGUF, llama.cpp, vLLM et 256K tokens de contexte. Intéressant, mais pas pour toutes les machines."
 pubDate: 2026-06-01
+category: "local"
 tags: ["open-weight", "vlm", "gguf", "llama.cpp", "vllm"]
 author: "Labo IA Locale"
 draft: false

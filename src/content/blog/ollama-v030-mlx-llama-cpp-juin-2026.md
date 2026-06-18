@@ -2,6 +2,7 @@
 title: "Ollama v0.30 : MLX mûrit, llama.cpp s'intègre, Gemma 4 QAT arrive"
 description: "La série v0.30 d'Ollama consolide le moteur MLX sur Apple Silicon et élargit le support matériel via llama.cpp — avec Gemma 4 QAT, Cohere2Moe et des gains de stabilité concrets."
 pubDate: 2026-06-18
+category: "local"
 tags: ["Ollama", "MLX", "llama.cpp", "Apple Silicon", "Gemma", "GGUF"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "Quantization des LLM en local : GGUF, GPTQ, AWQ, MLX — comprendre et choisir"
 description: "Comprendre GGUF, GPTQ, AWQ et MLX pour faire tourner un LLM local sur Mac Apple Silicon ou GPU grand public, sans exploser la mémoire."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "quantization", "gguf", "llama-cpp"]
 author: "Labo IA Locale"
 draft: false

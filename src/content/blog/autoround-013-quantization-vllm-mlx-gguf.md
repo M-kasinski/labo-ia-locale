@@ -2,6 +2,7 @@
 title: "AutoRound 0.13 : Intel rend la quantization low-bit plus portable pour vLLM, MLX et GGUF"
 description: "La version 0.13 d'AutoRound ajoute MTP, export MLX, model-free quantization et de nouveaux chemins W4A16/W8A16 : une brique discrète, mais utile pour faire tenir les modèles locaux."
 pubDate: 2026-06-04
+category: "local"
 tags: ["quantization", "vllm", "gguf", "mlx"]
 author: "Labo IA Locale"
 draft: false

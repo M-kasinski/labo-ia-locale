@@ -2,6 +2,7 @@
 title: "Gemma 4 QAT : Google réduit le ticket mémoire pour l’IA locale"
 description: "Google publie des checkpoints Gemma 4 entraînés pour la quantization : moins de VRAM, un format mobile, et une question centrale pour le local — quelle qualité reste-t-il vraiment ?"
 pubDate: 2026-06-06
+category: "local"
 tags: ["gemma", "quantization", "edge", "llm-local"]
 author: "Labo IA Locale"
 draft: false

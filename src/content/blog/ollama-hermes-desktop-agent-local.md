@@ -2,6 +2,7 @@
 title: "Ollama branche Hermes Desktop : l’agent local sort enfin du terminal"
 description: "Ollama documente une intégration directe avec Hermes Desktop : un lancement en une commande pour utiliser un agent Nous Research avec des modèles locaux ou cloud."
 pubDate: 2026-06-10
+category: "local"
 tags: ["Ollama", "Hermes", "agents", "local-first", "self-hosting"]
 author: "Labo IA Locale"
 draft: false

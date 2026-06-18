@@ -1,0 +1,198 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import Header from '../../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../../consts';
+
+const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const posts = allPosts.filter((post) => post.data.category === 'veille');
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<BaseHead title={`Veille IA — ${SITE_TITLE}`} description="Actualité de l'IA générale : gros modèles, architectures, enjeux industriels et réglementaires." />
+	</head>
+	<body>
+		<Header />
+		<main class="blog-index">
+			<header class="page-header">
+				<p class="eyebrow">Veille IA</p>
+				<h1>L'actualité de l'IA générale</h1>
+				<p class="lede">Gros modèles, nouvelles architectures (MoE, multimodaux, agents), scaling laws, course aux GPU, régulation et bouleversements industriels.</p>
+			</header>
+
+			<nav class="category-filters" aria-label="Filtres par catégorie">
+				<a href="/blog/" class="filter-btn">← Retour à tous</a>
+				<a href="/blog/local/" class="filter-btn badge-local">🔧 IA Locale</a>
+				<a href="/blog/veille/" class="filter-btn active badge-veille">📡 Veille IA ({posts.length})</a>
+			</nav>
+
+			<section aria-label="Liste des articles">
+				<ul class="post-grid">
+					{
+						posts.map((post) => (
+							<li class="post-card">
+								<a class="post-link" href={`/blog/${post.id}/`}>
+									<span class="post-date"><FormattedDate date={post.data.pubDate} /></span>
+									<h2>{post.data.title}</h2>
+									<p>{post.data.description}</p>
+								</a>
+								{post.data.tags.length > 0 && (
+									<ul class="tags" aria-label="Tags">
+										{post.data.tags.map((tag) => (
+											<li class="tag">{tag}</li>
+										))}
+									</ul>
+								)}
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.blog-index {
+		width: min(var(--container), calc(100% - 2rem));
+	}
+
+	.page-header {
+		max-width: 850px;
+		padding: clamp(2rem, 6vw, 5rem) 0 2rem;
+	}
+
+	.category-filters {
+		display: flex;
+		gap: 0.75rem;
+		margin-bottom: 2rem;
+		flex-wrap: wrap;
+	}
+
+	.filter-btn {
+		padding: 0.6rem 1.2rem;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		background: var(--surface);
+		color: var(--text);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.9rem;
+		transition: all 0.15s ease;
+	}
+
+	.filter-btn:hover {
+		border-color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+	}
+
+	.filter-btn.active {
+		background: #f2c078;
+		color: #1a1a2e;
+		border-color: #f2c078;
+	}
+
+	.badge-local {
+		border-color: rgba(142, 230, 212, 0.4);
+	}
+
+	.badge-veille {
+		border-color: rgba(242, 192, 120, 0.4);
+	}
+
+	.post-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.post-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 280px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: color-mix(in srgb, var(--surface) 86%, transparent);
+		box-shadow: 0 14px 35px rgba(31, 28, 21, 0.055);
+		padding: 1.25rem;
+		transition:
+			transform 0.18s ease,
+			border-color 0.18s ease,
+			background-color 0.18s ease;
+	}
+
+	.post-card:hover {
+		transform: translateY(-2px);
+		border-color: var(--accent);
+		background: var(--surface);
+	}
+
+	.post-card:first-child {
+		grid-column: 1 / -1;
+		min-height: 0;
+		padding: clamp(1.4rem, 4vw, 2.2rem);
+		background:
+			linear-gradient(135deg, rgba(242, 192, 120, 0.2), transparent 55%),
+			var(--surface);
+	}
+
+	.post-link {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.post-date {
+		display: inline-flex;
+		margin-bottom: 0.85rem;
+		color: var(--accent-dark);
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		font-weight: 760;
+	}
+
+	.post-link h2 {
+		font-size: clamp(1.45rem, 3vw, 2.35rem);
+		margin-bottom: 0.5rem;
+	}
+
+	.post-card:first-child h2 {
+		max-width: 860px;
+		font-size: clamp(2rem, 5vw, 3.4rem);
+	}
+
+	.post-link p {
+		max-width: 760px;
+		color: var(--text-muted);
+		font-size: 1rem;
+		line-height: 1.55;
+	}
+
+	.post-card .tags {
+		margin-top: 1.2rem;
+	}
+
+	@media (max-width: 760px) {
+		.blog-index {
+			width: min(100% - 1rem, var(--container));
+		}
+
+		.post-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.post-card {
+			min-height: 0;
+		}
+	}
+</style>

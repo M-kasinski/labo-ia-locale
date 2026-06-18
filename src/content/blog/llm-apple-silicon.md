@@ -2,6 +2,7 @@
 title: "Faire tourner un LLM sur Mac Apple Silicon : MLX, llama.cpp et Ollama"
 description: "Guide pratique pour lancer un LLM local sur Mac Apple Silicon avec MLX, llama.cpp et Ollama, selon ta RAM et ton usage."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "apple-silicon", "mlx", "ollama"]
 author: "Labo IA Locale"
 draft: false

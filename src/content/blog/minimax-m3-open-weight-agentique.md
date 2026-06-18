@@ -2,6 +2,7 @@
 title: "MiniMax M3 : l’open-weight agentique promet 1M de contexte, mais pas encore les preuves"
 description: "MiniMax annonce M3, un modèle open-weight orienté code, agents et multimodal avec 1M de contexte. Les chiffres sont solides sur le papier, mais les poids et validations indépendantes manquent encore."
 pubDate: 2026-06-02
+category: "local"
 tags: ["minimax", "open-weight", "agents", "coding", "multimodal", "long-context", "local-ai"]
 author: "Labo IA Locale"
 draft: false

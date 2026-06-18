@@ -2,6 +2,7 @@
 title: "Hugging Face optimise son CLI pour les agents : moins de tokens, moins de bricolage"
 description: "Le nouveau mode agent du CLI hf transforme le Hub en surface plus propre pour les agents locaux et auto-hébergés : sorties TSV, erreurs séparées, commandes non interactives et MCP en renfort."
 pubDate: 2026-06-06
+category: "local"
 tags: ["agents", "huggingface", "mcp", "auto-hébergement"]
 author: "Labo IA Locale"
 draft: false

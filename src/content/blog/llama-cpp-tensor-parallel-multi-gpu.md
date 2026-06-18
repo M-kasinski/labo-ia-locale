@@ -2,6 +2,7 @@
 title: "llama.cpp muscle le multi-GPU : le mode tensor devient le vrai sujet local"
 description: "Le support expérimental du tensor parallelism dans llama.cpp change la donne pour les homelabs multi-GPU, mais il reste à manier avec précaution."
 pubDate: 2026-06-05
+category: "local"
 tags: ["llama.cpp", "multi-GPU", "inference", "CUDA", "homelab"]
 author: "Labo IA Locale"
 draft: false

@@ -2,6 +2,7 @@
 title: "WWDC 2026 : Apple rapproche MLX, Core AI et modèles locaux dans une même pile"
 description: "Apple met à jour son histoire IA locale : MLX gagne Metal 4 et le scaling multi-Mac, Core AI devient le runtime OS pour modèles custom, et Foundation Models s’ouvre aux backends locaux."
 pubDate: 2026-06-09
+category: "local"
 tags: ["Apple", "MLX", "Core AI", "Apple Silicon", "WWDC", "IA locale"]
 author: "Labo IA Locale"
 draft: false

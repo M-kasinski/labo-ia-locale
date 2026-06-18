@@ -2,6 +2,7 @@
 title: "DiffusionGemma : Google teste le LLM à diffusion, et vLLM suit déjà"
 description: "Google publie DiffusionGemma, un modèle open-weight qui génère par blocs de 256 tokens au lieu du token par token classique. Prometteur pour la latence locale, mais pas sans compromis de qualité."
 pubDate: 2026-06-11
+category: "local"
 tags: ["Gemma", "vLLM", "diffusion", "open-weight", "inférence"]
 author: "Labo IA Locale"
 draft: false

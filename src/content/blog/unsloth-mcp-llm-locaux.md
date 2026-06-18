@@ -2,6 +2,7 @@
 title: "Unsloth branche MCP sur les LLM locaux : utile, mais à verrouiller"
 description: "Unsloth publie un guide pour connecter des serveurs MCP à des modèles locaux comme Qwen ou Gemma via Unsloth Studio et llama.cpp. Une avancée pratique pour les agents privés, avec quelques garde-fous indispensables."
 pubDate: 2026-06-02
+category: "local"
 tags: ["unsloth", "mcp", "agents", "llama.cpp", "qwen", "gemma", "self-hosting", "local-ai"]
 author: "Labo IA Locale"
 draft: false

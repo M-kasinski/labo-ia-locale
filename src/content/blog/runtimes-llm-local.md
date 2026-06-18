@@ -2,6 +2,7 @@
 title: "Ollama, LM Studio, llama.cpp, vLLM : quel runtime local choisir"
 description: "Quatre façons de servir un LLM chez soi ou sur un serveur: Ollama pour démarrer vite, LM Studio pour le bureau, llama.cpp pour le contrôle, vLLM pour la prod."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "ollama", "vllm", "llama-cpp"]
 author: "Labo IA Locale"
 draft: false

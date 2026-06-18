@@ -2,6 +2,7 @@
 title: "Vime : vLLM veut rendre le post-training RL moins artisanal"
 description: "Le projet Vime connecte slime, Megatron, vLLM et vllm-router pour industrialiser les rollouts de reinforcement learning sur modèles open-weight."
 pubDate: 2026-06-10
+category: "local"
 tags: ["vLLM", "RL", "post-training", "agents", "infrastructure"]
 author: "Labo IA Locale"
 draft: false

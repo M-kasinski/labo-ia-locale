@@ -2,6 +2,7 @@
 title: "Ollama 0.24 branche Codex App sur les modèles locaux"
 description: "Ollama 0.24 permet de lancer Codex App avec des modèles locaux ou auto-hébergés. Pratique pour le code agentique, mais pas magique."
 pubDate: 2026-05-30
+category: "local"
 tags: ["Ollama", "Codex", "coding", "agents locaux", "Apple Silicon"]
 author: "Labo IA Locale"
 draft: false

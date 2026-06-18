@@ -2,6 +2,7 @@
 title: "llama.cpp 2026 : llama.app, MTP et WebGPU — le projet se réinvente"
 description: "llama.cpp lance llama.app, son nouveau site officiel avec un CLI unifié. MTP pour Qwen3.6, WebGPU en production, et une intégration agents. Tour complet."
 pubDate: 2026-05-30
+category: "local"
 tags: ["llama.cpp", "llama.app", "MTP", "WebGPU", "Qwen", "infrastructure locale"]
 author: "Labo IA Locale"
 draft: false

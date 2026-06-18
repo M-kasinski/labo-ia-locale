@@ -2,6 +2,7 @@
 title: "LFM2.5-VL-Extract : Liquid AI pousse l’extraction JSON vers le très petit VLM local"
 description: "Liquid AI publie deux VLM open-weight spécialisés dans l’extraction structurée depuis images. Le sujet n’est pas le chat multimodal, mais le JSON fiable sur machine modeste."
 pubDate: 2026-06-08
+category: "local"
 tags: ["Liquid AI", "VLM", "JSON", "edge AI", "open-weight", "Hugging Face"]
 author: "Labo IA Locale"
 draft: false

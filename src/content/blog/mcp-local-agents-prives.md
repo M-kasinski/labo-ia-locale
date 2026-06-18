@@ -2,6 +2,7 @@
 title: "MCP en local : des agents privés et un tool-use maîtrisé"
 description: "Comment combiner MCP, modèles locaux et serveurs auto-hébergés pour garder la main sur les outils, les données et l’audit."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "mcp", "agents", "tool-use", "self-hosting"]
 author: "Labo IA Locale"
 draft: false

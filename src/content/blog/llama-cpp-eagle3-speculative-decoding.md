@@ -2,6 +2,7 @@
 title: "llama.cpp intègre EAGLE-3 : le speculative decoding qui accélère vraiment en local"
 description: "Le PR #18039 a été fusionné le 12 juin : EAGLE-3 arrive dans llama.cpp avec des gains de 2 à 3×. Benchmarks, modèles supportés et limites."
 pubDate: 2026-06-18
+category: "local"
 tags: ["llama.cpp", "EAGLE-3", "speculative decoding", "performance", "open-weight"]
 author: "Labo IA Locale"
 draft: false

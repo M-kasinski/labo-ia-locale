@@ -2,6 +2,7 @@
 title: "Mellum2 : JetBrains publie un MoE 12B pensé pour les sous-agents rapides"
 description: "JetBrains ouvre Mellum2, un modèle MoE 12B avec 2,5B paramètres actifs, spécialisé code, tool use et workflows agentiques. Intéressant pour l’IA privée, mais pas encore un modèle laptop-first."
 pubDate: 2026-06-01
+category: "local"
 tags: ["mellum2", "jetbrains", "open-weight", "moe", "agents", "local-ai"]
 author: "Labo IA Locale"
 draft: false

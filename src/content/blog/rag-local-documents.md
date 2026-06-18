@@ -2,6 +2,7 @@
 title: "RAG local : faire parler tes documents avec un LLM hors-ligne"
 description: "Comprendre et monter un RAG local pour interroger ses fichiers avec un LLM, sans API et sans fuite de données."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "rag", "embeddings", "ollama"]
 author: "Labo IA Locale"
 draft: false

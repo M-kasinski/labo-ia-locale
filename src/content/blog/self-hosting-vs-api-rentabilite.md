@@ -2,6 +2,7 @@
 title: "Self-hosting ou API : le vrai calcul de rentabilité"
 description: "Une méthode simple pour comparer achat GPU, électricité, temps humain et facture API avant de décider."
 pubDate: 2026-05-29
+category: "local"
 tags: ["ia-locale", "self-hosting", "couts", "decision"]
 author: "Labo IA Locale"
 draft: false

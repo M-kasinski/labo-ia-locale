@@ -2,6 +2,7 @@
 title: "vLLM 0.22 : DeepSeek V4, MTP et KV cache multi-tier pour les serveurs locaux musclés"
 description: "La release v0.22.0 de vLLM stabilise DeepSeek V4, ajoute du MTP spéculatif et pousse l’offloading KV cache au-delà de la RAM CPU. Un signal fort pour les stations GPU locales."
 pubDate: 2026-06-02
+category: "local"
 tags: ["vllm", "deepseek", "inference", "kv-cache", "speculative-decoding", "gpu", "local-ai"]
 author: "Labo IA Locale"
 draft: false

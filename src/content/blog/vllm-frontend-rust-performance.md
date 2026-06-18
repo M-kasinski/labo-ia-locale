@@ -2,6 +2,7 @@
 title: "vLLM passe en Rust : le frontend Python ne survivra pas au scale"
 description: "vLLM intègre un frontend Rust expérimental qui bat Python de 10% en throughput et 3.3x en latence TTFT. Analyse technique de la RFC."
 pubDate: 2026-05-30
+category: "local"
 tags: ["vLLM", "Rust", "serveur local", "performance", "infrastructure"]
 author: "Labo IA Locale"
 draft: false

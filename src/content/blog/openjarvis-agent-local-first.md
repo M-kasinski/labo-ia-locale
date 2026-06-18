@@ -2,6 +2,7 @@
 title: "OpenJarvis : Stanford veut standardiser l’agent IA local-first"
 description: "OpenJarvis 1.0 arrive avec Ollama, une architecture hardware-aware et des métriques d'efficacité. Une piste sérieuse pour sortir les agents personnels du tout-cloud."
 pubDate: 2026-05-30
+category: "local"
 tags: ["OpenJarvis", "agents locaux", "Ollama", "auto-hébergement", "Stanford", "RAG"]
 author: "Labo IA Locale"
 draft: false

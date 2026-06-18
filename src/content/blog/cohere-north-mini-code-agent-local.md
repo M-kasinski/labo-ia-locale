@@ -2,6 +2,7 @@
 title: "North Mini Code : Cohere ouvre un MoE de code pensé pour les agents locaux"
 description: "Cohere publie North Mini Code, un modèle open-weight Apache 2.0 de 30B paramètres dont 3B actifs, optimisé pour le code agentique, les tâches terminal et les déploiements souverains."
 pubDate: 2026-06-10
+category: "local"
 tags: ["Cohere", "open-weight", "code", "agents", "MoE", "self-hosting"]
 author: "Labo IA Locale"
 draft: false
