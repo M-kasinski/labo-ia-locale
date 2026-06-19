@@ -1,7 +1,7 @@
 ---
 title: "Claude Fable 5 : le shutdown imposé par Washington et la guerre des jailbreaks"
 description: "La Maison Blanche a forcé la suspension de Claude Fable 5 le 12 juin. Six jours après, les négociations s'enlisent entre Anthropic et le gouvernement américain."
-pubDate: 2026-06-18
+pubDate: 2026-06-19
 tags: ["Anthropic", "Claude Fable 5", "export controls", "jailbreak", "géopolitique IA"]
 category: "veille"
 author: "Labo IA"

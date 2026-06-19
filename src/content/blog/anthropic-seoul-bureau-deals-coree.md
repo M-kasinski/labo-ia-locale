@@ -1,7 +1,7 @@
 ---
 title: "Anthropic ouvre son bureau de Séoul et signe des contrats massifs avec les géants coréens"
 description: "NAVER, Samsung, LG, Hanwha — Anthropic déploie Claude Code à grande échelle en Corée du Sud lors de l'ouverture de son troisième bureau APAC."
-pubDate: 2026-06-18
+pubDate: 2026-06-19
 tags: ["Anthropic", "Claude Code", "Corée du Sud", "APAC", "enterprise AI"]
 category: "veille"
 author: "Labo IA"

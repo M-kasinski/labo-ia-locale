@@ -1,7 +1,7 @@
 ---
 title: "Grok Imagine Video 1.5 en GA : xAI prend la tête de la génération vidéo IA"
 description: "xAI sort Grok Imagine Video 1.5 en version générale : #1 sur l'Arena image-to-video, audio natif synchronisé, et un prix 7x inférieur à Sora 2."
-pubDate: 2026-06-17
+pubDate: 2026-06-19
 tags: ["xAI", "Grok", "génération vidéo", "image-to-video", "Aurora"]
 category: "veille"
 author: "Labo IA"
