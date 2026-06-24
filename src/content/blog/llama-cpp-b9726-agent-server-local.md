@@ -6,7 +6,6 @@ tags: ["llama-cpp", "agents locaux", "MCP", "serveur", "GGUF", "outils intégré
 category: "local"
 author: "Labo IA"
 draft: false
-featured: true
 sources:
   - label: "llama.cpp GitHub Releases — b9726"
     url: "https://github.com/ggml-org/llama.cpp/releases/tag/b9726"
@@ -46,7 +45,7 @@ Avec `--agent`, le serveur expose directement ces 8 outils :
 | `apply_diff` | Application de patches unifiés | Revisions structurées |
 | `get_datetime` | Accès à la date/heure système | Contexte temporel pour l'agent |
 
-Ces outils sont marqués comme **expérimentaux** et désactivés par défaut. Google avertit explicitement : « ne pas activer dans des environnements non fiables ». L'exécution de commandes shell (`exec_shell_command`) est évidemment sensible — le modèle peut exécuter n'importe quelle commande sur ta machine.
+Ces outils sont marqués comme **expérimentaux** et désactivés par défaut. La [documentation du serveur llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) insiste : ne pas activer dans des environnements non fiables. L'exécution de commandes shell (`exec_shell_command`) est évidemment sensible — le modèle peut exécuter n'importe quelle commande sur ta machine.
 
 ### Proxy MCP CORS intégré
 
