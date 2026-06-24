@@ -12,37 +12,18 @@ const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
 		b.id.localeCompare(a.id),
 );
 const radarPosts = allPosts.filter((post) => post.data.tags.includes('radar-ia')).slice(0, 3);
-const COLUMN_SIZE = 4;
+const COLUMN_SIZE = 3;
 
-const featured =
-	allPosts.find((post) => post.data.featured === true) ?? allPosts[0];
+const leadLocal = allPosts.find((post) => post.data.category === 'local');
+const leadVeille = allPosts.find((post) => post.data.category === 'veille');
 
 const secondaryLocal = allPosts
-	.filter(
-		(post) =>
-			post.data.category === 'local' &&
-			post.id !== (featured.data.category === 'local' ? featured.id : ''),
-	)
+	.filter((post) => post.data.category === 'local' && post.id !== leadLocal?.id)
 	.slice(0, COLUMN_SIZE);
 
 const secondaryVeille = allPosts
-	.filter(
-		(post) =>
-			post.data.category === 'veille' &&
-			post.id !== (featured.data.category === 'veille' ? featured.id : ''),
-	)
+	.filter((post) => post.data.category === 'veille' && post.id !== leadVeille?.id)
 	.slice(0, COLUMN_SIZE);
-
-const featuredBadge =
-	featured.data.category === 'veille'
-		? 'badge-veille'
-		: featured.data.category === 'radar'
-			? 'badge-veille'
-			: 'badge-local';
-const featuredBadgeLabel =
-	featured.data.category === 'veille' || featured.data.category === 'radar'
-		? 'Veille IA'
-		: 'IA Locale';
 ---
 
 <!doctype html>
@@ -126,16 +107,28 @@ sources: required</code></pre>
 					<h2 id="latest-title">Ce qui vient de sortir</h2>
 				</div>
 
-				{featured && (
-					<article class="featured-card">
-						<a href={`/blog/${featured.id}/`}>
-							<span class={`category-badge ${featuredBadge}`}>{featuredBadgeLabel}</span>
-							<span><FormattedDate date={featured.data.pubDate} /></span>
-							<h3>{featured.data.title}</h3>
-							<p>{featured.data.description}</p>
-						</a>
-					</article>
-				)}
+				<div class="latest-leads">
+					{leadLocal && (
+						<article class="featured-card featured-local">
+							<a href={`/blog/${leadLocal.id}/`}>
+								<span class="category-badge badge-local">IA Locale</span>
+								<span><FormattedDate date={leadLocal.data.pubDate} /></span>
+								<h3>{leadLocal.data.title}</h3>
+								<p>{leadLocal.data.description}</p>
+							</a>
+						</article>
+					)}
+					{leadVeille && (
+						<article class="featured-card featured-veille">
+							<a href={`/blog/${leadVeille.id}/`}>
+								<span class="category-badge badge-veille">Veille IA</span>
+								<span><FormattedDate date={leadVeille.data.pubDate} /></span>
+								<h3>{leadVeille.data.title}</h3>
+								<p>{leadVeille.data.description}</p>
+							</a>
+						</article>
+					)}
+				</div>
 
 				<div class="two-columns">
 					<div class="column local-column">
@@ -345,11 +338,29 @@ sources: required</code></pre>
 	.featured-card {
 		border: 1px solid var(--border);
 		border-radius: var(--radius-lg);
-		padding: clamp(1.4rem, 4vw, 2rem);
+		padding: clamp(1.2rem, 3vw, 1.6rem);
+		background: var(--surface);
+		height: 100%;
+	}
+
+	.latest-leads {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.25rem;
+		margin-bottom: 2rem;
+		align-items: stretch;
+	}
+
+	.featured-local {
 		background:
 			linear-gradient(135deg, rgba(216, 243, 238, 0.72), transparent 60%),
 			var(--surface);
-		margin-bottom: 2rem;
+	}
+
+	.featured-veille {
+		background:
+			linear-gradient(135deg, rgba(242, 192, 120, 0.28), transparent 60%),
+			var(--surface);
 	}
 
 	.featured-card a {
@@ -389,8 +400,9 @@ sources: required</code></pre>
 	}
 
 	.featured-card h3 {
-		font-size: clamp(1.7rem, 4vw, 2.7rem);
+		font-size: clamp(1.25rem, 2.5vw, 1.85rem);
 		margin-top: 0.5rem;
+		line-height: 1.2;
 	}
 
 	.featured-card p {
@@ -474,7 +486,8 @@ sources: required</code></pre>
 
 	@media (max-width: 860px) {
 		.hero,
-		.two-columns {
+		.two-columns,
+		.latest-leads {
 			grid-template-columns: 1fr;
 		}
 
