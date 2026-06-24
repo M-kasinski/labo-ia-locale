@@ -21,6 +21,8 @@ const blog = defineCollection({
 			author: z.string().default('Labo IA Locale'),
 			// draft: true = pas encore vérifié → exclu du build de prod
 			draft: z.boolean().default(false),
+			// featured: true = carte « à la une » sur l'accueil (un seul à la fois)
+			featured: z.boolean().optional(),
 			// Sources vérifiées (URL réelles) — traçabilité du garde-fou
 			sources: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
 		}),

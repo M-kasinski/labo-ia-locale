@@ -9,6 +9,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+const featuredId = allPosts.find((post) => post.data.featured === true)?.id;
+const orderedPosts = featuredId
+	? [
+			...allPosts.filter((post) => post.id === featuredId),
+			...allPosts.filter((post) => post.id !== featuredId),
+		]
+	: allPosts;
 ---
 
 <!doctype html>
@@ -34,7 +41,7 @@ const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
 			<section aria-label="Liste des articles">
 				<ul class="post-grid">
 					{
-						allPosts.map((post) => (
+						orderedPosts.map((post) => (
 							<li class="post-card">
 								<a class="post-link" href={`/blog/${post.id}/`}>
 									<div class="post-header">

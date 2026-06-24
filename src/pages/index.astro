@@ -13,8 +13,10 @@ const radarPosts = allPosts.filter((post) => post.data.tags.includes('radar-ia')
 const localPosts = allPosts.filter((post) => post.data.category === 'local').slice(0, 5);
 const veillePosts = allPosts.filter((post) => post.data.category === 'veille').slice(0, 5);
 
-const featured = localPosts[0];
-const secondaryLocal = localPosts.slice(1);
+const featured =
+	allPosts.find((post) => post.data.featured === true && post.data.category === 'local') ??
+	localPosts[0];
+const secondaryLocal = localPosts.filter((post) => post.id !== featured?.id).slice(0, 4);
 const secondaryVeille = veillePosts.slice(1);
 ---
 

@@ -6,6 +6,7 @@ tags: ["llama-cpp", "agents locaux", "MCP", "serveur", "GGUF", "outils intégré
 category: "local"
 author: "Labo IA"
 draft: false
+featured: true
 sources:
   - label: "llama.cpp GitHub Releases — b9726"
     url: "https://github.com/ggml-org/llama.cpp/releases/tag/b9726"

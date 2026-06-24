@@ -5,7 +5,7 @@ pubDate: 2026-06-24
 tags: ["llama-cpp", "Vulkan", "GGUF", "AMD", "GPU local", "build"]
 category: "local"
 author: "Labo IA"
-draft: false
+draft: true
 sources:
   - label: "GitHub Release b9780"
     url: "https://github.com/ggml-org/llama.cpp/releases/tag/b9780"
