@@ -7,17 +7,42 @@ import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const allPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a, b) =>
+		b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
+		b.id.localeCompare(a.id),
 );
 const radarPosts = allPosts.filter((post) => post.data.tags.includes('radar-ia')).slice(0, 3);
-const localPosts = allPosts.filter((post) => post.data.category === 'local').slice(0, 5);
-const veillePosts = allPosts.filter((post) => post.data.category === 'veille').slice(0, 5);
+const COLUMN_SIZE = 4;
 
 const featured =
-	allPosts.find((post) => post.data.featured === true && post.data.category === 'local') ??
-	localPosts[0];
-const secondaryLocal = localPosts.filter((post) => post.id !== featured?.id).slice(0, 4);
-const secondaryVeille = veillePosts.slice(1);
+	allPosts.find((post) => post.data.featured === true) ?? allPosts[0];
+
+const secondaryLocal = allPosts
+	.filter(
+		(post) =>
+			post.data.category === 'local' &&
+			post.id !== (featured.data.category === 'local' ? featured.id : ''),
+	)
+	.slice(0, COLUMN_SIZE);
+
+const secondaryVeille = allPosts
+	.filter(
+		(post) =>
+			post.data.category === 'veille' &&
+			post.id !== (featured.data.category === 'veille' ? featured.id : ''),
+	)
+	.slice(0, COLUMN_SIZE);
+
+const featuredBadge =
+	featured.data.category === 'veille'
+		? 'badge-veille'
+		: featured.data.category === 'radar'
+			? 'badge-veille'
+			: 'badge-local';
+const featuredBadgeLabel =
+	featured.data.category === 'veille' || featured.data.category === 'radar'
+		? 'Veille IA'
+		: 'IA Locale';
 ---
 
 <!doctype html>
@@ -104,7 +129,7 @@ sources: required</code></pre>
 				{featured && (
 					<article class="featured-card">
 						<a href={`/blog/${featured.id}/`}>
-							<span class="category-badge badge-local">IA Locale</span>
+							<span class={`category-badge ${featuredBadge}`}>{featuredBadgeLabel}</span>
 							<span><FormattedDate date={featured.data.pubDate} /></span>
 							<h3>{featured.data.title}</h3>
 							<p>{featured.data.description}</p>
@@ -378,6 +403,13 @@ sources: required</code></pre>
 		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		margin-top: 1.5rem;
+		align-items: start;
+	}
+
+	.column {
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
 	}
 
 	.column-title {
