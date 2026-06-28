@@ -11,8 +11,8 @@ sources:
     url: "https://ai.google.dev/gemini-api/docs/changelog"
   - label: "Gemini API — Computer Use"
     url: "https://ai.google.dev/gemini-api/docs/computer-use"
-  - label: "Labo — Gemini 3.5 Pro et glissement calendrier"
-    url: "/blog/gemini-35-pro-glissement-juillet-2026"
+  - label: "Business Insider — Gemini 3.5 Pro reporté (juin 2026)"
+    url: "https://www.businessinsider.com/google-3-5-pro-july-release-tokens-ai-agents-model-2026-6"
 ---
 
 ## Le signal
