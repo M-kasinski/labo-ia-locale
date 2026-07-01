@@ -29,6 +29,7 @@ AUTOMATION_DIR = ROOT / "automation"
 SOURCES_PATH = AUTOMATION_DIR / "sources.json"
 STATE_PATH = AUTOMATION_DIR / "source_state.json"
 LATEST_PATH = AUTOMATION_DIR / "latest_signals.json"
+EDITORIAL_PREVIEW_PATH = AUTOMATION_DIR / "editorial_preview.md"
 RUNS_DIR = AUTOMATION_DIR / "runs"
 USER_AGENT = "LaboIA-SourceRadar/0.1 (+https://labo-ia-locale.vercel.app)"
 TIMEOUT_SECONDS = 20
@@ -472,7 +473,113 @@ def build_shortlists(signals: list[Signal], *, max_articles: int = 5, max_radar:
     }
 
 
-def collect_all(*, update_state: bool) -> dict[str, Any]:
+def markdown_escape(value: Any) -> str:
+    text = str(value or "").strip()
+    text = text.replace("|", "\\|")
+    return text
+
+
+def recommended_action(signal: dict[str, Any]) -> str:
+    decision = signal.get("editorial_decision")
+    if decision == "article_candidate":
+        return "verify_then_publish"
+    if decision == "radar_candidate":
+        return "verify_for_radar"
+    return "skip"
+
+
+def render_editorial_preview(payload: dict[str, Any]) -> str:
+    generated_at = payload.get("generated_at", "")
+    summary = payload.get("summary", {})
+    policy = payload.get("policy", {})
+    article_candidates = payload.get("top_article_candidates", [])
+    radar_candidates = payload.get("top_radar_candidates", [])
+
+    lines: list[str] = [
+        "# Labo IA — Editorial Preview",
+        "",
+        f"Generated at: `{generated_at}`",
+        "",
+        "## Summary",
+        "",
+        f"- Total signals: **{summary.get('total_signals', 0)}**",
+        f"- Article candidates: **{summary.get('article_candidates', 0)}**",
+        f"- Radar candidates: **{summary.get('radar_candidates', 0)}**",
+        f"- Ignored: **{summary.get('ignored', 0)}**",
+        f"- Errors: **{summary.get('errors', 0)}**",
+        f"- X/Twitter policy: **{policy.get('x_search', 'unknown')}**",
+        "",
+        "## Recommended next actions",
+        "",
+        "1. Verify each `verify_then_publish` candidate against its source page before drafting.",
+        "2. Use `verify_for_radar` items as short Radar briefs only if the source confirms a concrete recent change.",
+        "3. Keep `skip` items out of the cron output; they are preserved only for auditability in JSON.",
+        "",
+        "## Article candidates",
+        "",
+    ]
+
+    if not article_candidates:
+        lines.append("No article candidate passed the current editorial bar.")
+    else:
+        lines.extend([
+            "| Action | Score | Category | Source | Signal | Verification | URL |",
+            "|---|---:|---|---|---|---|---|",
+        ])
+        for signal in article_candidates:
+            verification = "source + freshness + non-duplicate"
+            lines.append(
+                "| "
+                + " | ".join([
+                    markdown_escape(recommended_action(signal)),
+                    markdown_escape(signal.get("score")),
+                    markdown_escape(signal.get("category")),
+                    markdown_escape(signal.get("source")),
+                    markdown_escape(signal.get("title")),
+                    markdown_escape(verification),
+                    markdown_escape(signal.get("url")),
+                ])
+                + " |"
+            )
+
+    lines.extend(["", "## Radar candidates", ""])
+    if not radar_candidates:
+        lines.append("No Radar candidate passed the current editorial bar.")
+    else:
+        lines.extend([
+            "| Action | Score | Category | Source | Signal | Why not article yet | URL |",
+            "|---|---:|---|---|---|---|---|",
+        ])
+        for signal in radar_candidates:
+            lines.append(
+                "| "
+                + " | ".join([
+                    markdown_escape(recommended_action(signal)),
+                    markdown_escape(signal.get("score")),
+                    markdown_escape(signal.get("category")),
+                    markdown_escape(signal.get("source")),
+                    markdown_escape(signal.get("title")),
+                    markdown_escape(signal.get("editorial_reason")),
+                    markdown_escape(signal.get("url")),
+                ])
+                + " |"
+            )
+
+    if payload.get("errors"):
+        lines.extend(["", "## Source errors", ""])
+        for error in payload["errors"]:
+            lines.append(f"- **{markdown_escape(error.get('source'))}**: {markdown_escape(error.get('error'))}")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
+def write_editorial_preview(payload: dict[str, Any], path: Path = EDITORIAL_PREVIEW_PATH) -> Path:
+    path.write_text(render_editorial_preview(payload), encoding="utf-8")
+    return path
+
+
+def collect_all(*, update_state: bool, write_preview: bool = False) -> dict[str, Any]:
     sources = load_sources()
     state = load_state()
     errors: list[dict[str, str]] = []
@@ -548,6 +655,9 @@ def collect_all(*, update_state: bool) -> dict[str, Any]:
             })
         save_state(state)
 
+    if write_preview:
+        write_editorial_preview(payload)
+
     return payload
 
 
@@ -584,14 +694,17 @@ def check_sources() -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Collect AI source signals for Labo IA")
     parser.add_argument("--check-sources", action="store_true", help="Fetch each configured source once and print OK/FAIL")
+    parser.add_argument("--dry-run-editorial", action="store_true", help="Generate automation/editorial_preview.md for human review")
     parser.add_argument("--update-state", action="store_true", help="Mark current URLs as seen after collection")
     args = parser.parse_args()
 
     if args.check_sources:
         return check_sources()
 
-    payload = collect_all(update_state=args.update_state)
+    payload = collect_all(update_state=args.update_state, write_preview=args.dry_run_editorial)
     print(json.dumps(payload["summary"], indent=2, ensure_ascii=False))
+    if args.dry_run_editorial:
+        print(f"Editorial preview: {EDITORIAL_PREVIEW_PATH}")
     if payload.get("errors"):
         print("Errors:", json.dumps(payload["errors"], indent=2, ensure_ascii=False), file=sys.stderr)
     return 0

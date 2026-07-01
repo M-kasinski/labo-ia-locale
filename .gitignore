@@ -12,6 +12,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Python cache
+__pycache__/
+*.pyc
+
 
 # environment variables
 .env
@@ -27,5 +31,6 @@ pnpm-debug.log*
 
 # Labo IA source radar runtime state
 automation/latest_signals.json
+automation/editorial_preview.md
 automation/source_state.json
 automation/runs/

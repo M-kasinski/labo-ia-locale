@@ -94,6 +94,31 @@ class SourceRadarEditorialReviewTests(unittest.TestCase):
         self.assertTrue(all(item["editorial_decision"] == "article_candidate" for item in shortlists["top_article_candidates"]))
         self.assertTrue(all(item["editorial_decision"] == "radar_candidate" for item in shortlists["top_radar_candidates"]))
 
+    def test_render_editorial_preview_contains_actions_and_source_links(self):
+        signal = make_signal(
+            title="MLX release improves Apple Silicon inference",
+            url="https://github.com/ml-explore/mlx/releases/tag/v1.2.3",
+            source="MLX",
+            score=90,
+        )
+        reviewed = collector.apply_editorial_review([signal], existing_topics=set())
+        shortlists = collector.build_shortlists(reviewed, max_articles=5, max_radar=10)
+        payload = {
+            "generated_at": "2026-07-01T12:00:00+00:00",
+            "summary": {"total_signals": 1, "article_candidates": 1, "radar_candidates": 0, "ignored": 0, "errors": 0},
+            "policy": {"x_search": "disabled / not used"},
+            **shortlists,
+            "errors": [],
+        }
+
+        markdown = collector.render_editorial_preview(payload)
+
+        self.assertIn("# Labo IA — Editorial Preview", markdown)
+        self.assertIn("verify_then_publish", markdown)
+        self.assertIn("MLX release improves Apple Silicon inference", markdown)
+        self.assertIn("https://github.com/ml-explore/mlx/releases/tag/v1.2.3", markdown)
+        self.assertIn("X/Twitter policy: **disabled / not used**", markdown)
+
 
 if __name__ == "__main__":
     unittest.main()

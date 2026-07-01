@@ -33,9 +33,18 @@ Générer le radar et marquer les URLs comme vues :
 python3 automation/collect_ai_sources.py --update-state
 ```
 
+Générer un rapport de prévisualisation éditoriale humainement lisible :
+
+```bash
+python3 automation/collect_ai_sources.py --dry-run-editorial
+```
+
+Ce mode écrit `automation/editorial_preview.md` en plus de `latest_signals.json`.
+
 ## Sorties runtime
 
 - `latest_signals.json` : shortlist courante pour l'agent éditorial
+- `editorial_preview.md` : rapport Markdown de dry-run pour revue humaine
 - `top_article_candidates` : maximum 5 signaux assez solides pour article après revue éditoriale
 - `top_radar_candidates` : maximum 10 signaux intéressants mais à vérifier ou trop faibles pour article long
 - `source_state.json` : URLs déjà vues
