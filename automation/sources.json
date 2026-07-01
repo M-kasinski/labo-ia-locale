@@ -1,0 +1,79 @@
+{
+  "rss": [
+    {
+      "name": "OpenAI News",
+      "url": "https://openai.com/news/rss.xml",
+      "category": "veille",
+      "authority": 95,
+      "tags": ["frontier", "product", "research"]
+    },
+    {
+      "name": "Hugging Face Blog",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "category": "local",
+      "authority": 90,
+      "tags": ["open-source", "models", "inference"]
+    }
+  ],
+  "github_releases": [
+    {
+      "name": "llama.cpp",
+      "url": "https://github.com/ggml-org/llama.cpp/releases.atom",
+      "category": "local",
+      "authority": 95,
+      "tags": ["local-inference", "gguf", "runtime"]
+    },
+    {
+      "name": "Ollama",
+      "url": "https://github.com/ollama/ollama/releases.atom",
+      "category": "local",
+      "authority": 90,
+      "tags": ["local-inference", "runtime", "desktop"]
+    },
+    {
+      "name": "vLLM",
+      "url": "https://github.com/vllm-project/vllm/releases.atom",
+      "category": "local",
+      "authority": 90,
+      "tags": ["serving", "inference", "gpu"]
+    },
+    {
+      "name": "MLX",
+      "url": "https://github.com/ml-explore/mlx/releases.atom",
+      "category": "local",
+      "authority": 90,
+      "tags": ["apple-silicon", "local-inference", "mlx"]
+    },
+    {
+      "name": "MLX LM",
+      "url": "https://github.com/ml-explore/mlx-lm/releases.atom",
+      "category": "local",
+      "authority": 90,
+      "tags": ["apple-silicon", "local-inference", "mlx"]
+    }
+  ],
+  "huggingface": {
+    "text_generation_created": "https://huggingface.co/api/models?pipeline_tag=text-generation&sort=createdAt&direction=-1&limit=50",
+    "text_generation_modified": "https://huggingface.co/api/models?pipeline_tag=text-generation&sort=lastModified&direction=-1&limit=50",
+    "orgs": [
+      "Qwen",
+      "deepseek-ai",
+      "mistralai",
+      "meta-llama",
+      "NousResearch",
+      "google",
+      "nvidia",
+      "microsoft",
+      "THUDM"
+    ]
+  },
+  "arxiv": {
+    "categories": ["cs.CL", "cs.LG", "cs.AI", "cs.CV"],
+    "max_results_per_category": 10
+  },
+  "scoring": {
+    "article_threshold": 75,
+    "radar_threshold": 50,
+    "max_age_days": 3
+  }
+}
