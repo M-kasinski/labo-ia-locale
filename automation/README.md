@@ -12,6 +12,7 @@ Sources MVP :
 - GitHub releases Atom : llama.cpp, Ollama, vLLM, MLX, MLX LM
 - Hugging Face Hub API : modèles `text-generation` créés/modifiés récemment
 - arXiv API : catégories `cs.CL`, `cs.LG`, `cs.AI`, `cs.CV`
+- Hacker News Algolia : signaux communautaires récents (`openai`, `anthropic`, `claude`, `claude code`, `codex`, `open-weight`, `local LLM`, runtimes)
 
 ## Commandes
 

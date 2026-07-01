@@ -119,6 +119,55 @@ class SourceRadarEditorialReviewTests(unittest.TestCase):
         self.assertIn("https://github.com/ml-explore/mlx/releases/tag/v1.2.3", markdown)
         self.assertIn("X/Twitter policy: **disabled / not used**", markdown)
 
+    def test_collect_hn_algolia_turns_recent_story_into_low_confidence_radar_signal(self):
+        sources = {"hacker_news": {"queries": ["openai"], "hits_per_query": 5, "min_points": 2}}
+        state = {"signals": {}, "seen_urls": {}}
+        def fake_json(url):
+            self.assertIn("hn.algolia.com/api/v1/search_by_date", url)
+            return {"hits": [{
+                "title": "OpenAI Codex CLI adds agent workflow",
+                "url": "https://news.ycombinator.com/item?id=123",
+                "objectID": "123",
+                "created_at": "2026-07-01T11:00:00Z",
+                "points": 42,
+                "num_comments": 9,
+            }]}
+
+        original_fetch_json = collector.fetch_json
+        try:
+            collector.fetch_json = fake_json
+            signals = collector.collect_hacker_news(sources, state)
+        finally:
+            collector.fetch_json = original_fetch_json
+
+        self.assertEqual(len(signals), 1)
+        self.assertEqual(signals[0].source, "Hacker News Algolia")
+        self.assertEqual(signals[0].category, "radar")
+        self.assertTrue(signals[0].needs_web_verification)
+        self.assertLess(signals[0].score, 75)
+
+    def test_update_source_state_tracks_needs_review_seen_and_preserves_published(self):
+        candidate = make_signal(title="OpenAI Codex agent workflow", url="https://example.com/codex", score=90)
+        ignored = make_signal(title="b9856", url="https://example.com/b9856", score=49, editorial_decision="ignore")
+        reviewed = collector.apply_editorial_review([candidate, ignored], existing_topics=set())
+        state = {"signals": {"https://example.com/codex": {"status": "published", "title": "old"}}, "seen_urls": {}}
+
+        collector.update_source_state(state, reviewed, generated_at="2026-07-01T12:00:00+00:00")
+
+        self.assertEqual(state["signals"]["https://example.com/codex"]["status"], "published")
+        self.assertEqual(state["signals"]["https://example.com/b9856"]["status"], "seen")
+        self.assertIn("https://example.com/codex", state["seen_urls"])
+
+    def test_dedupe_prefers_best_signal_by_url_and_normalized_title(self):
+        first = make_signal(title="OpenAI Codex agent workflow", url="https://example.com/a", score=50)
+        duplicate_title = make_signal(title="OpenAI: Codex agent workflow!", url="https://example.com/b", score=80)
+        duplicate_url = make_signal(title="Different title", url="https://example.com/a", score=90)
+
+        deduped = collector.dedupe([first, duplicate_title, duplicate_url])
+
+        self.assertEqual(len(deduped), 1)
+        self.assertEqual(deduped[0].score, 90)
+
 
 if __name__ == "__main__":
     unittest.main()

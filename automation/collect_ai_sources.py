@@ -118,11 +118,14 @@ def load_sources() -> dict[str, Any]:
 
 def load_state() -> dict[str, Any]:
     if not STATE_PATH.exists():
-        return {"seen_urls": {}}
+        return {"seen_urls": {}, "signals": {}}
     try:
-        return json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        state.setdefault("seen_urls", {})
+        state.setdefault("signals", {})
+        return state
     except Exception:
-        return {"seen_urls": {}}
+        return {"seen_urls": {}, "signals": {}}
 
 
 def save_state(state: dict[str, Any]) -> None:
@@ -131,6 +134,11 @@ def save_state(state: dict[str, Any]) -> None:
 
 def normalize_url(url: str) -> str:
     return url.strip()
+
+
+def normalize_title(title: str) -> str:
+    text = re.sub(r"[^a-z0-9]+", " ", title.lower())
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def fingerprint(url: str, title: str) -> str:
@@ -337,7 +345,7 @@ def collect_arxiv(sources: dict[str, Any], state: dict[str, Any]) -> list[Signal
             if not paper_url:
                 continue
             published = parse_datetime(item.get("published_at"))
-            seen = paper_url in state.get("seen_urls", {})
+            seen = paper_url in state.get("seen_urls", {}) or paper_url in state.get("signals", {})
             tags = [category_name, "arxiv"]
             score, out_category, why, needs = score_signal(item["title"], item.get("summary", ""), "arxiv_paper", 70, published, "radar", seen, tags)
             signals.append(Signal(
@@ -358,14 +366,75 @@ def collect_arxiv(sources: dict[str, Any], state: dict[str, Any]) -> list[Signal
     return signals
 
 
+def collect_hacker_news(sources: dict[str, Any], state: dict[str, Any]) -> list[Signal]:
+    cfg = sources.get("hacker_news", {})
+    signals: list[Signal] = []
+    queries = [str(q) for q in cfg.get("queries", [])]
+    hits_per_query = int(cfg.get("hits_per_query", 10))
+    min_points = int(cfg.get("min_points", 2))
+    for query in queries:
+        params = urllib.parse.urlencode({
+            "query": query,
+            "tags": "story",
+            "hitsPerPage": hits_per_query,
+        })
+        url = f"https://hn.algolia.com/api/v1/search_by_date?{params}"
+        data = fetch_json(url)
+        hits = data.get("hits", []) if isinstance(data, dict) else []
+        for hit in hits[:hits_per_query]:
+            points = int(hit.get("points") or 0)
+            if points < min_points:
+                continue
+            object_id = str(hit.get("objectID") or hit.get("id") or "").strip()
+            story_url = normalize_url(hit.get("url") or (f"https://news.ycombinator.com/item?id={object_id}" if object_id else ""))
+            title = clean_text(hit.get("title") or hit.get("story_title"), 500)
+            if not story_url or not title:
+                continue
+            published = parse_datetime(hit.get("created_at"))
+            seen = story_url in state.get("seen_urls", {}) or story_url in state.get("signals", {})
+            comments = int(hit.get("num_comments") or 0)
+            summary = f"HN query={query}; points={points}; comments={comments}"
+            score, category, why, _needs = score_signal(title, summary, "hacker_news_story", 58, published, "radar", seen, ["hn", query])
+            score = min(score, 74)  # HN is a community signal, never direct article authority.
+            signals.append(Signal(
+                title=title,
+                url=story_url,
+                source="Hacker News Algolia",
+                source_type="hacker_news_story",
+                published_at=(published or now_utc()).isoformat(),
+                category="radar" if category == "veille" else category,
+                score=score,
+                authority=58,
+                why_relevant=f"signal communautaire HN; {why}; {points} points; {comments} commentaires",
+                needs_web_verification=True,
+                tags=["hacker-news", "community-signal", query],
+                seen_before=seen,
+            ))
+        time.sleep(float(cfg.get("sleep_seconds", 0.2)))
+    return signals
+
+
 def dedupe(signals: list[Signal]) -> list[Signal]:
-    by_key: dict[str, Signal] = {}
+    groups: list[Signal] = []
+    keys_by_index: list[set[str]] = []
     for signal in signals:
-        key = signal.url or fingerprint(signal.url, signal.title)
-        previous = by_key.get(key)
-        if previous is None or signal.score > previous.score:
-            by_key[key] = signal
-    return sorted(by_key.values(), key=lambda s: (s.score, s.published_at), reverse=True)
+        signal_keys = {f"url:{signal.url}", f"title:{normalize_title(signal.title)}"}
+        matches = [idx for idx, keys in enumerate(keys_by_index) if keys & signal_keys]
+        if not matches:
+            groups.append(signal)
+            keys_by_index.append(signal_keys)
+            continue
+        primary = matches[0]
+        keys_by_index[primary].update(signal_keys)
+        if signal.score > groups[primary].score:
+            groups[primary] = signal
+        for idx in reversed(matches[1:]):
+            keys_by_index[primary].update(keys_by_index[idx])
+            if groups[idx].score > groups[primary].score:
+                groups[primary] = groups[idx]
+            del groups[idx]
+            del keys_by_index[idx]
+    return sorted(groups, key=lambda s: (s.score, s.published_at), reverse=True)
 
 
 VERSION_ONLY_RE = re.compile(r"^(?:v?\d+(?:\.\d+){1,3}(?:[-+][a-z0-9.]+)?|b\d{3,6})$", re.IGNORECASE)
@@ -579,6 +648,43 @@ def write_editorial_preview(payload: dict[str, Any], path: Path = EDITORIAL_PREV
     return path
 
 
+def status_for_signal(signal: Signal) -> str:
+    if signal.editorial_decision in {"article_candidate", "radar_candidate"}:
+        return "needs_review"
+    return "seen"
+
+
+def update_source_state(state: dict[str, Any], signals: list[Signal], *, generated_at: str) -> None:
+    seen_urls = state.setdefault("seen_urls", {})
+    signal_state = state.setdefault("signals", {})
+    preserved_statuses = {"published", "rejected"}
+    for signal in signals:
+        previous = signal_state.get(signal.url, {})
+        status = previous.get("status") if previous.get("status") in preserved_statuses else status_for_signal(signal)
+        record = {
+            "first_seen": previous.get("first_seen", generated_at),
+            "last_seen": generated_at,
+            "status": status,
+            "source": signal.source,
+            "source_type": signal.source_type,
+            "title": signal.title,
+            "normalized_title": normalize_title(signal.title),
+            "url": signal.url,
+            "score": signal.score,
+            "editorial_decision": signal.editorial_decision,
+            "editorial_reason": signal.editorial_reason,
+        }
+        signal_state[signal.url] = record
+        seen_urls[signal.url] = {
+            "first_seen": record["first_seen"],
+            "last_seen": generated_at,
+            "status": status,
+            "source": signal.source,
+            "title": signal.title,
+            "score": signal.score,
+        }
+
+
 def collect_all(*, update_state: bool, write_preview: bool = False) -> dict[str, Any]:
     sources = load_sources()
     state = load_state()
@@ -606,6 +712,11 @@ def collect_all(*, update_state: bool, write_preview: bool = False) -> dict[str,
         signals.extend(collect_arxiv(sources, state))
     except Exception as exc:
         errors.append({"source": "arXiv", "error": f"{type(exc).__name__}: {exc}"})
+
+    try:
+        signals.extend(collect_hacker_news(sources, state))
+    except Exception as exc:
+        errors.append({"source": "Hacker News Algolia", "error": f"{type(exc).__name__}: {exc}"})
 
     ranked = dedupe(signals)
     article_threshold = int(sources.get("scoring", {}).get("article_threshold", 75))
@@ -644,15 +755,7 @@ def collect_all(*, update_state: bool, write_preview: bool = False) -> dict[str,
     run_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     if update_state:
-        seen_urls = state.setdefault("seen_urls", {})
-        for signal in reviewed:
-            seen_urls.setdefault(signal.url, {
-                "first_seen": payload["generated_at"],
-                "status": "seen",
-                "source": signal.source,
-                "title": signal.title,
-                "score": signal.score,
-            })
+        update_source_state(state, reviewed, generated_at=payload["generated_at"])
         save_state(state)
 
     if write_preview:
@@ -678,6 +781,12 @@ def check_sources() -> int:
         "sortBy": "submittedDate",
         "sortOrder": "descending",
         "max_results": 1,
+    })))
+    hn_query = sources.get("hacker_news", {}).get("queries", ["openai"])[0]
+    checks.append((f"Hacker News Algolia {hn_query}", "https://hn.algolia.com/api/v1/search_by_date?" + urllib.parse.urlencode({
+        "query": hn_query,
+        "tags": "story",
+        "hitsPerPage": 1,
     })))
 
     failed = 0

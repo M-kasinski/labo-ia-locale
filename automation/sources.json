@@ -71,6 +71,26 @@
     "categories": ["cs.CL", "cs.LG", "cs.AI", "cs.CV"],
     "max_results_per_category": 10
   },
+  "hacker_news": {
+    "queries": [
+      "openai",
+      "anthropic",
+      "claude",
+      "claude code",
+      "codex",
+      "open weight model",
+      "local llm",
+      "llama.cpp",
+      "ollama",
+      "vllm",
+      "mlx",
+      "ai agents",
+      "inference"
+    ],
+    "hits_per_query": 8,
+    "min_points": 2,
+    "sleep_seconds": 0.2
+  },
   "scoring": {
     "article_threshold": 75,
     "radar_threshold": 50,
