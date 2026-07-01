@@ -32,5 +32,7 @@ __pycache__/
 # Labo IA source radar runtime state
 automation/latest_signals.json
 automation/editorial_preview.md
+automation/run_report.md
+automation/radar_debug.json
 automation/source_state.json
 automation/runs/

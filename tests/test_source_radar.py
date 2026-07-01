@@ -168,6 +168,47 @@ class SourceRadarEditorialReviewTests(unittest.TestCase):
         self.assertEqual(len(deduped), 1)
         self.assertEqual(deduped[0].score, 90)
 
+    def test_collect_html_watchers_extracts_title_and_hashes_page(self):
+        sources = {"html_watchers": [{
+            "name": "Anthropic News",
+            "url": "https://www.anthropic.com/news",
+            "category": "veille",
+            "authority": 88,
+            "tags": ["anthropic", "claude"],
+        }]}
+        state = {"signals": {}, "seen_urls": {}}
+        html = """<html><head><title>Claude Code gets better hooks</title><meta name='description' content='Anthropic updates Claude Code for agents'></head><body>Claude Code agent update</body></html>"""
+        original_fetch_text = collector.fetch_text
+        try:
+            collector.fetch_text = lambda url, timeout=20: html
+            signals = collector.collect_html_watchers(sources, state)
+        finally:
+            collector.fetch_text = original_fetch_text
+
+        self.assertEqual(len(signals), 1)
+        self.assertEqual(signals[0].source_type, "html_watcher")
+        self.assertEqual(signals[0].source, "Anthropic News")
+        self.assertIn("page_hash:", signals[0].tags)
+        self.assertTrue(signals[0].needs_web_verification)
+
+    def test_render_run_report_and_debug_payload_include_sources_and_counts(self):
+        payload = {
+            "generated_at": "2026-07-01T12:00:00+00:00",
+            "summary": {"total_signals": 2, "article_candidates": 1, "radar_candidates": 1, "ignored": 0, "errors": 0},
+            "top_article_candidates": [{"title": "Article", "source": "OpenAI News", "score": 90, "url": "https://example.com/a"}],
+            "top_radar_candidates": [{"title": "Radar", "source": "Hacker News Algolia", "score": 60, "url": "https://example.com/r"}],
+            "signals": [],
+            "errors": [],
+        }
+
+        report = collector.render_run_report(payload)
+        debug_payload = collector.build_debug_payload(payload)
+
+        self.assertIn("# Labo IA — Source Radar Run Report", report)
+        self.assertIn("OpenAI News", report)
+        self.assertEqual(debug_payload["summary"]["total_signals"], 2)
+        self.assertEqual(debug_payload["top_sources"][0][0], "OpenAI News")
+
 
 if __name__ == "__main__":
     unittest.main()

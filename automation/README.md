@@ -13,6 +13,7 @@ Sources MVP :
 - Hugging Face Hub API : modèles `text-generation` créés/modifiés récemment
 - arXiv API : catégories `cs.CL`, `cs.LG`, `cs.AI`, `cs.CV`
 - Hacker News Algolia : signaux communautaires récents (`openai`, `anthropic`, `claude`, `claude code`, `codex`, `open-weight`, `local LLM`, runtimes)
+- HTML watchers : pages actualités Anthropic, Google DeepMind, Mistral
 
 ## Commandes
 
@@ -46,6 +47,8 @@ Ce mode écrit `automation/editorial_preview.md` en plus de `latest_signals.json
 
 - `latest_signals.json` : shortlist courante pour l'agent éditorial
 - `editorial_preview.md` : rapport Markdown de dry-run pour revue humaine
+- `run_report.md` : rapport synthétique du dernier run du radar
+- `radar_debug.json` : payload structuré pour la page interne de debug
 - `top_article_candidates` : maximum 5 signaux assez solides pour article après revue éditoriale
 - `top_radar_candidates` : maximum 10 signaux intéressants mais à vérifier ou trop faibles pour article long
 - `source_state.json` : URLs déjà vues

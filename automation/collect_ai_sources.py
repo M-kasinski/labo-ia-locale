@@ -30,6 +30,8 @@ SOURCES_PATH = AUTOMATION_DIR / "sources.json"
 STATE_PATH = AUTOMATION_DIR / "source_state.json"
 LATEST_PATH = AUTOMATION_DIR / "latest_signals.json"
 EDITORIAL_PREVIEW_PATH = AUTOMATION_DIR / "editorial_preview.md"
+RUN_REPORT_PATH = AUTOMATION_DIR / "run_report.md"
+DEBUG_PAYLOAD_PATH = AUTOMATION_DIR / "radar_debug.json"
 RUNS_DIR = AUTOMATION_DIR / "runs"
 USER_AGENT = "LaboIA-SourceRadar/0.1 (+https://labo-ia-locale.vercel.app)"
 TIMEOUT_SECONDS = 20
@@ -414,6 +416,57 @@ def collect_hacker_news(sources: dict[str, Any], state: dict[str, Any]) -> list[
     return signals
 
 
+def extract_html_title(html_text: str, fallback: str) -> str:
+    og = re.search(r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)', html_text, flags=re.IGNORECASE)
+    if og:
+        return clean_text(og.group(1), 500)
+    title = re.search(r"<title[^>]*>(.*?)</title>", html_text, flags=re.IGNORECASE | re.DOTALL)
+    if title:
+        return clean_text(title.group(1), 500)
+    return fallback
+
+
+def extract_html_description(html_text: str) -> str:
+    meta = re.search(r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)', html_text, flags=re.IGNORECASE)
+    if meta:
+        return clean_text(meta.group(1), 600)
+    return clean_text(html_text, 600)
+
+
+def collect_html_watchers(sources: dict[str, Any], state: dict[str, Any]) -> list[Signal]:
+    signals: list[Signal] = []
+    for source in sources.get("html_watchers", []):
+        url = normalize_url(source.get("url", ""))
+        if not url:
+            continue
+        html_text = fetch_text(url)
+        page_hash = hashlib.sha256(clean_text(html_text, 5000).encode("utf-8")).hexdigest()[:16]
+        title = extract_html_title(html_text, source.get("name", "HTML watcher"))
+        summary = extract_html_description(html_text)
+        previous = state.get("signals", {}).get(url, {})
+        seen = url in state.get("seen_urls", {}) or previous.get("page_hash") == page_hash
+        authority = int(source.get("authority", 80))
+        tags = list(source.get("tags", [])) + ["html-watcher", "page_hash:", f"page_hash:{page_hash}"]
+        score, category, why, _needs = score_signal(title, summary, "html_watcher", authority, now_utc(), source.get("category", "veille"), seen, tags)
+        score = min(score, 74)  # HTML watcher pages are change signals; require source verification.
+        signals.append(Signal(
+            title=title,
+            url=url,
+            source=source.get("name", "HTML watcher"),
+            source_type="html_watcher",
+            published_at=now_utc().isoformat(),
+            category=category,
+            score=score,
+            authority=authority,
+            why_relevant=f"watcher HTML; {why}; hash {page_hash}",
+            needs_web_verification=True,
+            tags=tags,
+            seen_before=seen,
+        ))
+        time.sleep(float(source.get("sleep_seconds", 0.2)))
+    return signals
+
+
 def dedupe(signals: list[Signal]) -> list[Signal]:
     groups: list[Signal] = []
     keys_by_index: list[set[str]] = []
@@ -648,6 +701,78 @@ def write_editorial_preview(payload: dict[str, Any], path: Path = EDITORIAL_PREV
     return path
 
 
+def build_debug_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    source_counts: dict[str, int] = {}
+    decision_counts: dict[str, int] = {}
+    type_counts: dict[str, int] = {}
+    all_visible = list(payload.get("top_article_candidates", [])) + list(payload.get("top_radar_candidates", [])) + list(payload.get("signals", []))
+    for signal in all_visible:
+        source = str(signal.get("source", "unknown"))
+        decision = str(signal.get("editorial_decision", "unknown"))
+        source_type = str(signal.get("source_type", "unknown"))
+        source_counts[source] = source_counts.get(source, 0) + 1
+        decision_counts[decision] = decision_counts.get(decision, 0) + 1
+        type_counts[source_type] = type_counts.get(source_type, 0) + 1
+    return {
+        "generated_at": payload.get("generated_at"),
+        "summary": payload.get("summary", {}),
+        "top_sources": sorted(source_counts.items(), key=lambda item: item[1], reverse=True)[:10],
+        "decision_counts": decision_counts,
+        "source_type_counts": type_counts,
+        "article_candidates": payload.get("top_article_candidates", []),
+        "radar_candidates": payload.get("top_radar_candidates", []),
+        "errors": payload.get("errors", []),
+    }
+
+
+def render_run_report(payload: dict[str, Any]) -> str:
+    debug = build_debug_payload(payload)
+    summary = debug["summary"]
+    lines = [
+        "# Labo IA — Source Radar Run Report",
+        "",
+        f"Generated at: `{payload.get('generated_at')}`",
+        "",
+        "## Counts",
+        "",
+        f"- Total: **{summary.get('total_signals', 0)}**",
+        f"- Article candidates: **{summary.get('article_candidates', 0)}**",
+        f"- Radar candidates: **{summary.get('radar_candidates', 0)}**",
+        f"- Ignored: **{summary.get('ignored', 0)}**",
+        f"- Errors: **{summary.get('errors', 0)}**",
+        "",
+        "## Top sources",
+        "",
+    ]
+    for source, count in debug["top_sources"]:
+        lines.append(f"- {source}: {count}")
+    lines.extend(["", "## Article candidates", ""])
+    for signal in payload.get("top_article_candidates", []):
+        lines.append(f"- **{signal.get('title')}** — {signal.get('source')} ({signal.get('score')}) — {signal.get('url')}")
+    if not payload.get("top_article_candidates"):
+        lines.append("- None")
+    lines.extend(["", "## Radar candidates", ""])
+    for signal in payload.get("top_radar_candidates", [])[:10]:
+        lines.append(f"- **{signal.get('title')}** — {signal.get('source')} ({signal.get('score')}) — {signal.get('url')}")
+    if payload.get("errors"):
+        lines.extend(["", "## Errors", ""])
+        for error in payload["errors"]:
+            lines.append(f"- {error.get('source')}: {error.get('error')}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def write_run_artifacts(payload: dict[str, Any]) -> None:
+    report = render_run_report(payload)
+    debug_payload = build_debug_payload(payload)
+    RUN_REPORT_PATH.write_text(report, encoding="utf-8")
+    DEBUG_PAYLOAD_PATH.write_text(json.dumps(debug_payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    RUNS_DIR.mkdir(exist_ok=True)
+    stamp = now_utc().strftime('%Y%m%dT%H%M%SZ')
+    (RUNS_DIR / f"{stamp}.md").write_text(report, encoding="utf-8")
+    (RUNS_DIR / f"{stamp}.debug.json").write_text(json.dumps(debug_payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 def status_for_signal(signal: Signal) -> str:
     if signal.editorial_decision in {"article_candidate", "radar_candidate"}:
         return "needs_review"
@@ -671,6 +796,7 @@ def update_source_state(state: dict[str, Any], signals: list[Signal], *, generat
             "normalized_title": normalize_title(signal.title),
             "url": signal.url,
             "score": signal.score,
+            "page_hash": next((tag.split(":", 1)[1] for tag in signal.tags if tag.startswith("page_hash:") and tag != "page_hash:"), previous.get("page_hash")),
             "editorial_decision": signal.editorial_decision,
             "editorial_reason": signal.editorial_reason,
         }
@@ -718,6 +844,11 @@ def collect_all(*, update_state: bool, write_preview: bool = False) -> dict[str,
     except Exception as exc:
         errors.append({"source": "Hacker News Algolia", "error": f"{type(exc).__name__}: {exc}"})
 
+    try:
+        signals.extend(collect_html_watchers(sources, state))
+    except Exception as exc:
+        errors.append({"source": "HTML watchers", "error": f"{type(exc).__name__}: {exc}"})
+
     ranked = dedupe(signals)
     article_threshold = int(sources.get("scoring", {}).get("article_threshold", 75))
     radar_threshold = int(sources.get("scoring", {}).get("radar_threshold", 50))
@@ -753,6 +884,7 @@ def collect_all(*, update_state: bool, write_preview: bool = False) -> dict[str,
     LATEST_PATH.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     run_path = RUNS_DIR / f"{now_utc().strftime('%Y%m%dT%H%M%SZ')}.json"
     run_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_run_artifacts(payload)
 
     if update_state:
         update_source_state(state, reviewed, generated_at=payload["generated_at"])
@@ -788,6 +920,8 @@ def check_sources() -> int:
         "tags": "story",
         "hitsPerPage": 1,
     })))
+    for source in sources.get("html_watchers", []):
+        checks.append((source["name"], source["url"]))
 
     failed = 0
     for name, url in checks:

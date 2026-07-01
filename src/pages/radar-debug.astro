@@ -1,0 +1,103 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const debugPath = path.join(process.cwd(), 'automation/radar_debug.json');
+const latestPath = path.join(process.cwd(), 'automation/latest_signals.json');
+const readJson = (filePath: string) => {
+	try {
+		return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+	} catch {
+		return null;
+	}
+};
+const debug = readJson(debugPath);
+const latest = readJson(latestPath);
+const summary = debug?.summary ?? latest?.summary ?? null;
+const articleCandidates = debug?.article_candidates ?? latest?.top_article_candidates ?? [];
+const radarCandidates = debug?.radar_candidates ?? latest?.top_radar_candidates ?? [];
+const topSources = debug?.top_sources ?? [];
+---
+
+<html lang="fr">
+	<head>
+		<BaseHead title={`Radar debug — ${SITE_TITLE}`} description="Page interne de diagnostic du radar de sources Labo IA." />
+	</head>
+	<body>
+		<Header />
+		<main class="debug-page">
+			<section class="hero">
+				<p class="eyebrow">Interne · Source Radar</p>
+				<h1>Radar debug</h1>
+				<p class="lede">Vue de contrôle du dernier run du collecteur. Cette page lit les artefacts runtime générés dans <code>automation/</code> au moment du build.</p>
+			</section>
+
+			{summary ? (
+				<section class="panel grid">
+					<div><span>Total</span><strong>{summary.total_signals ?? 0}</strong></div>
+					<div><span>Articles</span><strong>{summary.article_candidates ?? 0}</strong></div>
+					<div><span>Radar</span><strong>{summary.radar_candidates ?? 0}</strong></div>
+					<div><span>Ignored</span><strong>{summary.ignored ?? 0}</strong></div>
+					<div><span>Errors</span><strong>{summary.errors ?? 0}</strong></div>
+				</section>
+			) : (
+				<section class="panel"><p>Aucun artefact radar trouvé. Lance <code>python3 automation/collect_ai_sources.py --dry-run-editorial</code>.</p></section>
+			)}
+
+			<section class="panel">
+				<h2>Top sources</h2>
+				<ul>
+					{topSources.length > 0 ? topSources.map(([source, count]) => <li><strong>{source}</strong> — {count}</li>) : <li>Aucune source comptabilisée.</li>}
+				</ul>
+			</section>
+
+			<section class="panel">
+				<h2>Article candidates</h2>
+				<ul class="cards">
+					{articleCandidates.length > 0 ? articleCandidates.map((signal) => (
+						<li>
+							<strong>{signal.title}</strong>
+							<span>{signal.source} · score {signal.score}</span>
+							<a href={signal.url}>Source</a>
+						</li>
+					)) : <li>Aucun candidat article.</li>}
+				</ul>
+			</section>
+
+			<section class="panel">
+				<h2>Radar candidates</h2>
+				<ul class="cards">
+					{radarCandidates.slice(0, 10).map((signal) => (
+						<li>
+							<strong>{signal.title}</strong>
+							<span>{signal.source} · score {signal.score}</span>
+							<a href={signal.url}>Source</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.debug-page { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+	.hero { margin-bottom: 24px; }
+	.eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; font-weight: 700; }
+	h1 { margin: 0; font-size: clamp(2.5rem, 6vw, 5rem); }
+	.lede { color: var(--muted); max-width: 760px; }
+	.panel { border: 1px solid var(--border); border-radius: 24px; padding: 24px; margin-top: 18px; background: var(--surface); }
+	.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+	.grid div { border: 1px solid var(--border); border-radius: 18px; padding: 16px; }
+	.grid span { display: block; color: var(--muted); font-size: .85rem; }
+	.grid strong { display: block; font-size: 2rem; }
+	.cards { list-style: none; padding: 0; display: grid; gap: 12px; }
+	.cards li { border: 1px solid var(--border); border-radius: 18px; padding: 16px; display: grid; gap: 6px; }
+	.cards span { color: var(--muted); }
+	code { background: var(--code-bg); padding: .15rem .35rem; border-radius: 6px; }
+</style>

@@ -91,6 +91,29 @@
     "min_points": 2,
     "sleep_seconds": 0.2
   },
+  "html_watchers": [
+    {
+      "name": "Anthropic News",
+      "url": "https://www.anthropic.com/news",
+      "category": "veille",
+      "authority": 88,
+      "tags": ["anthropic", "claude", "claude-code"]
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "url": "https://deepmind.google/discover/blog/",
+      "category": "veille",
+      "authority": 88,
+      "tags": ["deepmind", "gemini", "research"]
+    },
+    {
+      "name": "Mistral News",
+      "url": "https://mistral.ai/news",
+      "category": "veille",
+      "authority": 86,
+      "tags": ["mistral", "open-weight", "frontier"]
+    }
+  ],
   "scoring": {
     "article_threshold": 75,
     "radar_threshold": 50,
