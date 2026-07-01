@@ -36,7 +36,24 @@ python3 automation/collect_ai_sources.py --update-state
 ## Sorties runtime
 
 - `latest_signals.json` : shortlist courante pour l'agent éditorial
+- `top_article_candidates` : maximum 5 signaux assez solides pour article après revue éditoriale
+- `top_radar_candidates` : maximum 10 signaux intéressants mais à vérifier ou trop faibles pour article long
 - `source_state.json` : URLs déjà vues
 - `runs/*.json` : snapshots horodatés des collectes
 
 Ces fichiers sont ignorés par Git pour éviter de polluer les commits du site.
+
+## Garde-fous MVP 1.5
+
+Le collecteur applique une revue éditoriale avant de sortir la shortlist :
+
+- ignore les releases GitHub dont le titre est seulement une version (`b9856`, `v0.31.1`) ;
+- ignore les sujets probablement déjà couverts dans `src/content/blog/` ;
+- limite les modèles Hugging Face aux organisations surveillées dans `sources.json` ;
+- classe les papiers arXiv et signaux à vérifier en `radar_candidate` plutôt qu'en article long.
+
+Tests unitaires :
+
+```bash
+python3 tests/test_source_radar.py -v
+```

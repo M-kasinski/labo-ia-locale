@@ -18,7 +18,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, replace
 from datetime import datetime, timezone, timedelta
 from html import unescape
 from pathlib import Path
@@ -58,6 +58,8 @@ class Signal:
     needs_web_verification: bool
     tags: list[str]
     seen_before: bool = False
+    editorial_decision: str = "unreviewed"
+    editorial_reason: str = ""
 
 
 def now_utc() -> datetime:
@@ -286,9 +288,10 @@ def collect_huggingface(sources: dict[str, Any], state: dict[str, Any]) -> list[
                 continue
             org = model_id.split("/", 1)[0].lower()
             tags = [str(t) for t in model.get("tags") or []]
-            # Keep all watched orgs plus obviously local-relevant model cards.
-            text = f"{model_id} {' '.join(tags)}".lower()
-            if org not in orgs and not any(kw in text for kw in LOCAL_KEYWORDS):
+            # MVP 1.5: keep Hugging Face as a reliable source by restricting
+            # candidates to watched organisations. Random user fine-tunes are useful
+            # for discovery, but too noisy for autonomous article selection.
+            if org not in orgs:
                 continue
             url_model = f"https://huggingface.co/{model_id}"
             published = parse_datetime(model.get("createdAt") if source_type.endswith("created") else model.get("lastModified"))
@@ -364,6 +367,111 @@ def dedupe(signals: list[Signal]) -> list[Signal]:
     return sorted(by_key.values(), key=lambda s: (s.score, s.published_at), reverse=True)
 
 
+VERSION_ONLY_RE = re.compile(r"^(?:v?\d+(?:\.\d+){1,3}(?:[-+][a-z0-9.]+)?|b\d{3,6})$", re.IGNORECASE)
+SUBSTANTIVE_TERMS = {
+    "agent", "agents", "apple", "silicon", "mlx", "cuda", "rocm", "metal", "vulkan",
+    "gguf", "kv", "cache", "performance", "perf", "speed", "latency", "throughput",
+    "server", "serving", "batch", "batched", "inference", "reasoning", "speculative",
+    "quant", "quantization", "security", "privacy", "memory", "context", "multimodal",
+    "weights", "open-weight", "benchmark", "tool", "mcp", "runtime", "local",
+}
+STOPWORDS = {
+    "the", "and", "for", "with", "from", "into", "sur", "pour", "avec", "dans", "une",
+    "des", "les", "aux", "du", "de", "la", "le", "un", "ia", "ai", "llm", "release",
+    "releases", "version", "model", "models", "github", "hugging", "face",
+}
+
+
+def tokenize_topic(text: str) -> set[str]:
+    tokens = {token.lower() for token in re.findall(r"[a-zA-Z0-9]+", text)}
+    normalized = set(tokens)
+    if "llama" in tokens and "cpp" in tokens:
+        normalized.add("llama.cpp")
+    return {token for token in normalized if len(token) >= 3 and token not in STOPWORDS}
+
+
+def load_existing_article_topics(blog_dir: Path | None = None) -> set[str]:
+    blog_dir = blog_dir or ROOT / "src" / "content" / "blog"
+    topics: set[str] = set()
+    if not blog_dir.exists():
+        return topics
+    for path in blog_dir.glob("*.md*"):
+        topics.update(tokenize_topic(path.stem.replace("-", " ")))
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")[:1200]
+        except Exception:
+            continue
+        for field in ("title", "description"):
+            match = re.search(rf"^{field}:\s*[\"']?(.*?)[\"']?\s*$", text, flags=re.MULTILINE)
+            if match:
+                topics.update(tokenize_topic(match.group(1)))
+    return topics
+
+
+def is_version_only_release(signal: Signal) -> bool:
+    return signal.source_type == "github_release" and bool(VERSION_ONLY_RE.match(signal.title.strip()))
+
+
+def has_substantive_signal(signal: Signal) -> bool:
+    text = f"{signal.title} {signal.why_relevant}".lower()
+    return any(term in text for term in SUBSTANTIVE_TERMS)
+
+
+def is_likely_duplicate(signal: Signal, existing_topics: set[str]) -> bool:
+    if not existing_topics:
+        return False
+    tokens = tokenize_topic(f"{signal.title} {signal.source} {' '.join(signal.tags)}")
+    overlap = tokens & existing_topics
+    if len(existing_topics) <= 25:
+        return len(overlap) >= 3 or bool({"llama.cpp", "ollama", "vllm", "mlx"}.intersection(overlap) and len(overlap) >= 2)
+    # The real article corpus has hundreds of broad tokens. Avoid treating generic
+    # words like "openai" or "inference" as duplicates unless a fuller topic matches.
+    return len(overlap) >= 5
+
+
+def apply_editorial_review(
+    signals: list[Signal],
+    *,
+    existing_topics: set[str],
+    article_threshold: int = 75,
+    radar_threshold: int = 50,
+) -> list[Signal]:
+    reviewed: list[Signal] = []
+    for signal in signals:
+        score = signal.score
+        decision = "ignore"
+        reason = "below editorial threshold"
+
+        if is_version_only_release(signal):
+            score = min(score, article_threshold - 1)
+            reason = "version-only release without substantive signal"
+        elif is_likely_duplicate(signal, existing_topics):
+            score = min(score, radar_threshold - 1)
+            reason = "likely duplicate of existing article topic"
+        elif signal.seen_before:
+            score = min(score, radar_threshold - 1)
+            reason = "already seen in source state"
+        elif score >= article_threshold and not signal.needs_web_verification:
+            decision = "article_candidate"
+            reason = "passes source, freshness and substance checks"
+        elif score >= radar_threshold:
+            decision = "radar_candidate"
+            reason = "interesting but requires verification or is below article bar"
+
+        reviewed.append(replace(signal, score=max(0, score), editorial_decision=decision, editorial_reason=reason))
+    priority = {"article_candidate": 0, "radar_candidate": 1, "ignore": 2}
+    return sorted(reviewed, key=lambda s: (priority.get(s.editorial_decision, 3), -s.score, s.published_at))
+
+
+def build_shortlists(signals: list[Signal], *, max_articles: int = 5, max_radar: int = 10) -> dict[str, list[dict[str, Any]]]:
+    article_candidates = [s for s in signals if s.editorial_decision == "article_candidate"][:max_articles]
+    radar_candidates = [s for s in signals if s.editorial_decision == "radar_candidate"][:max_radar]
+    return {
+        "top_article_candidates": [asdict(s) for s in article_candidates],
+        "top_radar_candidates": [asdict(s) for s in radar_candidates],
+    }
+
+
 def collect_all(*, update_state: bool) -> dict[str, Any]:
     sources = load_sources()
     state = load_state()
@@ -395,6 +503,13 @@ def collect_all(*, update_state: bool) -> dict[str, Any]:
     ranked = dedupe(signals)
     article_threshold = int(sources.get("scoring", {}).get("article_threshold", 75))
     radar_threshold = int(sources.get("scoring", {}).get("radar_threshold", 50))
+    reviewed = apply_editorial_review(
+        ranked,
+        existing_topics=load_existing_article_topics(),
+        article_threshold=article_threshold,
+        radar_threshold=radar_threshold,
+    )
+    shortlists = build_shortlists(reviewed, max_articles=5, max_radar=10)
     payload = {
         "generated_at": now_utc().isoformat(),
         "policy": {
@@ -404,12 +519,14 @@ def collect_all(*, update_state: bool) -> dict[str, Any]:
             "max_age_days": int(sources.get("scoring", {}).get("max_age_days", 3)),
         },
         "summary": {
-            "total_signals": len(ranked),
-            "article_candidates": sum(1 for s in ranked if s.score >= article_threshold and not s.seen_before),
-            "radar_candidates": sum(1 for s in ranked if radar_threshold <= s.score < article_threshold and not s.seen_before),
+            "total_signals": len(reviewed),
+            "article_candidates": sum(1 for s in reviewed if s.editorial_decision == "article_candidate"),
+            "radar_candidates": sum(1 for s in reviewed if s.editorial_decision == "radar_candidate"),
+            "ignored": sum(1 for s in reviewed if s.editorial_decision == "ignore"),
             "errors": len(errors),
         },
-        "signals": [asdict(s) for s in ranked[:80]],
+        **shortlists,
+        "signals": [asdict(s) for s in reviewed[:80]],
         "errors": errors,
     }
 
@@ -421,7 +538,7 @@ def collect_all(*, update_state: bool) -> dict[str, Any]:
 
     if update_state:
         seen_urls = state.setdefault("seen_urls", {})
-        for signal in ranked:
+        for signal in reviewed:
             seen_urls.setdefault(signal.url, {
                 "first_seen": payload["generated_at"],
                 "status": "seen",
