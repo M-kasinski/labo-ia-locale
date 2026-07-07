@@ -101,7 +101,7 @@
     },
     {
       "name": "Google DeepMind Blog",
-      "url": "https://deepmind.google/discover/blog/",
+      "url": "https://deepmind.google/blog/",
       "category": "veille",
       "authority": 88,
       "tags": ["deepmind", "gemini", "research"]

@@ -12,6 +12,7 @@ import email.utils
 import hashlib
 import json
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -35,6 +36,7 @@ DEBUG_PAYLOAD_PATH = AUTOMATION_DIR / "radar_debug.json"
 RUNS_DIR = AUTOMATION_DIR / "runs"
 USER_AGENT = "LaboIA-SourceRadar/0.1 (+https://labo-ia-locale.vercel.app)"
 TIMEOUT_SECONDS = 20
+HTML_WATCHER_TIMEOUT_SECONDS = 8
 
 LOCAL_KEYWORDS = {
     "llama.cpp", "ollama", "mlx", "gguf", "vllm", "inference", "local", "quant",
@@ -96,11 +98,29 @@ def parse_datetime(value: str | None) -> datetime | None:
 
 
 def fetch_text(url: str, *, timeout: int = TIMEOUT_SECONDS) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/atom+xml, application/json, text/xml, */*"})
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        raw = response.read()
-        charset = response.headers.get_content_charset() or "utf-8"
-        return raw.decode(charset, errors="replace")
+    result = subprocess.run(
+        [
+            "curl",
+            "-L",
+            "--fail",
+            "--silent",
+            "--show-error",
+            "--max-time",
+            str(timeout),
+            "-A",
+            USER_AGENT,
+            "-H",
+            "Accept: application/rss+xml, application/atom+xml, application/json, text/xml, */*",
+            url,
+        ],
+        capture_output=True,
+        text=True,
+        timeout=timeout + 2,
+    )
+    if result.returncode != 0:
+        error = clean_text(result.stderr, 500) or f"curl exited with {result.returncode}"
+        raise RuntimeError(f"fetch failed for {url}: {error}")
+    return result.stdout
 
 
 def fetch_json(url: str) -> Any:
@@ -338,7 +358,7 @@ def collect_arxiv(sources: dict[str, Any], state: dict[str, Any]) -> list[Signal
         })
         url = f"https://export.arxiv.org/api/query?{params}"
         try:
-            xml_text = fetch_text(url, timeout=30)
+            xml_text = fetch_text(url, timeout=int(cfg.get("timeout_seconds", 12)))
         except Exception:
             # arXiv is occasionally slow; fail soft so one source does not kill the run.
             continue
@@ -439,7 +459,10 @@ def collect_html_watchers(sources: dict[str, Any], state: dict[str, Any]) -> lis
         url = normalize_url(source.get("url", ""))
         if not url:
             continue
-        html_text = fetch_text(url)
+        try:
+            html_text = fetch_text(url, timeout=int(source.get("timeout_seconds", HTML_WATCHER_TIMEOUT_SECONDS)))
+        except Exception:
+            continue
         page_hash = hashlib.sha256(clean_text(html_text, 5000).encode("utf-8")).hexdigest()[:16]
         title = extract_html_title(html_text, source.get("name", "HTML watcher"))
         summary = extract_html_description(html_text)
@@ -926,7 +949,7 @@ def check_sources() -> int:
     failed = 0
     for name, url in checks:
         try:
-            text = fetch_text(url, timeout=30)
+            text = fetch_text(url, timeout=12)
             print(f"OK   {name}: {len(text)} bytes")
         except Exception as exc:
             failed += 1
