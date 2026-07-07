@@ -5,7 +5,7 @@ pubDate: 2026-07-07
 category: "local"
 tags: ["robotique", "hugging-face", "lerobot", "world-models", "vla", "open-source"]
 author: "Labo IA"
-draft: false
+draft: true
 sources:
   - label: "Hugging Face Blog — LeRobot v0.6.0"
     url: "https://huggingface.co/blog/lerobot-release-v060"
